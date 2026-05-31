@@ -16,5 +16,7 @@ npm run dev      # local dev server
 npm run build    # static build -> dist/
 ```
 
-> **Status:** initial scaffold only. The visual design (Open Design pass), the 366 day-page
-> engine, the birthday tool, and the daily history quiz are not built yet — see the design spec.
+> **Status:** Foundation built — the visual design is live in the app with a unit-tested
+> TypeScript core (zodiac/generation/birthstone, birthday math, daily-quiz selection) wired to a
+> 4-date sample dataset. Day pages render at `/<month>-<day>` (e.g. `/may-31`). Still to come
+> (later plans): the Wikimedia 366-date pipeline, JSON-LD, OG/share images, sitemap, and Ezoic ads.
