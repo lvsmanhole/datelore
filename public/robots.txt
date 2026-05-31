@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://datelore.com/sitemap-index.xml

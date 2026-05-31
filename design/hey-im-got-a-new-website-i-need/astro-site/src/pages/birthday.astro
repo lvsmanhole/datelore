@@ -1,0 +1,148 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+<BaseLayout title="Your Birthday — The day you were born · DateLore" description="Enter your date of birth and reveal a shareable birthday card: your exact age, days and hours lived, the weekday you were born, your zodiac, Chinese zodiac, generation, and the countdown to your next birthday.">
+  <style>
+    /* Screen-only additions — ADD, never redefine shared classes.
+       Recovered from the birthday.html prototype's <head>; these style the
+       celebratory dark stat tiles inside the shareable birthday card. Scoped
+       to this page so global.css stays a clean mirror of styles.css. */
+    /* Tinted dark stat tiles for use inside the celebratory bcard. */
+    .stat--on-card {
+      background: color-mix(in oklch, var(--on-dark) 14%, transparent);
+      border-color: color-mix(in oklch, var(--on-dark) 18%, transparent);
+      color: var(--on-dark);
+    }
+    .stat--on-card .stat__num { color: var(--on-dark); }
+    .stat--on-card .stat__label { color: color-mix(in oklch, var(--on-dark) 76%, transparent); }
+    .stat--on-card .stat__sub { color: color-mix(in oklch, var(--on-dark) 85%, transparent); }
+    /* A word-sized stat number (weekday / generation) reads better a touch smaller. */
+    .stat__num--word { font-size: var(--step-2); }
+    /* Light share button that sits well on the dark birthday card. */
+    .btn--on-card {
+      --btn-bg: color-mix(in oklch, var(--on-dark) 92%, transparent);
+      --btn-fg: var(--aubergine-2);
+      --btn-bd: transparent;
+    }
+  </style>
+   <!-- data-bday-scope wraps BOTH the form and the results so the JS can find them -->
+   <div data-bday-scope>
+    <!-- ===== Hero + birthday form ===== -->
+    <section class="band">
+      <div class="wrap wrap--narrow stack">
+        <p class="eyebrow">Your Birthday</p>
+        <h1 style="font-size:var(--step-5);line-height:.98;">The day you were born</h1>
+        <p class="lede">
+          Pick the date you arrived and we'll turn it into a card worth keeping — your exact age,
+          the weekday you were born, your zodiac and Chinese zodiac, your generation, and the
+          countdown to your next candle.
+        </p>
+
+        <form class="bday-form" data-bday-form>
+          <div class="field">
+            <label for="bd-day">Your date of birth</label>
+            <input type="date" id="bd-day" data-bday-input value="1990-05-31" max="2026-05-31" required>
+          </div>
+          <button class="btn btn--coral" type="submit">Reveal my card →</button>
+        </form>
+        <p class="muted" data-bday-error hidden style="color:var(--coral-deep);font-weight:600;">
+          Please pick a valid date in the past.
+        </p>
+      </div>
+    </section>
+
+    <!-- ===== Results (pre-filled for 1990-05-31; JS overwrites on submit) ===== -->
+    <section class="band band--alt band--tight">
+      <div class="wrap wrap--narrow">
+        <div data-bday-results class="stack-lg">
+
+          <!-- The money shot: shareable birthday card -->
+          <div class="bcard">
+            <p class="bcard__eyebrow">Born on May 31</p>
+            <p class="bcard__date" data-bday-out="pretty">May 31st, 1990</p>
+            <p style="color:color-mix(in oklch, var(--on-dark) 86%, transparent);max-width:44ch;">
+              A Gemini, born in the Year of the Horse — and a card that's all yours to share.
+            </p>
+            <div class="flow-cta" style="margin-top:var(--s5);">
+              <button class="btn btn--on-card" data-share data-share-title="The day I was born — DateLore">
+                <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>
+                Share my card
+              </button>
+            </div>
+          </div>
+
+          <!-- Big-number stat grid -->
+          <div>
+            <div class="section-head">
+              <h2>Your numbers</h2>
+              <span class="eyebrow eyebrow--soft">Recalculated to today</span>
+            </div>
+            <div class="stats">
+              <div class="stat stat--hero">
+                <div class="stat__num" data-bday-out="years">36</div>
+                <div class="stat__label">Years young</div>
+              </div>
+              <div class="stat stat--coral">
+                <div class="stat__num" data-bday-out="days">13,149</div>
+                <div class="stat__label">Days lived</div>
+              </div>
+              <div class="stat">
+                <div class="stat__num" data-bday-out="hours">315,576</div>
+                <div class="stat__label">Hours of life</div>
+              </div>
+              <div class="stat">
+                <div class="stat__num stat__num--word" data-bday-out="weekday">Thursday</div>
+                <div class="stat__label">Born on a …</div>
+              </div>
+              <div class="stat">
+                <div class="stat__num stat__num--word" data-bday-out="zodiac">♊ Gemini</div>
+                <div class="stat__label">Zodiac</div>
+              </div>
+              <div class="stat">
+                <div class="stat__num stat__num--word" data-bday-out="chinese">Year of the Horse</div>
+                <div class="stat__label">Chinese zodiac</div>
+              </div>
+              <div class="stat">
+                <div class="stat__num stat__num--word" data-bday-out="generation">Millennial</div>
+                <div class="stat__label">Generation</div>
+              </div>
+              <div class="stat stat--coral">
+                <div class="stat__num" data-bday-out="countdown">365</div>
+                <div class="stat__label">Days to next birthday</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+   </div><!-- /data-bday-scope -->
+
+    <!-- ===== In-content ad (after the results, never above the card) ===== -->
+    <div class="wrap" style="margin-block:var(--s6);">
+      <div class="ad-slot ad-slot--rectangle">
+        <span class="ad-slot__label">Advertisement</span>
+        <span class="ad-slot__note">300 × 250 medium rectangle</span>
+      </div>
+    </div>
+
+    <!-- ===== Share helper + cross-link ===== -->
+    <section class="band band--tight">
+      <div class="wrap wrap--narrow">
+        <div class="card card--gold card--pad stack-sm">
+          <p class="eyebrow">Share your card</p>
+          <h2 style="font-size:var(--step-2);">Made you smile? Pass it on.</h2>
+          <p class="muted">
+            Tap share to send your birthday card to a friend, then go see what else happened on the day you were born.
+          </p>
+          <div class="flow-cta" style="margin-top:var(--s4);">
+            <button class="btn btn--primary" data-share data-share-title="The day I was born — DateLore">
+              <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>
+              Share my card
+            </button>
+            <a class="btn btn--ghost" href="/day/05-31">See what else happened on your birthday →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+</BaseLayout>

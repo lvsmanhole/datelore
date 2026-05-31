@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Daily Quiz — May 31 · DateLore</title>
+  <meta name="description" content="Today's DateLore puzzle: one question a day. Guess the year a famous moment from May 31 happened, and build your streak.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- ===== Header ===== -->
+  <header class="site-header">
+    <div class="wrap site-header__inner">
+      <a class="wordmark" href="index.html"><span class="wordmark__mark">✦</span> DateLore</a>
+      <nav class="nav" aria-label="Primary">
+        <ul>
+          <li><a href="day.html">Today</a></li>
+          <li><a href="birthday.html">Your Birthday</a></li>
+          <li><a href="quiz.html" aria-current="page">Daily Quiz</a></li>
+        </ul>
+      </nav>
+      <form class="quick-date hide-sm" role="search" aria-label="Jump to a date">
+        <label for="qd">Go to date</label>
+        <input type="date" id="qd" data-quick-date>
+      </form>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- ===== Quiz ===== -->
+    <section class="band band--tight">
+      <div class="wrap wrap--narrow stack-lg text-center">
+        <div class="stack-sm">
+          <p class="eyebrow">Daily Quiz · May 31</p>
+          <h1 style="font-size:var(--step-4);">Which year did it happen?</h1>
+          <p class="lede" style="margin-inline:auto;">One question a day. Build your streak.</p>
+        </div>
+
+        <!-- The quiz card -->
+        <div class="quiz" data-quiz="titanic" style="text-align:left;">
+          <div class="quiz__top">
+            <span class="eyebrow eyebrow--soft">Question 1 of 1 today</span>
+            <span class="quiz__streak" title="Your current streak">
+              <span aria-hidden="true">🔥</span>
+              <span data-quiz-streak>0</span>
+            </span>
+          </div>
+
+          <p class="quiz__q">In which year did the RMS Titanic launch in Belfast?</p>
+
+          <div class="quiz__options">
+            <button class="quiz__opt" type="button" data-quiz-opt data-correct="false">
+              <span class="key" aria-hidden="true">A</span>
+              <span>1898</span>
+            </button>
+            <button class="quiz__opt" type="button" data-quiz-opt data-correct="false">
+              <span class="key" aria-hidden="true">B</span>
+              <span>1909</span>
+            </button>
+            <button class="quiz__opt" type="button" data-quiz-opt data-correct="true">
+              <span class="key" aria-hidden="true">C</span>
+              <span>1911</span>
+            </button>
+            <button class="quiz__opt" type="button" data-quiz-opt data-correct="false">
+              <span class="key" aria-hidden="true">D</span>
+              <span>1912</span>
+            </button>
+          </div>
+
+          <div class="quiz__reveal" data-quiz-reveal hidden>
+            <h2 data-quiz-verdict style="font-size:var(--step-2);">—</h2>
+            <p class="muted" style="margin-top:var(--s2);">
+              The Titanic's hull was launched on 31 May 1911; she sank on her maiden voyage the following April.
+            </p>
+            <p style="margin-top:var(--s3);">
+              <a href="day.html">Read more on day.html →</a>
+            </p>
+          </div>
+        </div>
+
+        <!-- How streaks work + ad -->
+        <div class="stack" style="text-align:left;">
+          <p class="muted">
+            <strong style="color:var(--ink);">How streaks work:</strong> answer correctly to add a day to your streak — it lives in your browser, no account needed. One wrong guess resets the count to zero, so come back tomorrow for a fresh question.
+          </p>
+
+          <div class="ad-slot ad-slot--rectangle">
+            <span class="ad-slot__label">Advertisement</span>
+            <span class="ad-slot__note">336 × 280 rectangle</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== Footer ===== -->
+  <footer class="site-footer">
+    <div class="wrap site-footer__grid">
+      <div>
+        <a class="wordmark" href="index.html"><span class="wordmark__mark">✦</span> DateLore</a>
+        <p class="muted" style="margin-top:var(--s3);max-width:36ch;">The almanac for every day of the year — history, birthdays, and a daily puzzle.</p>
+      </div>
+      <div>
+        <h3>Explore</h3>
+        <ul>
+          <li><a href="day.html">On This Day</a></li>
+          <li><a href="birthday.html">Your Birthday</a></li>
+          <li><a href="quiz.html">Daily Quiz</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>About</h3>
+        <ul>
+          <li><a href="#">How it works</a></li>
+          <li><a href="#">Privacy</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="wrap">
+      <p class="attribution">
+        <span class="attribution__mark" aria-hidden="true">W</span>
+        <span>Historical data from <a href="https://en.wikipedia.org/" rel="noopener">Wikipedia</a>, available under the <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="noopener">Creative Commons Attribution-ShareAlike (CC BY-SA)</a> license. DateLore is an independent project and is not affiliated with the Wikimedia Foundation.</span>
+      </p>
+    </div>
+  </footer>
+
+  <script src="datelore.js" defer></script>
+</body>
+</html>

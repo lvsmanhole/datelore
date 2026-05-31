@@ -1,0 +1,503 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Design System — The Almanac · DateLore</title>
+  <meta name="description" content="The Almanac visual system for DateLore — colour tokens, type scale, spacing, and the full component library, documented as a portable HTML + CSS spec.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Screen-specific ADDITIONS only — never redefines a shared class.
+       These help lay out the spec's specimen grids and reference table. */
+    .swatch-grid { display: grid; gap: var(--s4); grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+    .swatch { overflow: hidden; }
+    .swatch__chip { height: 88px; border-bottom: 1px solid var(--line); }
+    .swatch__body { padding: var(--s4); }
+    .swatch__token { font-family: var(--font-mono); font-size: var(--step--1); font-weight: 600; color: var(--ink); }
+    .swatch__role { font-size: var(--step--1); color: var(--ink-soft); margin-top: var(--s1); }
+    .swatch__val { font-family: var(--font-mono); font-size: var(--step--2); color: var(--ink-faint); margin-top: var(--s2); word-break: break-all; }
+
+    .spec-caption { font-family: var(--font-mono); font-size: var(--step--2); letter-spacing: .12em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: var(--s2); }
+
+    .type-row { display: flex; align-items: baseline; gap: var(--s5); flex-wrap: wrap; padding-block: var(--s2); border-top: 1px solid var(--line); }
+    .type-row:first-child { border-top: 0; }
+    .type-row__tok { font-family: var(--font-mono); font-size: var(--step--2); color: var(--ink-faint); flex: none; min-width: 5.5rem; }
+    .type-row__sample { font-family: var(--font-display); line-height: 1.05; color: var(--ink); }
+
+    .demo-row { display: flex; flex-wrap: wrap; gap: var(--s4); align-items: flex-end; }
+    .space-box { background: var(--gold-wash); border: 1px solid color-mix(in oklch, var(--gold) 40%, var(--line)); border-radius: var(--r-sm); }
+    .radius-box { width: 88px; height: 88px; background: var(--card-tint); border: 1.5px solid var(--line-strong); display: grid; place-items: center; font-family: var(--font-mono); font-size: var(--step--2); color: var(--ink-faint); }
+    .shadow-box { background: var(--card); border-radius: var(--r-lg); padding: var(--s5); min-width: 150px; text-align: center; }
+
+    .gallery { display: grid; gap: var(--s6); }
+    .gallery__item { display: grid; gap: var(--s2); }
+
+    .token-table { width: 100%; border-collapse: collapse; font-size: var(--step--1); }
+    .token-table caption { text-align: left; color: var(--ink-soft); margin-bottom: var(--s3); }
+    .token-table th, .token-table td { text-align: left; padding: var(--s3) var(--s4); border-bottom: 1px solid var(--line); vertical-align: top; }
+    .token-table thead th { font-family: var(--font-mono); font-size: var(--step--2); letter-spacing: .1em; text-transform: uppercase; color: var(--ink-faint); border-bottom: 2px solid var(--line-strong); }
+    .token-table tbody th { font-family: var(--font-mono); font-weight: 600; color: var(--ink); white-space: nowrap; }
+    .token-table tbody td:first-of-type { font-family: var(--font-mono); color: var(--ink-soft); white-space: nowrap; }
+    .token-table tbody tr:hover { background: var(--card-tint); }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- ===== Header ===== -->
+  <header class="site-header">
+    <div class="wrap site-header__inner">
+      <a class="wordmark" href="index.html"><span class="wordmark__mark">✦</span> DateLore</a>
+      <nav class="nav" aria-label="Primary">
+        <ul>
+          <li><a href="day.html">Today</a></li>
+          <li><a href="birthday.html">Your Birthday</a></li>
+          <li><a href="quiz.html">Daily Quiz</a></li>
+        </ul>
+      </nav>
+      <form class="quick-date hide-sm" role="search" aria-label="Jump to a date">
+        <label for="qd">Go to date</label>
+        <input type="date" id="qd" data-quick-date>
+      </form>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- ===== 1. Header band ===== -->
+    <section class="band band--tight">
+      <div class="wrap">
+        <p class="eyebrow">Design System</p>
+        <h1 style="font-size:var(--step-5);line-height:1.0;margin-top:var(--s3);">The Almanac — DateLore visual system</h1>
+        <p class="lede" style="margin-top:var(--s4);">
+          A warm, printed-almanac mood crossed with a birthday card and a modern timeline:
+          aged parchment, espresso ink, amber gold, and a coral pop for celebrations. The
+          whole system is plain HTML and CSS custom properties — one webfont (Newsreader for
+          display and big numbers) plus the system sans — built to clear WCAG AA contrast and
+          to stay ad-ready without ever letting the ads dominate.
+        </p>
+        <div class="ornament" aria-hidden="true"><span>✦</span></div>
+      </div>
+    </section>
+
+    <!-- ===== 2. Colour ===== -->
+    <section class="band band--alt">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>Colour</h2>
+          <span class="eyebrow eyebrow--soft">oklch tokens · var() reference</span>
+        </div>
+
+        <!-- Surfaces -->
+        <p class="spec-caption">Surfaces</p>
+        <div class="swatch-grid stack" style="margin-top:0;">
+          <article class="card swatch">
+            <div class="swatch__chip" style="background:var(--paper);"></div>
+            <div class="swatch__body"><p class="swatch__token">--paper</p><p class="swatch__role">Page background, aged parchment</p><p class="swatch__val">oklch(95.8% 0.020 86)</p></div>
+          </article>
+          <article class="card swatch">
+            <div class="swatch__chip" style="background:var(--paper-2);"></div>
+            <div class="swatch__body"><p class="swatch__token">--paper-2</p><p class="swatch__role">Deeper band / alt section</p><p class="swatch__val">oklch(93.2% 0.025 82)</p></div>
+          </article>
+          <article class="card swatch">
+            <div class="swatch__chip" style="background:var(--paper-3);"></div>
+            <div class="swatch__body"><p class="swatch__token">--paper-3</p><p class="swatch__role">Deepest warm band</p><p class="swatch__val">oklch(90.0% 0.030 80)</p></div>
+          </article>
+          <article class="card swatch">
+            <div class="swatch__chip" style="background:var(--card);"></div>
+            <div class="swatch__body"><p class="swatch__token">--card</p><p class="swatch__role">Near-white warm surface</p><p class="swatch__val">oklch(98.6% 0.012 88)</p></div>
+          </article>
+        </div>
+
+        <!-- Ink -->
+        <p class="spec-caption" style="margin-top:var(--s6);">Ink</p>
+        <div class="swatch-grid">
+          <article class="card swatch">
+            <div class="swatch__chip" style="background:var(--ink);"></div>
+            <div class="swatch__body"><p class="swatch__token">--ink</p><p class="swatch__role">Primary text, deep espresso</p><p class="swatch__val">oklch(24.5% 0.030 52)</p></div>
+          </article>
+          <article class="card swatch">
+            <div class="swatch__chip" style="background:var(--ink-soft);"></div>
+            <div class="swatch__body"><p class="swatch__token">--ink-soft</p><p class="swatch__role">Secondary text</p><p class="swatch__val">oklch(41.0% 0.032 55)</p></div>
+          </article>
+          <article class="card swatch">
+            <div class="swatch__chip" style="background:var(--ink-faint);"></div>
+            <div class="swatch__body"><p class="swatch__token">--ink-faint</p><p class="swatch__role">Meta / captions</p><p class="swatch__val">oklch(56.0% 0.028 60)</p></div>
+          </article>
+          <article class="card swatch">
+            <div class="swatch__chip" style="background:var(--line);"></div>
+            <div class="swatch__body"><p class="swatch__token">--line</p><p class="swatch__role">Hairline borders</p><p class="swatch__val">oklch(86.5% 0.022 78)</p></div>
+          </article>
+        </div>
+
+        <!-- Gold -->
+        <p class="spec-caption" style="margin-top:var(--s6);">Gold</p>
+        <div class="swatch-grid">
+          <article class="card swatch">
+            <div class="swatch__chip" style="background:var(--gold);"></div>
+            <div class="swatch__body"><p class="swatch__token">--gold</p><p class="swatch__role">Primary accent fill, amber</p><p class="swatch__val">oklch(72.0% 0.130 76)</p></div>
+          </article>
+          <article class="card swatch">
+            <div class="swatch__chip" style="background:var(--gold-deep);"></div>
+            <div class="swatch__body"><p class="swatch__token">--gold-deep</p><p class="swatch__role">Gold for text/icons (AA on paper)</p><p class="swatch__val">oklch(50.0% 0.118 66)</p></div>
+          </article>
+          <article class="card swatch">
+            <div class="swatch__chip" style="background:var(--gold-wash);"></div>
+            <div class="swatch__body"><p class="swatch__token">--gold-wash</p><p class="swatch__role">Gold tint surface</p><p class="swatch__val">oklch(92.0% 0.045 82)</p></div>
+          </article>
+        </div>
+
+        <!-- Coral -->
+        <p class="spec-caption" style="margin-top:var(--s6);">Coral</p>
+        <div class="swatch-grid">
+          <article class="card swatch">
+            <div class="swatch__chip" style="background:var(--coral);"></div>
+            <div class="swatch__body"><p class="swatch__token">--coral</p><p class="swatch__role">Birthday pop, fill</p><p class="swatch__val">oklch(62.0% 0.185 26)</p></div>
+          </article>
+          <article class="card swatch">
+            <div class="swatch__chip" style="background:var(--coral-deep);"></div>
+            <div class="swatch__body"><p class="swatch__token">--coral-deep</p><p class="swatch__role">Coral for text (AA on paper)</p><p class="swatch__val">oklch(50.0% 0.165 28)</p></div>
+          </article>
+          <article class="card swatch">
+            <div class="swatch__chip" style="background:var(--coral-wash);"></div>
+            <div class="swatch__body"><p class="swatch__token">--coral-wash</p><p class="swatch__role">Coral tint surface</p><p class="swatch__val">oklch(93.5% 0.040 30)</p></div>
+          </article>
+        </div>
+
+        <!-- Deep -->
+        <p class="spec-caption" style="margin-top:var(--s6);">Deep</p>
+        <div class="swatch-grid">
+          <article class="card swatch">
+            <div class="swatch__chip" style="background:var(--aubergine);"></div>
+            <div class="swatch__body"><p class="swatch__token">--aubergine</p><p class="swatch__role">Deep celebratory surface</p><p class="swatch__val">oklch(30.0% 0.085 350)</p></div>
+          </article>
+          <article class="card swatch">
+            <div class="swatch__chip" style="background:var(--on-dark);"></div>
+            <div class="swatch__body"><p class="swatch__token">--on-dark</p><p class="swatch__role">Text on aubergine / coral fills</p><p class="swatch__val">oklch(96.5% 0.018 86)</p></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 3. Type ===== -->
+    <section class="band">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>Type</h2>
+          <span class="eyebrow eyebrow--soft">Newsreader display + system sans</span>
+        </div>
+
+        <p class="spec-caption">Display scale — Newsreader (serif)</p>
+        <div class="stack-sm">
+          <div class="type-row"><span class="type-row__tok">--step-6</span><span class="type-row__sample" style="font-size:var(--step-6);">Almanac</span></div>
+          <div class="type-row"><span class="type-row__tok">--step-5</span><span class="type-row__sample" style="font-size:var(--step-5);">Birthday</span></div>
+          <div class="type-row"><span class="type-row__tok">--step-4</span><span class="type-row__sample" style="font-size:var(--step-4);">Timeline</span></div>
+          <div class="type-row"><span class="type-row__tok">--step-3</span><span class="type-row__sample" style="font-size:var(--step-3);">Observances</span></div>
+          <div class="type-row"><span class="type-row__tok">--step-2</span><span class="type-row__sample" style="font-size:var(--step-2);">Section heading</span></div>
+          <div class="type-row"><span class="type-row__tok">--step-1</span><span class="type-row__sample" style="font-size:var(--step-1);">Subheading & lede</span></div>
+        </div>
+
+        <p class="spec-caption" style="margin-top:var(--s6);">Body — system sans at --step-0</p>
+        <p style="max-width:60ch;font-size:var(--step-0);">
+          The body text is set in the platform's native sans-serif at <code style="font-family:var(--font-mono);">--step-0</code>,
+          with a 1.6 line height for comfortable reading. Newsreader is reserved for headings and
+          big numbers so the single webfont stays cheap. On May 31, the almanac remembers the
+          launch of the Titanic, the Johnstown Flood, and the first tick of Big Ben.
+        </p>
+
+        <p class="spec-caption" style="margin-top:var(--s6);">Mono caption — --font-mono at --step--2</p>
+        <p style="font-family:var(--font-mono);font-size:var(--step--2);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);">
+          Eyebrows · tags · captions · the 151st day of the year
+        </p>
+
+        <p class="muted" style="margin-top:var(--s5);font-size:var(--step--1);">
+          Type scale is a fluid clamp() ramp from <code style="font-family:var(--font-mono);">--step--2</code> (≈0.75rem)
+          to <code style="font-family:var(--font-mono);">--step-6</code> (≈6.3rem), tuned mobile-first between 360px and 1240px.
+        </p>
+      </div>
+    </section>
+
+    <!-- ===== 4. Spacing / Radius / Shadow ===== -->
+    <section class="band band--alt">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>Spacing, radius &amp; shadow</h2>
+          <span class="eyebrow eyebrow--soft">geometry tokens</span>
+        </div>
+
+        <p class="spec-caption">Spacing — --s4 to --s8</p>
+        <div class="demo-row">
+          <div style="text-align:center;"><div class="space-box" style="width:var(--s4);height:var(--s4);"></div><span class="swatch__val">--s4</span></div>
+          <div style="text-align:center;"><div class="space-box" style="width:var(--s5);height:var(--s5);"></div><span class="swatch__val">--s5</span></div>
+          <div style="text-align:center;"><div class="space-box" style="width:var(--s6);height:var(--s6);"></div><span class="swatch__val">--s6</span></div>
+          <div style="text-align:center;"><div class="space-box" style="width:var(--s7);height:var(--s7);"></div><span class="swatch__val">--s7</span></div>
+          <div style="text-align:center;"><div class="space-box" style="width:var(--s8);height:var(--s8);"></div><span class="swatch__val">--s8</span></div>
+        </div>
+
+        <p class="spec-caption" style="margin-top:var(--s6);">Radius — --r-sm to --r-pill</p>
+        <div class="demo-row">
+          <div class="radius-box" style="border-radius:var(--r-sm);">--r-sm</div>
+          <div class="radius-box" style="border-radius:var(--r-md);">--r-md</div>
+          <div class="radius-box" style="border-radius:var(--r-lg);">--r-lg</div>
+          <div class="radius-box" style="border-radius:var(--r-xl);">--r-xl</div>
+          <div class="radius-box" style="border-radius:var(--r-pill);">--r-pill</div>
+        </div>
+
+        <p class="spec-caption" style="margin-top:var(--s6);">Shadow — warm, soft</p>
+        <div class="demo-row" style="align-items:stretch;">
+          <div class="shadow-box" style="box-shadow:var(--shadow-1);"><span class="swatch__token">--shadow-1</span><p class="swatch__role">Cards at rest</p></div>
+          <div class="shadow-box" style="box-shadow:var(--shadow-2);"><span class="swatch__token">--shadow-2</span><p class="swatch__role">Quiz & elevated</p></div>
+          <div class="shadow-box" style="box-shadow:var(--shadow-lift);"><span class="swatch__token">--shadow-lift</span><p class="swatch__role">Hover & hero cards</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 5. Components gallery ===== -->
+    <section class="band">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>Components</h2>
+          <span class="eyebrow eyebrow--soft">live examples</span>
+        </div>
+
+        <div class="gallery">
+          <!-- Buttons -->
+          <div class="gallery__item">
+            <p class="spec-caption">.btn — variants</p>
+            <div class="flow-cta">
+              <button class="btn btn--primary" type="button">Primary</button>
+              <button class="btn btn--coral" type="button">Coral</button>
+              <button class="btn btn--ink" type="button">Ink</button>
+              <button class="btn btn--ghost" type="button">Ghost</button>
+              <button class="btn" type="button">Default</button>
+              <button class="btn btn--sm" type="button">Small</button>
+            </div>
+          </div>
+
+          <!-- Badges -->
+          <div class="gallery__item">
+            <p class="spec-caption">.badges / .badge — almanac badges</p>
+            <div class="badges">
+              <span class="badge"><span class="badge__glyph">♊</span><span class="badge__text"><span class="badge__label">Zodiac</span><span class="badge__value">Gemini</span></span></span>
+              <span class="badge"><span class="badge__glyph">◈</span><span class="badge__text"><span class="badge__label">Birthstone</span><span class="badge__value">Emerald</span></span></span>
+              <span class="badge badge--coral"><span class="badge__glyph">❀</span><span class="badge__text"><span class="badge__label">Birth flower</span><span class="badge__value">Lily of the Valley</span></span></span>
+            </div>
+          </div>
+
+          <!-- Card -->
+          <div class="gallery__item">
+            <p class="spec-caption">.card.card--gold.card--pad</p>
+            <div class="card card--gold card--pad" style="max-width:420px;">
+              <p class="eyebrow">Daily quiz</p>
+              <h3 style="font-size:var(--step-2);margin-top:var(--s2);">Which year did it happen?</h3>
+              <p class="muted" style="margin-top:var(--s2);">One question a day. Keep your streak alive.</p>
+              <a class="btn btn--primary" href="quiz.html" style="margin-top:var(--s4);width:100%;">Play today's quiz</a>
+            </div>
+          </div>
+
+          <!-- Timeline excerpt -->
+          <div class="gallery__item">
+            <p class="spec-caption">.timeline / .timeline__item — excerpt</p>
+            <ol class="timeline">
+              <li class="timeline__item">
+                <span class="timeline__year">1911</span>
+                <div class="timeline__body">
+                  <h3 class="timeline__title">The Titanic is launched</h3>
+                  <p class="timeline__desc">The hull of the RMS Titanic slides into the River Lagan at Harland &amp; Wolff in Belfast, before more than 100,000 spectators.</p>
+                  <span class="timeline__tag">Maritime history</span>
+                </div>
+              </li>
+              <li class="timeline__item">
+                <span class="timeline__year">1859</span>
+                <div class="timeline__body">
+                  <h3 class="timeline__title">Big Ben begins keeping time</h3>
+                  <p class="timeline__desc">The Great Clock of Westminster starts ticking above the Houses of Parliament in London.</p>
+                  <span class="timeline__tag">London</span>
+                </div>
+              </li>
+            </ol>
+          </div>
+
+          <!-- Twin cards -->
+          <div class="gallery__item">
+            <p class="spec-caption">.twins / .twin — birthday twins</p>
+            <div class="twins">
+              <article class="twin">
+                <span class="twin__monogram" aria-hidden="true">C</span>
+                <div><h3 class="twin__name">Clint Eastwood</h3><p class="twin__year">b. 1930</p><p class="twin__line">Actor and Oscar-winning director.</p></div>
+              </article>
+              <article class="twin">
+                <span class="twin__monogram" aria-hidden="true">W</span>
+                <div><h3 class="twin__name">Walt Whitman</h3><p class="twin__year">b. 1819</p><p class="twin__line">Poet, author of <em>Leaves of Grass</em>.</p></div>
+              </article>
+            </div>
+          </div>
+
+          <!-- Stats row -->
+          <div class="gallery__item">
+            <p class="spec-caption">.stats / .stat — incl. --hero and --coral</p>
+            <div class="stats">
+              <div class="stat stat--hero"><div class="stat__num">95</div><div class="stat__label">Years old</div><div class="stat__sub">Clint Eastwood</div></div>
+              <div class="stat stat--coral"><div class="stat__num">34,698</div><div class="stat__label">Days lived</div></div>
+              <div class="stat"><div class="stat__num" style="font-size:var(--step-2);">Saturday</div><div class="stat__label">Day born</div></div>
+            </div>
+          </div>
+
+          <!-- Quiz (static) -->
+          <div class="gallery__item">
+            <p class="spec-caption">.quiz — static specimen (not wired)</p>
+            <div class="quiz" style="max-width:560px;">
+              <div class="quiz__top">
+                <p class="eyebrow">Daily quiz</p>
+                <span class="quiz__streak">🔥 3</span>
+              </div>
+              <h3 class="quiz__q">In which year was the RMS Titanic launched in Belfast?</h3>
+              <div class="quiz__options">
+                <button class="quiz__opt is-correct" type="button"><span class="key">A</span> 1911</button>
+                <button class="quiz__opt" type="button"><span class="key">B</span> 1898</button>
+                <button class="quiz__opt is-wrong" type="button"><span class="key">C</span> 1923</button>
+                <button class="quiz__opt" type="button"><span class="key">D</span> 1905</button>
+              </div>
+              <div class="quiz__reveal">
+                <p><strong>Correct!</strong> The Titanic was launched on May 31, 1911 — fitting-out then took another ten months.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Birthday card -->
+          <div class="gallery__item">
+            <p class="spec-caption">.bcard — shareable birthday shell</p>
+            <div class="bcard" style="max-width:560px;">
+              <p class="bcard__eyebrow">Born on this day?</p>
+              <h3 class="bcard__date" style="color:var(--on-dark);">May 31, 1930</h3>
+              <p style="color:color-mix(in oklch, var(--on-dark) 86%, transparent);max-width:46ch;">
+                Your exact age, the weekday you were born, your Chinese zodiac, your generation,
+                and the countdown to your next candle — all on one card.
+              </p>
+            </div>
+          </div>
+
+          <!-- OG card -->
+          <div class="gallery__item">
+            <p class="spec-caption">.ogcard — Pinterest-tall share image (scaled)</p>
+            <div class="ogcard" style="max-width:300px;">
+              <span class="ogcard__brand"><span class="mark">✦</span> DateLore</span>
+              <p class="ogcard__big">May 31</p>
+              <p class="ogcard__sub">The day the Titanic slid into the water and Big Ben first kept time.</p>
+              <p class="ogcard__foot">On This Day · Gemini ♊</p>
+            </div>
+          </div>
+
+          <!-- Ad slots -->
+          <div class="gallery__item">
+            <p class="spec-caption">.ad-slot — variants (clearly labelled, never dominant)</p>
+            <div class="stack">
+              <div class="ad-slot ad-slot--leaderboard">
+                <span class="ad-slot__label">Advertisement</span>
+                <span class="ad-slot__note">728 × 90 leaderboard</span>
+              </div>
+              <div class="ad-slot ad-slot--rectangle">
+                <span class="ad-slot__label">Advertisement</span>
+                <span class="ad-slot__note">336 × 280 rectangle</span>
+              </div>
+              <div class="ad-slot ad-slot--inline">
+                <span class="ad-slot__label">Advertisement</span>
+                <span class="ad-slot__note">Responsive in-content unit</span>
+              </div>
+              <div class="ad-slot ad-slot--rail" style="max-width:300px;">
+                <span class="ad-slot__label">Advertisement</span>
+                <span class="ad-slot__note">300 × 600 half-page rail</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 6. CSS custom properties reference ===== -->
+    <section class="band band--alt">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>CSS custom properties</h2>
+          <span class="eyebrow eyebrow--soft">token reference</span>
+        </div>
+
+        <div class="card card--pad" style="overflow-x:auto;">
+          <table class="token-table">
+            <caption>The main tokens defined in <code style="font-family:var(--font-mono);">:root</code> — reference everything by <code style="font-family:var(--font-mono);">var()</code>.</caption>
+            <thead>
+              <tr>
+                <th scope="col">Token</th>
+                <th scope="col">Value</th>
+                <th scope="col">Usage</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><th scope="row">--paper</th><td>oklch(95.8% 0.020 86)</td><td>Page background, aged parchment</td></tr>
+              <tr><th scope="row">--card</th><td>oklch(98.6% 0.012 88)</td><td>Near-white warm surface for cards</td></tr>
+              <tr><th scope="row">--ink</th><td>oklch(24.5% 0.030 52)</td><td>Primary text, deep espresso</td></tr>
+              <tr><th scope="row">--ink-soft</th><td>oklch(41.0% 0.032 55)</td><td>Secondary text and body copy</td></tr>
+              <tr><th scope="row">--line</th><td>oklch(86.5% 0.022 78)</td><td>Hairline borders and rules</td></tr>
+              <tr><th scope="row">--gold</th><td>oklch(72.0% 0.130 76)</td><td>Primary accent fill (amber)</td></tr>
+              <tr><th scope="row">--gold-deep</th><td>oklch(50.0% 0.118 66)</td><td>Gold for text/icons, AA on paper</td></tr>
+              <tr><th scope="row">--coral</th><td>oklch(62.0% 0.185 26)</td><td>Birthday pop, fills and accents</td></tr>
+              <tr><th scope="row">--coral-deep</th><td>oklch(50.0% 0.165 28)</td><td>Coral for text, AA on paper</td></tr>
+              <tr><th scope="row">--aubergine</th><td>oklch(30.0% 0.085 350)</td><td>Deep celebratory surface (bcard, ogcard)</td></tr>
+              <tr><th scope="row">--on-dark</th><td>oklch(96.5% 0.018 86)</td><td>Text on aubergine / coral fills</td></tr>
+              <tr><th scope="row">--font-display</th><td>"Newsreader", Georgia, serif</td><td>Headings and big numbers</td></tr>
+              <tr><th scope="row">--font-body</th><td>system-ui sans stack</td><td>Body text at --step-0</td></tr>
+              <tr><th scope="row">--step-0</th><td>clamp(1.00rem … 1.13rem)</td><td>Base body size; scale runs --step--2 → --step-6</td></tr>
+              <tr><th scope="row">--s4</th><td>1rem</td><td>Base spacing unit; ramp --s1 → --s9</td></tr>
+              <tr><th scope="row">--r-lg</th><td>22px</td><td>Card radius; ramp --r-sm → --r-pill</td></tr>
+              <tr><th scope="row">--shadow-1</th><td>warm soft, low blur</td><td>Cards at rest; --shadow-2 / --shadow-lift escalate</td></tr>
+              <tr><th scope="row">--focus</th><td>oklch(50.0% 0.130 66)</td><td>3px focus-visible outline ring</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p class="muted" style="margin-top:var(--s5);font-size:var(--step--1);max-width:60ch;">
+          Every screen of DateLore is built only from these tokens and the component classes
+          shown above. Drop <code style="font-family:var(--font-mono);">styles.css</code> in as a
+          single global stylesheet and the system ports straight to Astro as lightweight static markup.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== Footer ===== -->
+  <footer class="site-footer">
+    <div class="wrap site-footer__grid">
+      <div>
+        <a class="wordmark" href="index.html"><span class="wordmark__mark">✦</span> DateLore</a>
+        <p class="muted" style="margin-top:var(--s3);max-width:36ch;">The almanac for every day of the year — history, birthdays, and a daily puzzle.</p>
+      </div>
+      <div>
+        <h3>Explore</h3>
+        <ul>
+          <li><a href="day.html">On This Day</a></li>
+          <li><a href="birthday.html">Your Birthday</a></li>
+          <li><a href="quiz.html">Daily Quiz</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>About</h3>
+        <ul>
+          <li><a href="#">How it works</a></li>
+          <li><a href="#">Privacy</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="wrap">
+      <p class="attribution">
+        <span class="attribution__mark" aria-hidden="true">W</span>
+        <span>Historical data from <a href="https://en.wikipedia.org/" rel="noopener">Wikipedia</a>, available under the <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="noopener">Creative Commons Attribution-ShareAlike (CC BY-SA)</a> license. DateLore is an independent project and is not affiliated with the Wikimedia Foundation.</span>
+      </p>
+    </div>
+  </footer>
+
+  <script src="datelore.js" defer></script>
+</body>
+</html>

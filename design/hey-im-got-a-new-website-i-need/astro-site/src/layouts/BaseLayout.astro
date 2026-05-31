@@ -1,0 +1,63 @@
+---
+// BaseLayout.astro — the single owner of <head>, site chrome, and script
+// loading. Every page wraps its content in <BaseLayout> and drops markup into
+// the <slot/>. Header/Footer are sliced into components so they stay in sync
+// across all 366 day pages + static pages.
+import "../styles/global.css";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+
+const {
+  title = "DateLore — On This Day, Your Birthday & a Daily History Quiz",
+  description = "What happened on this day in history, the story of the day you were born, and a daily ‘which year?’ quiz. A warm almanac of every date.",
+  ogImage,            // optional absolute path, e.g. "/og/05-31.png"
+  ogType = "website",
+} = Astro.props;
+
+// Astro.site is set in astro.config.mjs, so canonical/OG URLs are absolute.
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const ogImageUrl = ogImage ? new URL(ogImage, Astro.site).href : undefined;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+
+    <!-- Open Graph / Pinterest / Twitter — the share-card growth lever -->
+    <meta property="og:type" content={ogType} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    {ogImageUrl && <meta property="og:image" content={ogImageUrl} />}
+    <meta name="twitter:card" content={ogImageUrl ? "summary_large_image" : "summary"} />
+
+    <!-- One webfont (Newsreader). System sans handles body/UI; the CSS
+         already declares graceful fallbacks if this never loads. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&display=swap"
+    />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+
+    <!-- Vanilla IIFE -> side-effect import. Astro bundles + defers it, so the
+         DOM is parsed before the data-* hooks (birthday math, quiz, share) run.
+         Swap to <script is:inline src="/datelore.js"> if you ever want it
+         unbundled in public/ instead. -->
+    <script>
+      import "../scripts/datelore.js";
+    </script>
+  </body>
+</html>

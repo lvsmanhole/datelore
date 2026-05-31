@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DateLore — What happened on this day in history</title>
+  <meta name="description" content="DateLore is the almanac for every day of the year. See today in history — May 31 — famous birthdays, a daily quiz, and the story your own birthday tells.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- ===== Header ===== -->
+  <header class="site-header">
+    <div class="wrap site-header__inner">
+      <a class="wordmark" href="index.html"><span class="wordmark__mark">✦</span> DateLore</a>
+      <nav class="nav" aria-label="Primary">
+        <ul>
+          <li><a href="day.html">Today</a></li>
+          <li><a href="birthday.html">Your Birthday</a></li>
+          <li><a href="quiz.html">Daily Quiz</a></li>
+        </ul>
+      </nav>
+      <form class="quick-date hide-sm" role="search" aria-label="Jump to a date">
+        <label for="qd">Go to date</label>
+        <input type="date" id="qd" data-quick-date>
+      </form>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- ===== Hero ===== -->
+    <section class="band">
+      <div class="wrap stack">
+        <p class="eyebrow">Today · May 31</p>
+        <h1 style="font-size:var(--step-6);line-height:.95;">
+          On This Day <span style="color:var(--gold-deep);">— May 31</span>
+        </h1>
+        <p class="lede">
+          A clock that started ticking, an ocean liner sliding into the water, and a poet who sang of America — all on this date. Here's what the almanac remembers.
+        </p>
+        <div class="flow-cta">
+          <a class="btn btn--primary" href="day.html">See today in history →</a>
+          <a class="btn btn--ghost" href="#birthday">Enter your birthday</a>
+        </div>
+        <div class="badges" style="margin-top:var(--s4);">
+          <span class="badge"><span class="badge__glyph">♊</span><span class="badge__text"><span class="badge__label">Zodiac</span><span class="badge__value">Gemini</span></span></span>
+          <span class="badge"><span class="badge__glyph">◈</span><span class="badge__text"><span class="badge__label">Birthstone</span><span class="badge__value">Emerald</span></span></span>
+          <span class="badge badge--coral"><span class="badge__glyph">❀</span><span class="badge__text"><span class="badge__label">Birth flower</span><span class="badge__value">Lily of the Valley</span></span></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Birthday module ===== -->
+    <section class="band band--alt" id="birthday">
+      <div class="wrap" data-bday-scope>
+        <div class="section-head">
+          <h2>Enter your birthday →</h2>
+          <span class="eyebrow eyebrow--coral">Takes one tap</span>
+        </div>
+        <div class="card card--coral card--pad stack">
+          <p class="muted" style="margin-top:0;">
+            Pick the day you were born and we'll work out your exact age and the day of the week it landed on — then unlock the full card.
+          </p>
+          <form class="bday-form" data-bday-form>
+            <div class="field">
+              <label for="bd-day">Your date of birth</label>
+              <input type="date" id="bd-day" data-bday-input required>
+            </div>
+            <button class="btn btn--coral" type="submit">Find my birthday →</button>
+          </form>
+          <p data-bday-error hidden style="color:var(--coral-deep);font-weight:600;">Please pick a valid date in the past.</p>
+          <div data-bday-results hidden>
+            <div class="stats">
+              <div class="stat stat--coral"><div class="stat__num" data-bday-out="years">—</div><div class="stat__label">Years old</div></div>
+              <div class="stat"><div class="stat__num" data-bday-out="weekday" style="font-size:var(--step-2);">—</div><div class="stat__label">Day you were born</div></div>
+            </div>
+            <p style="margin-top:var(--s4);"><a href="birthday.html">See the full birthday card →</a></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Leaderboard ad ===== -->
+    <div class="wrap" style="margin-block:var(--s4);">
+      <div class="ad-slot ad-slot--leaderboard">
+        <span class="ad-slot__label">Advertisement</span>
+        <span class="ad-slot__note">728 × 90 leaderboard</span>
+      </div>
+    </div>
+
+    <!-- ===== Today in history teaser ===== -->
+    <section class="band band--tight">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>Today in history</h2>
+          <span class="eyebrow eyebrow--soft">On May 31</span>
+        </div>
+        <ol class="timeline">
+          <li class="timeline__item">
+            <span class="timeline__year">1911</span>
+            <div class="timeline__body">
+              <h3 class="timeline__title">The Titanic is launched</h3>
+              <p class="timeline__desc">The hull of the RMS Titanic slides into the River Lagan at Harland &amp; Wolff in Belfast, before more than 100,000 spectators.</p>
+              <span class="timeline__tag">Maritime history</span>
+            </div>
+          </li>
+          <li class="timeline__item">
+            <span class="timeline__year">1889</span>
+            <div class="timeline__body">
+              <h3 class="timeline__title">The Johnstown Flood</h3>
+              <p class="timeline__desc">The South Fork Dam fails after days of heavy rain, sending 20 million tons of water into Johnstown, Pennsylvania.</p>
+              <span class="timeline__tag">Disaster</span>
+            </div>
+          </li>
+          <li class="timeline__item">
+            <span class="timeline__year">1859</span>
+            <div class="timeline__body">
+              <h3 class="timeline__title">Big Ben begins keeping time</h3>
+              <p class="timeline__desc">The Great Clock of Westminster starts ticking above the Houses of Parliament in London — its chimes have marked the hour ever since.</p>
+              <span class="timeline__tag">London</span>
+            </div>
+          </li>
+        </ol>
+        <p style="margin-top:var(--s4);"><a href="day.html">See all 5 events →</a></p>
+      </div>
+    </section>
+
+    <!-- ===== Born today teaser ===== -->
+    <section class="band band--tight band--alt">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>Born today</h2>
+          <span class="eyebrow eyebrow--coral">Born on May 31</span>
+        </div>
+        <div class="twins">
+          <article class="twin">
+            <span class="twin__monogram" aria-hidden="true">C</span>
+            <div><h3 class="twin__name">Clint Eastwood</h3><p class="twin__year">b. 1930</p><p class="twin__line">Actor and Oscar-winning director.</p></div>
+          </article>
+          <article class="twin">
+            <span class="twin__monogram" aria-hidden="true">W</span>
+            <div><h3 class="twin__name">Walt Whitman</h3><p class="twin__year">b. 1819</p><p class="twin__line">Poet, author of <em>Leaves of Grass</em>.</p></div>
+          </article>
+          <article class="twin">
+            <span class="twin__monogram" aria-hidden="true">B</span>
+            <div><h3 class="twin__name">Brooke Shields</h3><p class="twin__year">b. 1965</p><p class="twin__line">Actor and model.</p></div>
+          </article>
+        </div>
+        <p style="margin-top:var(--s4);"><a href="day.html">See everyone born on May 31 →</a></p>
+      </div>
+    </section>
+
+    <!-- ===== Daily quiz teaser ===== -->
+    <section class="band band--tight">
+      <div class="wrap wrap--narrow">
+        <div class="card card--gold card--pad stack">
+          <p class="eyebrow">Daily quiz</p>
+          <h2 style="font-size:var(--step-2);">In what year did the Titanic slide into the water?</h2>
+          <p class="muted" style="margin-top:0;">One question a day, drawn from the date. Answer right and keep your streak alive.</p>
+          <a class="btn btn--primary" href="quiz.html">Play today's quiz →</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== Footer ===== -->
+  <footer class="site-footer">
+    <div class="wrap site-footer__grid">
+      <div>
+        <a class="wordmark" href="index.html"><span class="wordmark__mark">✦</span> DateLore</a>
+        <p class="muted" style="margin-top:var(--s3);max-width:36ch;">The almanac for every day of the year — history, birthdays, and a daily puzzle.</p>
+      </div>
+      <div>
+        <h3>Explore</h3>
+        <ul>
+          <li><a href="day.html">On This Day</a></li>
+          <li><a href="birthday.html">Your Birthday</a></li>
+          <li><a href="quiz.html">Daily Quiz</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>About</h3>
+        <ul>
+          <li><a href="#">How it works</a></li>
+          <li><a href="#">Privacy</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="wrap">
+      <p class="attribution">
+        <span class="attribution__mark" aria-hidden="true">W</span>
+        <span>Historical data from <a href="https://en.wikipedia.org/" rel="noopener">Wikipedia</a>, available under the <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="noopener">Creative Commons Attribution-ShareAlike (CC BY-SA)</a> license. DateLore is an independent project and is not affiliated with the Wikimedia Foundation.</span>
+      </p>
+    </div>
+  </footer>
+
+  <script src="datelore.js" defer></script>
+</body>
+</html>

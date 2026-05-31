@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DateLore — The Almanac visual system</title>
+  <meta name="description" content="DateLore — a warm, almanac-inspired design system for a site about dates: on this day in history, your birthday, and a daily quiz. Browse the screens and the token set.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* index-only additions (additive — does not redefine shared classes) */
+    .home-hero { padding-block: var(--s8) var(--s7); }
+    .screen-grid { display: grid; gap: var(--s5); grid-template-columns: 1fr; }
+    .screen-card { display: flex; flex-direction: column; min-height: 100%; padding: var(--s5); text-decoration: none; color: inherit; }
+    .screen-card .tag { align-self: flex-start; }
+    .screen-card h3 { font-size: var(--step-2); margin-block: var(--s3) var(--s2); }
+    .screen-card .go { margin-top: auto; padding-top: var(--s4); color: var(--gold-deep); font-weight: 600; }
+    .screen-card.is-feature { background: var(--card-tint); }
+    .swatch-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(86px, 1fr)); gap: var(--s3); }
+    .swatch { border-radius: var(--r-md); border: 1px solid var(--line); overflow: hidden; background: var(--card); }
+    .swatch__chip { height: 48px; }
+    .swatch__name { display: block; font-family: var(--font-mono); font-size: var(--step--2); color: var(--ink-soft); padding: var(--s2); }
+    @media (min-width: 640px) { .screen-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 980px) { .screen-grid { grid-template-columns: repeat(3, 1fr); } .screen-card.is-feature { grid-column: span 1; } }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="wrap site-header__inner">
+      <a class="wordmark" href="index.html"><span class="wordmark__mark">✦</span> DateLore</a>
+      <nav class="nav" aria-label="Primary">
+        <ul>
+          <li><a href="day.html">Today</a></li>
+          <li><a href="birthday.html">Your Birthday</a></li>
+          <li><a href="quiz.html">Daily Quiz</a></li>
+        </ul>
+      </nav>
+      <form class="quick-date hide-sm" role="search" aria-label="Jump to a date">
+        <label for="qd">Go to date</label>
+        <input type="date" id="qd" data-quick-date>
+      </form>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="home-hero">
+      <div class="wrap wrap--narrow text-center">
+        <p class="eyebrow">The Almanac · Design system &amp; screens</p>
+        <h1 style="font-size:var(--step-6);line-height:.96;margin-top:var(--s3);">
+          Every day has a <span class="italic" style="color:var(--gold-deep);">story</span>.
+        </h1>
+        <p class="lede" style="margin:var(--s4) auto 0;">
+          DateLore is a warm, almanac-inspired home for dates — what happened on this day, the day
+          <em>you</em> were born, and a daily history puzzle. Below is the full visual system and
+          every key screen, ready to port to Astro.
+        </p>
+        <div class="flow-cta" style="justify-content:center;margin-top:var(--s5);">
+          <a class="btn btn--primary" href="day.html">See a Day page →</a>
+          <a class="btn btn--ghost" href="style-guide.html">View the design system</a>
+        </div>
+        <div class="ornament" style="margin-top:var(--s7);"><span>✦</span></div>
+      </div>
+    </section>
+
+    <section class="band band--tight">
+      <div class="wrap">
+        <div class="section-head"><h2>The screens</h2><span class="eyebrow eyebrow--soft">6 surfaces</span></div>
+        <div class="screen-grid">
+          <a class="card card--hover screen-card is-feature" href="day.html">
+            <span class="eyebrow tag">Showpiece</span>
+            <h3>Day page</h3>
+            <p class="muted">On this day in history — timeline, birthday twins, deaths, observances, and almanac badges. One per calendar day.</p>
+            <span class="go">Open May 31 →</span>
+          </a>
+          <a class="card card--hover screen-card is-feature" href="birthday.html">
+            <span class="eyebrow eyebrow--coral tag">Showpiece</span>
+            <h3>Birthday result</h3>
+            <p class="muted">A shareable birthday card with big-number stats: exact age, day born, zodiac, generation, and the countdown to the next candle.</p>
+            <span class="go">Make a card →</span>
+          </a>
+          <a class="card card--hover screen-card" href="home.html">
+            <span class="eyebrow tag">Entry</span>
+            <h3>Homepage</h3>
+            <p class="muted">Centered on today, with a birthday quick-input, a daily-quiz teaser, and a peek at today's events.</p>
+            <span class="go">Visit home →</span>
+          </a>
+          <a class="card card--hover screen-card" href="quiz.html">
+            <span class="eyebrow tag">Game</span>
+            <h3>Daily quiz</h3>
+            <p class="muted">"Which year did it happen?" — four choices, an instant reveal, and a streak that survives a refresh.</p>
+            <span class="go">Play today →</span>
+          </a>
+          <a class="card card--hover screen-card" href="share-card.html">
+            <span class="eyebrow tag">Growth</span>
+            <h3>Share / OG card</h3>
+            <p class="muted">Pinterest-tall, screenshot-ready cards built to be pinned and shared back to the site.</p>
+            <span class="go">See the cards →</span>
+          </a>
+          <a class="card card--hover screen-card" href="style-guide.html">
+            <span class="eyebrow tag">Spec</span>
+            <h3>Design system</h3>
+            <p class="muted">The portable token set — colors, type scale, spacing, and every component — as CSS custom properties.</p>
+            <span class="go">Read the spec →</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <div class="wrap" style="margin-block:var(--s5);">
+      <div class="ad-slot ad-slot--leaderboard">
+        <span class="ad-slot__label">Advertisement</span>
+        <span class="ad-slot__note">Ad slots are designed into the page rhythm, never on top of content.</span>
+      </div>
+    </div>
+
+    <section class="band band--alt">
+      <div class="wrap">
+        <div class="section-head"><h2>The palette</h2><span class="eyebrow eyebrow--soft">Warm · high-contrast · AA</span></div>
+        <div class="swatch-row">
+          <div class="swatch"><div class="swatch__chip" style="background:var(--paper);"></div><span class="swatch__name">--paper</span></div>
+          <div class="swatch"><div class="swatch__chip" style="background:var(--paper-2);"></div><span class="swatch__name">--paper-2</span></div>
+          <div class="swatch"><div class="swatch__chip" style="background:var(--card);"></div><span class="swatch__name">--card</span></div>
+          <div class="swatch"><div class="swatch__chip" style="background:var(--ink);"></div><span class="swatch__name">--ink</span></div>
+          <div class="swatch"><div class="swatch__chip" style="background:var(--gold);"></div><span class="swatch__name">--gold</span></div>
+          <div class="swatch"><div class="swatch__chip" style="background:var(--gold-deep);"></div><span class="swatch__name">--gold-deep</span></div>
+          <div class="swatch"><div class="swatch__chip" style="background:var(--coral);"></div><span class="swatch__name">--coral</span></div>
+          <div class="swatch"><div class="swatch__chip" style="background:var(--aubergine);"></div><span class="swatch__name">--aubergine</span></div>
+        </div>
+        <p class="muted" style="margin-top:var(--s4);max-width:60ch;">
+          One characterful display serif (<strong style="font-family:var(--font-display);">Newsreader</strong>)
+          over a fast system sans — a single webfont, with graceful system fallback. Full token
+          reference lives in <a href="style-guide.html">the design system</a>.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap site-footer__grid">
+      <div>
+        <a class="wordmark" href="index.html"><span class="wordmark__mark">✦</span> DateLore</a>
+        <p class="muted" style="margin-top:var(--s3);max-width:36ch;">The almanac for every day of the year — history, birthdays, and a daily puzzle.</p>
+      </div>
+      <div>
+        <h3>Explore</h3>
+        <ul>
+          <li><a href="day.html">On This Day</a></li>
+          <li><a href="birthday.html">Your Birthday</a></li>
+          <li><a href="quiz.html">Daily Quiz</a></li>
+          <li><a href="share-card.html">Share cards</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>About</h3>
+        <ul>
+          <li><a href="style-guide.html">Design system</a></li>
+          <li><a href="#">Privacy</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="wrap">
+      <p class="attribution">
+        <span class="attribution__mark" aria-hidden="true">W</span>
+        <span>Historical data from <a href="https://en.wikipedia.org/" rel="noopener">Wikipedia</a>, available under the <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="noopener">Creative Commons Attribution-ShareAlike (CC BY-SA)</a> license. DateLore is an independent project and is not affiliated with the Wikimedia Foundation.</span>
+      </p>
+    </div>
+  </footer>
+
+  <script src="datelore.js" defer></script>
+</body>
+</html>

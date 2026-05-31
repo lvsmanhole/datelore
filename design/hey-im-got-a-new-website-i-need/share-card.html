@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Share Card — Made to be pinned · DateLore</title>
+  <meta name="description" content="The tall 2:3 share cards from DateLore — screenshot-ready almanac and birthday cards built for Pinterest and TikTok.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Screen-only ADDITIONS — no shared class is redefined here. */
+    /* Two-up card gallery: 1 col mobile, 2 col >=720px. */
+    .share-gallery { display: grid; gap: var(--s7); grid-template-columns: 1fr; }
+    .share-item { display: flex; flex-direction: column; gap: var(--s4); align-items: center; }
+    /* Row under each card: share action + format note. */
+    .share-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: var(--s3); width: 100%; max-width: 480px; }
+    .share-row .muted { font-size: var(--step--1); }
+    @media (min-width: 720px) {
+      .share-gallery { grid-template-columns: 1fr 1fr; align-items: start; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- ===== Header ===== -->
+  <header class="site-header">
+    <div class="wrap site-header__inner">
+      <a class="wordmark" href="index.html"><span class="wordmark__mark">✦</span> DateLore</a>
+      <nav class="nav" aria-label="Primary">
+        <ul>
+          <li><a href="day.html">Today</a></li>
+          <li><a href="birthday.html">Your Birthday</a></li>
+          <li><a href="quiz.html">Daily Quiz</a></li>
+        </ul>
+      </nav>
+      <form class="quick-date hide-sm" role="search" aria-label="Jump to a date">
+        <label for="qd">Go to date</label>
+        <input type="date" id="qd" data-quick-date>
+      </form>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- ===== Intro band ===== -->
+    <section class="band band--tight">
+      <div class="wrap wrap--narrow stack text-center">
+        <p class="eyebrow">Share card</p>
+        <h1 style="font-size:var(--step-5);line-height:.98;">Made to be pinned</h1>
+        <p class="lede" style="margin-inline:auto;">
+          These are the tall 2:3 cards DateLore builds for every date — the ones people screenshot and pin to Pinterest or drop into a TikTok. Dark, framed, and sized to look good the moment they leave the page.
+        </p>
+      </div>
+    </section>
+
+    <!-- ===== Card gallery ===== -->
+    <section class="band band--tight">
+      <div class="wrap">
+        <h2 class="visually-hidden">Share card designs</h2>
+        <div class="share-gallery">
+
+          <!-- Card A — Today in History -->
+          <div class="share-item">
+            <article class="ogcard" aria-label="Today in History share card for May 31">
+              <p class="ogcard__brand"><span class="mark">✦</span> DateLore</p>
+              <p class="ogcard__big">Today in History — May 31</p>
+              <p class="ogcard__sub">Big Ben started ticking. The Titanic hit the water.</p>
+              <p class="ogcard__foot">datelore.com · on this day</p>
+            </article>
+            <div class="share-row">
+              <button class="btn btn--ghost btn--sm" data-share data-share-title="Today in History — May 31 · DateLore">
+                <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>
+                Share
+              </button>
+              <span class="muted">Tall format 1080 × 1620 — perfect for Pinterest.</span>
+            </div>
+          </div>
+
+          <!-- Card B — Birthday -->
+          <div class="share-item">
+            <article class="ogcard" aria-label="Birthday share card for May 31">
+              <p class="ogcard__brand"><span class="mark">✦</span> DateLore</p>
+              <p class="ogcard__big">Born on May 31?</p>
+              <p class="ogcard__sub">Find your zodiac, your birthday twins, and your exact age in days.</p>
+              <p class="ogcard__foot">datelore.com · your birthday</p>
+            </article>
+            <div class="share-row">
+              <button class="btn btn--ghost btn--sm" data-share data-share-title="Born on May 31? Find your zodiac and birthday twins · DateLore">
+                <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>
+                Share
+              </button>
+              <span class="muted">Tall format 1080 × 1620 — perfect for Pinterest.</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ===== Inline ad ===== -->
+        <div style="margin-top:var(--s8);">
+          <div class="ad-slot ad-slot--inline">
+            <span class="ad-slot__label">Advertisement</span>
+            <span class="ad-slot__note">Responsive in-content unit</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== Footer ===== -->
+  <footer class="site-footer">
+    <div class="wrap site-footer__grid">
+      <div>
+        <a class="wordmark" href="index.html"><span class="wordmark__mark">✦</span> DateLore</a>
+        <p class="muted" style="margin-top:var(--s3);max-width:36ch;">The almanac for every day of the year — history, birthdays, and a daily puzzle.</p>
+      </div>
+      <div>
+        <h3>Explore</h3>
+        <ul>
+          <li><a href="day.html">On This Day</a></li>
+          <li><a href="birthday.html">Your Birthday</a></li>
+          <li><a href="quiz.html">Daily Quiz</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>About</h3>
+        <ul>
+          <li><a href="#">How it works</a></li>
+          <li><a href="#">Privacy</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="wrap">
+      <p class="attribution">
+        <span class="attribution__mark" aria-hidden="true">W</span>
+        <span>Historical data from <a href="https://en.wikipedia.org/" rel="noopener">Wikipedia</a>, available under the <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="noopener">Creative Commons Attribution-ShareAlike (CC BY-SA)</a> license. DateLore is an independent project and is not affiliated with the Wikimedia Foundation.</span>
+      </p>
+    </div>
+  </footer>
+
+  <script src="datelore.js" defer></script>
+</body>
+</html>

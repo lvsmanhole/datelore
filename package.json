@@ -13,9 +13,11 @@
     "test:watch": "vitest"
   },
   "dependencies": {
+    "@astrojs/sitemap": "^3.7.3",
     "astro": "^5.0.0"
   },
   "devDependencies": {
+    "tsx": "^4.22.4",
     "vitest": "^3.0.0"
   }
 }

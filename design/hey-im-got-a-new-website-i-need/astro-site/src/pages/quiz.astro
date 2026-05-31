@@ -1,0 +1,69 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+<BaseLayout title="Daily Quiz — May 31 · DateLore" description="Today's DateLore puzzle: one question a day. Guess the year a famous moment from May 31 happened, and build your streak.">
+  <!-- ===== Quiz ===== -->
+  <section class="band band--tight">
+    <div class="wrap wrap--narrow stack-lg text-center">
+      <div class="stack-sm">
+        <p class="eyebrow">Daily Quiz · May 31</p>
+        <h1 style="font-size:var(--step-4);">Which year did it happen?</h1>
+        <p class="lede" style="margin-inline:auto;">One question a day. Build your streak.</p>
+      </div>
+
+      <!-- The quiz card -->
+      <div class="quiz" data-quiz="titanic" style="text-align:left;">
+        <div class="quiz__top">
+          <span class="eyebrow eyebrow--soft">Question 1 of 1 today</span>
+          <span class="quiz__streak" title="Your current streak">
+            <span aria-hidden="true">🔥</span>
+            <span data-quiz-streak>0</span>
+          </span>
+        </div>
+
+        <p class="quiz__q">In which year did the RMS Titanic launch in Belfast?</p>
+
+        <div class="quiz__options">
+          <button class="quiz__opt" type="button" data-quiz-opt data-correct="false">
+            <span class="key" aria-hidden="true">A</span>
+            <span>1898</span>
+          </button>
+          <button class="quiz__opt" type="button" data-quiz-opt data-correct="false">
+            <span class="key" aria-hidden="true">B</span>
+            <span>1909</span>
+          </button>
+          <button class="quiz__opt" type="button" data-quiz-opt data-correct="true">
+            <span class="key" aria-hidden="true">C</span>
+            <span>1911</span>
+          </button>
+          <button class="quiz__opt" type="button" data-quiz-opt data-correct="false">
+            <span class="key" aria-hidden="true">D</span>
+            <span>1912</span>
+          </button>
+        </div>
+
+        <div class="quiz__reveal" data-quiz-reveal hidden>
+          <h2 data-quiz-verdict style="font-size:var(--step-2);">—</h2>
+          <p class="muted" style="margin-top:var(--s2);">
+            The Titanic's hull was launched on 31 May 1911; she sank on her maiden voyage the following April.
+          </p>
+          <p style="margin-top:var(--s3);">
+            <a href="/day/05-31">Read more on May 31 →</a>
+          </p>
+        </div>
+      </div>
+
+      <!-- How streaks work + ad -->
+      <div class="stack" style="text-align:left;">
+        <p class="muted">
+          <strong style="color:var(--ink);">How streaks work:</strong> answer correctly to add a day to your streak — it lives in your browser, no account needed. One wrong guess resets the count to zero, so come back tomorrow for a fresh question.
+        </p>
+
+        <div class="ad-slot ad-slot--rectangle">
+          <span class="ad-slot__label">Advertisement</span>
+          <span class="ad-slot__note">336 × 280 rectangle</span>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
