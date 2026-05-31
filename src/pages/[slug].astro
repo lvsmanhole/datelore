@@ -1,0 +1,188 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { DATES } from '../data/dates.js';
+import { toSlug, monthName, dayOfYear, ordinal, sortKeysByDate } from '../lib/slug';
+import { zodiacForDate, birthstoneForMonth, birthFlowerForMonth } from '../lib/reference';
+
+export function getStaticPaths() {
+  return Object.keys(DATES).map((key) => ({
+    params: { slug: toSlug(key) },
+    props: { key },
+  }));
+}
+
+const { key } = Astro.props as { key: string };
+const entry = DATES[key];
+const [mm, dd] = key.split('-').map(Number);
+const mName = monthName(mm);
+const z = zodiacForDate(mm, dd);
+const stone = birthstoneForMonth(mm);
+const flower = birthFlowerForMonth(mm);
+const doy = dayOfYear(mm, dd);
+
+const sorted = sortKeysByDate(Object.keys(DATES));
+const i = sorted.indexOf(key);
+const prevKey = sorted[(i - 1 + sorted.length) % sorted.length];
+const nextKey = sorted[(i + 1) % sorted.length];
+const label = (k: string) => {
+  const [m, d] = k.split('-').map(Number);
+  return `${monthName(m)} ${d}`;
+};
+
+const shareTitle = `On This Day — ${mName} ${dd} · DateLore`;
+---
+<BaseLayout
+  title={`${mName} ${dd} — On This Day · DateLore`}
+  description={`What happened on ${mName} ${dd} — historical events, famous birthdays, deaths, and observances. Plus the zodiac, birthstone, and birth flower for the date.`}
+>
+  <!-- ===== Date header ===== -->
+  <section class="band band--tight">
+    <div class="wrap">
+      <p class="eyebrow">On This Day · The {ordinal(doy)} day of the year</p>
+      <div class="date-head" style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:var(--s4);margin-top:var(--s3);">
+        <h1 style="font-size:var(--step-6);line-height:.95;">
+          {mName} <span style="color:var(--gold-deep);">{dd}</span>
+        </h1>
+        <button class="btn btn--ghost btn--sm" data-share data-share-title={shareTitle} aria-label="Share this date">
+          <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>
+          Share
+        </button>
+      </div>
+      <p class="lede" style="margin-top:var(--s3);">{entry.lede}</p>
+      <div class="badges" style="margin-top:var(--s5);">
+        <span class="badge"><span class="badge__glyph">{z.glyph}</span><span class="badge__text"><span class="badge__label">Zodiac</span><span class="badge__value">{z.sign}</span></span></span>
+        <span class="badge"><span class="badge__glyph">◈</span><span class="badge__text"><span class="badge__label">Birthstone</span><span class="badge__value">{stone}</span></span></span>
+        <span class="badge badge--coral"><span class="badge__glyph">❀</span><span class="badge__text"><span class="badge__label">Birth flower</span><span class="badge__value">{flower}</span></span></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Top leaderboard ad ===== -->
+  <div class="wrap" style="margin-block:var(--s4);">
+    <div class="ad-slot ad-slot--leaderboard">
+      <span class="ad-slot__label">Advertisement</span>
+      <span class="ad-slot__note">728 × 90 leaderboard</span>
+    </div>
+  </div>
+
+  <!-- ===== Main two-column ===== -->
+  <section class="band band--tight">
+    <div class="wrap day-layout">
+      <div class="stack-lg">
+        <!-- Timeline -->
+        <div>
+          <div class="section-head">
+            <h2>Events</h2>
+            <span class="eyebrow eyebrow--soft">{entry.events.length} notable moments</span>
+          </div>
+          <ol class="timeline">
+            {entry.events.map((e) => (
+              <li class="timeline__item">
+                <span class="timeline__year">{e.year}</span>
+                <div class="timeline__body">
+                  <h3 class="timeline__title">{e.title}</h3>
+                  <p class="timeline__desc" set:html={e.desc}></p>
+                  <span class="timeline__tag">{e.tag}</span>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+
+        <div class="ad-slot ad-slot--inline">
+          <span class="ad-slot__label">Advertisement</span>
+          <span class="ad-slot__note">Responsive in-content unit</span>
+        </div>
+
+        <!-- Famous birthday twins -->
+        <div>
+          <div class="section-head">
+            <h2>Famous birthday twins</h2>
+            <span class="eyebrow eyebrow--coral">Born on {mName} {dd}</span>
+          </div>
+          <div class="twins">
+            {entry.births.map((b) => (
+              <article class="twin">
+                <span class="twin__monogram" aria-hidden="true">{b.monogram}</span>
+                <div><h3 class="twin__name">{b.name}</h3><p class="twin__year">b. {b.year}</p><p class="twin__line" set:html={b.line}></p></div>
+              </article>
+            ))}
+          </div>
+        </div>
+
+        <!-- Deaths + Holidays -->
+        <div class="grid" style="grid-template-columns:1fr;gap:var(--s6);">
+          <div class="card card--pad">
+            <div class="section-head" style="margin-bottom:var(--s4);">
+              <h2 style="font-size:var(--step-2);">Deaths</h2>
+            </div>
+            <ul class="mini-list">
+              {entry.deaths.map((d) => (
+                <li><span class="mini-list__year">{d.year}</span><span class="mini-list__text" set:html={d.text}></span></li>
+              ))}
+            </ul>
+          </div>
+          <div class="card card--pad">
+            <div class="section-head" style="margin-bottom:var(--s4);">
+              <h2 style="font-size:var(--step-2);">Holidays &amp; observances</h2>
+            </div>
+            <ul class="mini-list">
+              {entry.observances.map((o) => (
+                <li><span class="mini-list__year">—</span><span class="mini-list__text" set:html={o.text}></span></li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <!-- Born on this day CTA -->
+        <div class="bcard" data-bday-scope>
+          <p class="bcard__eyebrow">Born on this day?</p>
+          <h2 class="bcard__date" style="color:var(--on-dark);">Make your birthday card.</h2>
+          <p style="color:color-mix(in oklch, var(--on-dark) 86%, transparent);max-width:46ch;">
+            Drop in your birth year and we'll work out your exact age, the day of the week you were born, your Chinese zodiac, your generation, and the countdown to your next candle.
+          </p>
+          <form class="bday-form" data-bday-form style="margin-top:var(--s5);">
+            <div class="field">
+              <label for="bd-day">Your date of birth</label>
+              <input type="date" id="bd-day" data-bday-input required>
+            </div>
+            <button class="btn btn--coral" type="submit">Reveal my card →</button>
+          </form>
+          <p data-bday-error hidden style="margin-top:var(--s3);color:var(--gold);">Please pick a valid date in the past.</p>
+          <div data-bday-results hidden style="margin-top:var(--s5);">
+            <div class="stats">
+              <div class="stat stat--coral"><div class="stat__num" data-bday-out="years">—</div><div class="stat__label">Years old</div></div>
+              <div class="stat" style="background:color-mix(in oklch,var(--on-dark) 14%,transparent);border-color:transparent;color:var(--on-dark);"><div class="stat__num" data-bday-out="days" style="color:var(--on-dark);">—</div><div class="stat__label" style="color:color-mix(in oklch,var(--on-dark) 75%,transparent);">Days lived</div></div>
+              <div class="stat" style="background:color-mix(in oklch,var(--on-dark) 14%,transparent);border-color:transparent;color:var(--on-dark);"><div class="stat__num" data-bday-out="weekday" style="color:var(--on-dark);font-size:var(--step-2);">—</div><div class="stat__label" style="color:color-mix(in oklch,var(--on-dark) 75%,transparent);">Day you were born</div></div>
+            </div>
+            <p style="margin-top:var(--s4);"><a href="/birthday" style="color:var(--gold);">See the full birthday card →</a></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sticky rail -->
+      <aside class="day-rail stack">
+        <div class="card card--gold card--pad">
+          <p class="eyebrow">Daily quiz</p>
+          <h2 style="font-size:var(--step-2);margin-top:var(--s2);">Which year did it happen?</h2>
+          <p class="muted" style="margin-top:var(--s2);">One question a day. Keep your streak alive.</p>
+          <a class="btn btn--primary" href="/quiz" style="margin-top:var(--s4);width:100%;">Play today's quiz</a>
+        </div>
+
+        <div class="ad-slot ad-slot--rail">
+          <span class="ad-slot__label">Advertisement</span>
+          <span class="ad-slot__note">300 × 600 half-page</span>
+        </div>
+
+        <nav class="card card--pad" aria-label="Nearby dates">
+          <p class="eyebrow eyebrow--soft">Wander the calendar</p>
+          <ul style="list-style:none;padding:0;margin-top:var(--s3);display:grid;gap:var(--s2);">
+            <li><a href={`/${toSlug(prevKey)}`} style="text-decoration:none;color:var(--ink-soft);">‹ {label(prevKey)}</a></li>
+            <li><a href={`/${toSlug(nextKey)}`} style="text-decoration:none;color:var(--ink-soft);">{label(nextKey)} ›</a></li>
+            <li><a href="/birthday" style="text-decoration:none;color:var(--ink-soft);">Your birthday →</a></li>
+          </ul>
+        </nav>
+      </aside>
+    </div>
+  </section>
+</BaseLayout>
