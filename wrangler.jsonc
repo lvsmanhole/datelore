@@ -1,0 +1,10 @@
+{
+  // DateLore is a STATIC Astro site. This config makes Cloudflare deploy it as a
+  // static-assets Worker (just serves the built ./dist folder) — no SSR adapter,
+  // no server script. Prevents `wrangler deploy` from running `astro add cloudflare`.
+  "name": "datelore",
+  "compatibility_date": "2026-05-31",
+  "assets": {
+    "directory": "./dist"
+  }
+}
