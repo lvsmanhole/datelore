@@ -1,0 +1,64 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { DATES } from '../data/dates.js';
+
+// Compact {MM-DD: [{year,title}]} pool for the client's deterministic picker.
+const pool = Object.fromEntries(
+  Object.entries(DATES).map(([k, v]) => [k, v.events.map((e) => ({ year: e.year, title: e.title }))]),
+);
+---
+<BaseLayout title="Daily Quiz · DateLore" description="Today's DateLore puzzle: one question a day. Guess the year a famous moment from history happened, and build your streak.">
+  <section class="band band--tight">
+    <div class="wrap wrap--narrow stack-lg text-center">
+      <div class="stack-sm">
+        <p class="eyebrow">Daily Quiz</p>
+        <h1 style="font-size:var(--step-4);">Which year did it happen?</h1>
+        <p class="lede" style="margin-inline:auto;">One question a day. Build your streak.</p>
+      </div>
+
+      <div class="quiz" data-quiz="daily" style="text-align:left;">
+        <script type="application/json" data-quiz-pool set:html={JSON.stringify(pool)}></script>
+        <div class="quiz__top">
+          <span class="eyebrow eyebrow--soft">Question of the day</span>
+          <span class="quiz__streak" title="Your current streak">
+            <span aria-hidden="true">🔥</span>
+            <span data-quiz-streak>0</span>
+          </span>
+        </div>
+
+        <p class="quiz__q" data-quiz-q>Loading today's question…</p>
+
+        <div class="quiz__options">
+          <button class="quiz__opt" type="button" data-quiz-opt data-correct="false">
+            <span class="key" aria-hidden="true">A</span><span data-quiz-opt-label>—</span>
+          </button>
+          <button class="quiz__opt" type="button" data-quiz-opt data-correct="false">
+            <span class="key" aria-hidden="true">B</span><span data-quiz-opt-label>—</span>
+          </button>
+          <button class="quiz__opt" type="button" data-quiz-opt data-correct="false">
+            <span class="key" aria-hidden="true">C</span><span data-quiz-opt-label>—</span>
+          </button>
+          <button class="quiz__opt" type="button" data-quiz-opt data-correct="false">
+            <span class="key" aria-hidden="true">D</span><span data-quiz-opt-label>—</span>
+          </button>
+        </div>
+
+        <div class="quiz__reveal" data-quiz-reveal hidden>
+          <h2 data-quiz-verdict style="font-size:var(--step-2);">—</h2>
+          <p class="muted" style="margin-top:var(--s2);" data-quiz-answer>—</p>
+          <p style="margin-top:var(--s3);"><a href="/" data-today-link>See the day in history →</a></p>
+        </div>
+      </div>
+
+      <div class="stack" style="text-align:left;">
+        <p class="muted">
+          <strong style="color:var(--ink);">How streaks work:</strong> answer correctly to add a day to your streak — it lives in your browser, no account needed. One wrong guess resets the count to zero, so come back tomorrow for a fresh question.
+        </p>
+        <div class="ad-slot ad-slot--rectangle">
+          <span class="ad-slot__label">Advertisement</span>
+          <span class="ad-slot__note">336 × 280 rectangle</span>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
