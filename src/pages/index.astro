@@ -1,68 +1,134 @@
 ---
-// Placeholder homepage for the initial scaffold.
-// The real homepage will spotlight TODAY (client-side date detection) per the design spec.
----
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { DATES } from '../data/dates.js';
+import { toSlug, monthName } from '../lib/slug';
+import { zodiacForDate, birthstoneForMonth, birthFlowerForMonth } from '../lib/reference';
 
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>DateLore — On this day in history &amp; the day you were born</title>
-    <meta
-      name="description"
-      content="Discover what happened on any date in history, who shares your birthday, your zodiac and generation, plus a daily history quiz."
-    />
-    <style>
-      :root { color-scheme: light; }
-      body {
-        margin: 0;
-        font-family: ui-serif, Georgia, "Times New Roman", serif;
-        background: #f7f1e3;
-        color: #22202b;
-        display: grid;
-        min-height: 100vh;
-        place-items: center;
-        padding: 2rem;
-      }
-      main { max-width: 40rem; text-align: center; }
-      .kicker {
-        letter-spacing: 0.18em;
-        text-transform: uppercase;
-        font-size: 0.8rem;
-        color: #9a6a2f;
-        font-family: ui-sans-serif, system-ui, sans-serif;
-      }
-      h1 { font-size: clamp(2.2rem, 6vw, 3.4rem); margin: 0.4rem 0; line-height: 1.1; }
-      p { font-size: 1.15rem; line-height: 1.6; color: #4a4658; }
-      .badge {
-        display: inline-block;
-        margin-top: 1.5rem;
-        padding: 0.5rem 1rem;
-        border-radius: 999px;
-        background: #22202b;
-        color: #f7f1e3;
-        font-family: ui-sans-serif, system-ui, sans-serif;
-        font-size: 0.95rem;
-      }
-      footer {
-        margin-top: 2.5rem;
-        font-size: 0.8rem;
-        color: #8a8696;
-        font-family: ui-sans-serif, system-ui, sans-serif;
-      }
-    </style>
-  </head>
-  <body>
-    <main>
-      <p class="kicker">DateLore</p>
-      <h1>On this day &amp; the day you were born</h1>
-      <p>
-        What happened in history on any date, who shares your birthday, your zodiac and
-        generation, and a daily history quiz. Coming soon.
+// Server-rendered spotlight (the richest sample date). The client repoints the
+// "today" label + links to the visitor's local date via data-today-* hooks.
+const FEATURE = '05-31';
+const entry = DATES[FEATURE];
+const [mm, dd] = FEATURE.split('-').map(Number);
+const mName = monthName(mm);
+const z = zodiacForDate(mm, dd);
+const featureSlug = `/${toSlug(FEATURE)}`;
+---
+<BaseLayout
+  title="DateLore — What happened on this day in history"
+  description="DateLore is the almanac for every day of the year. See today in history, famous birthdays, a daily quiz, and the story your own birthday tells."
+>
+  <!-- ===== Hero ===== -->
+  <section class="band">
+    <div class="wrap stack">
+      <p class="eyebrow">Today · <span data-today-label>{mName} {dd}</span></p>
+      <h1 style="font-size:var(--step-6);line-height:.95;">
+        On This Day <span style="color:var(--gold-deep);">— <span data-today-label>{mName} {dd}</span></span>
+      </h1>
+      <p class="lede">
+        A warm almanac of every date — historical events, the famous people who share it,
+        and the story your own birthday tells. Start with today.
       </p>
-      <span class="badge">Site in development</span>
-      <footer>Historical data will be from Wikipedia (CC BY-SA).</footer>
-    </main>
-  </body>
-</html>
+      <div class="flow-cta">
+        <a class="btn btn--primary" href={featureSlug} data-today-link>See today in history →</a>
+        <a class="btn btn--ghost" href="#birthday">Enter your birthday</a>
+      </div>
+      <div class="badges" style="margin-top:var(--s4);">
+        <span class="badge"><span class="badge__glyph">{z.glyph}</span><span class="badge__text"><span class="badge__label">Zodiac</span><span class="badge__value">{z.sign}</span></span></span>
+        <span class="badge"><span class="badge__glyph">◈</span><span class="badge__text"><span class="badge__label">Birthstone</span><span class="badge__value">{birthstoneForMonth(mm)}</span></span></span>
+        <span class="badge badge--coral"><span class="badge__glyph">❀</span><span class="badge__text"><span class="badge__label">Birth flower</span><span class="badge__value">{birthFlowerForMonth(mm)}</span></span></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Birthday module ===== -->
+  <section class="band band--alt" id="birthday">
+    <div class="wrap" data-bday-scope>
+      <div class="section-head">
+        <h2>Enter your birthday →</h2>
+        <span class="eyebrow eyebrow--coral">Takes one tap</span>
+      </div>
+      <div class="card card--coral card--pad stack">
+        <p class="muted" style="margin-top:0;">
+          Pick the day you were born and we'll work out your exact age and the day of the week it landed on — then unlock the full card.
+        </p>
+        <form class="bday-form" data-bday-form>
+          <div class="field">
+            <label for="bd-day">Your date of birth</label>
+            <input type="date" id="bd-day" data-bday-input required>
+          </div>
+          <button class="btn btn--coral" type="submit">Find my birthday →</button>
+        </form>
+        <p data-bday-error hidden style="color:var(--coral-deep);font-weight:600;">Please pick a valid date in the past.</p>
+        <div data-bday-results hidden>
+          <div class="stats">
+            <div class="stat stat--coral"><div class="stat__num" data-bday-out="years">—</div><div class="stat__label">Years old</div></div>
+            <div class="stat"><div class="stat__num" data-bday-out="weekday" style="font-size:var(--step-2);">—</div><div class="stat__label">Day you were born</div></div>
+          </div>
+          <p style="margin-top:var(--s4);"><a href="/birthday">See the full birthday card →</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Leaderboard ad ===== -->
+  <div class="wrap" style="margin-block:var(--s4);">
+    <div class="ad-slot ad-slot--leaderboard">
+      <span class="ad-slot__label">Advertisement</span>
+      <span class="ad-slot__note">728 × 90 leaderboard</span>
+    </div>
+  </div>
+
+  <!-- ===== Spotlight: a day in history ===== -->
+  <section class="band band--tight">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>A day in history</h2>
+        <span class="eyebrow eyebrow--soft">On <span data-today-label>{mName} {dd}</span></span>
+      </div>
+      <ol class="timeline">
+        {entry.events.slice(0, 3).map((e) => (
+          <li class="timeline__item">
+            <span class="timeline__year">{e.year}</span>
+            <div class="timeline__body">
+              <h3 class="timeline__title">{e.title}</h3>
+              <p class="timeline__desc" set:html={e.desc}></p>
+              <span class="timeline__tag">{e.tag}</span>
+            </div>
+          </li>
+        ))}
+      </ol>
+      <p style="margin-top:var(--s4);"><a href={featureSlug} data-today-link>See the full day →</a></p>
+    </div>
+  </section>
+
+  <!-- ===== Born that day ===== -->
+  <section class="band band--tight band--alt">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Born that day</h2>
+        <span class="eyebrow eyebrow--coral">Born on <span data-today-label>{mName} {dd}</span></span>
+      </div>
+      <div class="twins">
+        {entry.births.slice(0, 3).map((b) => (
+          <article class="twin">
+            <span class="twin__monogram" aria-hidden="true">{b.monogram}</span>
+            <div><h3 class="twin__name">{b.name}</h3><p class="twin__year">b. {b.year}</p><p class="twin__line" set:html={b.line}></p></div>
+          </article>
+        ))}
+      </div>
+      <p style="margin-top:var(--s4);"><a href={featureSlug} data-today-link>See everyone →</a></p>
+    </div>
+  </section>
+
+  <!-- ===== Daily quiz teaser ===== -->
+  <section class="band band--tight">
+    <div class="wrap wrap--narrow">
+      <div class="card card--gold card--pad stack">
+        <p class="eyebrow">Daily quiz</p>
+        <h2 style="font-size:var(--step-2);">Which year did it happen?</h2>
+        <p class="muted" style="margin-top:0;">One question a day, drawn from the date. Answer right and keep your streak alive.</p>
+        <a class="btn btn--primary" href="/quiz">Play today's quiz →</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
