@@ -1,0 +1,20 @@
+---
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isDay = path !== '/' && !['/birthday', '/quiz', '/share'].includes(path);
+---
+<header class="site-header">
+  <div class="wrap site-header__inner">
+    <a class="wordmark" href="/"><span class="wordmark__mark">✦</span> DateLore</a>
+    <nav class="nav" aria-label="Primary">
+      <ul>
+        <li><a href="/may-31" data-today-link aria-current={isDay ? 'page' : undefined}>Today</a></li>
+        <li><a href="/birthday" aria-current={path === '/birthday' ? 'page' : undefined}>Your Birthday</a></li>
+        <li><a href="/quiz" aria-current={path === '/quiz' ? 'page' : undefined}>Daily Quiz</a></li>
+      </ul>
+    </nav>
+    <form class="quick-date hide-sm" role="search" aria-label="Jump to a date">
+      <label for="qd">Go to date</label>
+      <input type="date" id="qd" data-quick-date>
+    </form>
+  </div>
+</header>
