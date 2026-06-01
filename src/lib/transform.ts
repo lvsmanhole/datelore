@@ -5,7 +5,7 @@ import { monthName } from './slug';
 import type { DayEntry, DayEvent, DayBirth, DayDeath, DayObservance } from '../data/types';
 
 // ---- Raw Wikimedia shapes (only the fields we consume) ----
-export interface WmPage { normalizedtitle?: string; description?: string; }
+export interface WmPage { normalizedtitle?: string; description?: string; wikibase_item?: string; }
 export interface WmItem { year?: number; text: string; pages?: WmPage[]; }
 export interface WmFeed {
   events?: WmItem[];
@@ -37,6 +37,11 @@ function primaryDesc(it: WmItem): string {
   return clean(it.pages?.[0]?.description);
 }
 
+// strip "(born 1819)", "(died 1939)", "(1819–2020)" wherever they appear
+function stripDateParens(s: string): string {
+  return clean(s.replace(/\s*\((?:born|died)?\s*\d{1,4}(?:\s*[–-]\s*\d{1,4})?\)\s*/gi, ' '));
+}
+
 // "Walt Whitman, American poet (born 1819)" -> "American poet"
 function descriptorFor(it: WmItem, name: string): string {
   let s = clean(it.text);
@@ -45,11 +50,10 @@ function descriptorFor(it: WmItem, name: string): string {
   } else if (s.includes(',')) {
     s = s.slice(s.indexOf(',') + 1);
   } else {
-    s = primaryDesc(it);
+    s = '';
   }
-  s = clean(s).replace(/^[,—\-\s]+/, '');
-  // strip a trailing "(born 1819)" / "(1819–2020)" parenthetical
-  s = s.replace(/\s*\((?:born\s*)?\d{1,4}(?:\s*[–-]\s*\d{1,4})?\)\s*$/i, '');
+  s = stripDateParens(clean(s).replace(/^[,—\-\s]+/, ''));
+  if (s.length < 3) s = stripDateParens(primaryDesc(it)); // fall back to the Wikidata description
   return clean(s);
 }
 
@@ -62,38 +66,43 @@ function selectedTitles(feed: WmFeed): Set<string> {
   return set;
 }
 
-function evenSpread<T>(arr: T[], k: number): T[] {
-  if (k <= 0 || arr.length === 0) return [];
-  if (arr.length <= k) return arr.slice();
-  const out: T[] = [];
-  const step = arr.length / k;
-  for (let i = 0; i < k; i++) out.push(arr[Math.floor(i * step)]);
-  return out;
+// Wikidata Q-number as a free notability proxy: items are numbered in creation
+// order, so long-established, iconic subjects have LOW Q-numbers while obscure
+// recent entries (e.g. a just-debuted athlete) have very high ones. Sorting by
+// Q ascending floats famous historical figures to the top far better than the
+// feed's default reverse-chronological order. Missing/odd ids sort last.
+function notabilityRank(it: WmItem): number {
+  const q = it.pages?.[0]?.wikibase_item;
+  if (!q) return Number.MAX_SAFE_INTEGER;
+  const n = parseInt(q.replace(/^Q/i, ''), 10);
+  return Number.isFinite(n) ? n : Number.MAX_SAFE_INTEGER;
 }
 
 /**
- * Prefer items also present in the curated `selected` set (Wikipedia's
- * editorially-chosen "most notable"), then fill with an even spread across the
- * rest so we don't bias toward the most recent year. Deduped by title, capped.
+ * Rank items by notability and take the top n. Items in Wikipedia's curated
+ * `selected` set rank first; the rest are ordered by the Wikidata-Q notability
+ * proxy (low Q = more notable). Deduped by title.
  */
 export function pickNotable(items: WmItem[], selected: Set<string>, n: number): WmItem[] {
   const seen = new Set<string>();
   const keyOf = (it: WmItem) => (primaryTitle(it) || clean(it.text)).toLowerCase();
-  const dedupe = (arr: WmItem[]) =>
-    arr.filter((it) => {
-      const k = keyOf(it);
-      if (!k || seen.has(k)) return false;
-      seen.add(k);
-      return true;
-    });
   const isSelected = (it: WmItem) => {
     const t = primaryTitle(it);
     return t ? selected.has(t) : false;
   };
-  const sel = dedupe(items.filter(isSelected));
-  if (sel.length >= n) return sel.slice(0, n);
-  const rest = dedupe(items.filter((it) => !isSelected(it)));
-  return sel.concat(evenSpread(rest, n - sel.length)).slice(0, n);
+  const deduped = items.filter((it) => {
+    const k = keyOf(it);
+    if (!k || seen.has(k)) return false;
+    seen.add(k);
+    return true;
+  });
+  deduped.sort((a, b) => {
+    const sa = isSelected(a) ? 0 : 1;
+    const sb = isSelected(b) ? 0 : 1;
+    if (sa !== sb) return sa - sb;
+    return notabilityRank(a) - notabilityRank(b);
+  });
+  return deduped.slice(0, n);
 }
 
 function tagFor(it: WmItem): string {

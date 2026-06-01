@@ -25,6 +25,14 @@ describe('pickNotable', () => {
     const dup = [...items, { year: 1999, text: 'A', pages: [{ normalizedtitle: 'A' }] }];
     expect(pickNotable(dup, new Set(), 10)).toHaveLength(3);
   });
+  it('ranks by Wikidata-Q notability (low Q = more notable, beats recency)', () => {
+    const byQ: WmItem[] = [
+      { year: 2005, text: 'Obscure', pages: [{ normalizedtitle: 'Obscure', wikibase_item: 'Q90000000' }] },
+      { year: 1900, text: 'Iconic', pages: [{ normalizedtitle: 'Iconic', wikibase_item: 'Q1234' }] },
+    ];
+    const picked = pickNotable(byQ, new Set(), 2);
+    expect(picked[0].pages![0].normalizedtitle).toBe('Iconic'); // low Q wins despite being listed second
+  });
 });
 
 describe('transformDay (against a real trimmed fixture)', () => {
