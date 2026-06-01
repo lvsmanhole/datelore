@@ -144,10 +144,24 @@ function wireShare(): void {
 /* ------------------------------------------------ header quick-date jump */
 function wireQuickDate(): void {
   document.querySelectorAll<HTMLInputElement>('[data-quick-date]').forEach((input) => {
-    input.addEventListener('change', () => {
+    const go = (): void => {
       if (!input.value) return;
       const [, mm, dd] = input.value.split('-');
-      window.location.href = `/${toSlug(`${mm}-${dd}`)}`;
+      if (mm && dd) window.location.href = `/${toSlug(`${mm}-${dd}`)}`;
+    };
+    // A native date input fires `change` mid-edit — once a single year digit forms
+    // a valid date — which would navigate away before you finish typing the full
+    // yyyy. Debounce so the whole year is entered first; pressing Enter jumps
+    // immediately instead of reloading the page via the form's default submit.
+    let timer = 0;
+    input.addEventListener('change', () => {
+      window.clearTimeout(timer);
+      timer = window.setTimeout(go, 500);
+    });
+    input.form?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      window.clearTimeout(timer);
+      go();
     });
   });
 }

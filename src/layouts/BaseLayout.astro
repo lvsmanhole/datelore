@@ -9,12 +9,14 @@ const {
   ogImage,
   ogType = 'website',
   jsonld = [],
+  noindex = false,
 } = Astro.props as {
   title?: string;
   description?: string;
   ogImage?: string;
   ogType?: string;
   jsonld?: object[];
+  noindex?: boolean;
 };
 
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
@@ -49,6 +51,7 @@ const ldScripts = jsonld.map((node) => JSON.stringify(node).replace(/</g, '\\u00
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
 
     <meta property="og:type" content={ogType} />
     <meta property="og:title" content={title} />

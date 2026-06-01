@@ -9,6 +9,9 @@ import { zodiacForDate, birthstoneForMonth, birthFlowerForMonth } from '../lib/r
 const { dateKey } = Astro.props as { dateKey: string };
 const key = dateKey;
 const entry = DATES[key];
+// Chronological timeline (oldest → newest) so the page reads as history rather
+// than leading with the most recent — and often tragic — entry.
+const events = [...entry.events].sort((a, b) => a.year - b.year);
 const [mm, dd] = key.split('-').map(Number);
 const mName = monthName(mm);
 const monthSlug = MONTHS[mm - 1].toLowerCase();
@@ -50,14 +53,6 @@ const shareTitle = `On This Day — ${mName} ${dd} · DateLore`;
   </div>
 </section>
 
-<!-- ===== Top leaderboard ad ===== -->
-<div class="wrap" style="margin-block:var(--s4);">
-  <div class="ad-slot ad-slot--leaderboard">
-    <span class="ad-slot__label">Advertisement</span>
-    <span class="ad-slot__note">728 × 90 leaderboard</span>
-  </div>
-</div>
-
 <!-- ===== Main two-column ===== -->
 <section class="band band--tight">
   <div class="wrap day-layout">
@@ -66,10 +61,10 @@ const shareTitle = `On This Day — ${mName} ${dd} · DateLore`;
       <div>
         <div class="section-head">
           <h2>Events</h2>
-          <span class="eyebrow eyebrow--soft">{entry.events.length} notable moments</span>
+          <span class="eyebrow eyebrow--soft">{events.length} notable moments</span>
         </div>
         <ol class="timeline">
-          {entry.events.map((e) => (
+          {events.map((e) => (
             <li class="timeline__item">
               <span class="timeline__year">{e.year}</span>
               <div class="timeline__body">
@@ -80,11 +75,6 @@ const shareTitle = `On This Day — ${mName} ${dd} · DateLore`;
             </li>
           ))}
         </ol>
-      </div>
-
-      <div class="ad-slot ad-slot--inline">
-        <span class="ad-slot__label">Advertisement</span>
-        <span class="ad-slot__note">Responsive in-content unit</span>
       </div>
 
       <!-- Famous birthday twins -->
@@ -160,11 +150,6 @@ const shareTitle = `On This Day — ${mName} ${dd} · DateLore`;
         <h2 style="font-size:var(--step-2);margin-top:var(--s2);">Which year did it happen?</h2>
         <p class="muted" style="margin-top:var(--s2);">One question a day. Keep your streak alive.</p>
         <a class="btn btn--primary" href="/quiz" style="margin-top:var(--s4);width:100%;">Play today's quiz</a>
-      </div>
-
-      <div class="ad-slot ad-slot--rail">
-        <span class="ad-slot__label">Advertisement</span>
-        <span class="ad-slot__note">300 × 600 half-page</span>
       </div>
 
       <nav class="card card--pad" aria-label="Nearby dates">
