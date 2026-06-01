@@ -41,6 +41,11 @@ const ldScripts = jsonld.map((node) => JSON.stringify(node).replace(/</g, '\\u00
     </script>
     <script is:inline src="https://ezoicanalytics.com/analytics.js"></script>
 
+    {/* Google AdSense — account verification + Auto-ads loader. Present so AdSense
+        can review/verify the site. Keep Auto ads OFF in the AdSense dashboard while
+        Ezoic is managing placements, to avoid double-serving. */}
+    <script is:inline async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9423816375028161" crossorigin="anonymous"></script>
+
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />

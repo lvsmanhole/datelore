@@ -1,0 +1,81 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { breadcrumbSchema } from '../lib/jsonld';
+
+const abs = (p: string) => new URL(p, Astro.site).href;
+const UPDATED = 'June 1, 2026';
+const EMAIL = 'hello@datelore.com';
+const jsonld = [
+  breadcrumbSchema([
+    { name: 'DateLore', url: abs('/') },
+    { name: 'Terms & Disclaimer', url: abs('/terms/') },
+  ]),
+];
+---
+<BaseLayout
+  title="Terms of Use & Disclaimer · DateLore"
+  description="The terms governing your use of DateLore, plus our disclaimer on the accuracy of historical information and how our content is licensed."
+  ogImage="/og/home.png"
+  jsonld={jsonld}
+>
+  <section class="band band--tight">
+    <div class="wrap wrap--narrow stack">
+      <p class="eyebrow">Legal</p>
+      <h1 style="font-size:var(--step-5);line-height:.98;">Terms of Use &amp; Disclaimer</h1>
+      <p class="muted">Last updated: {UPDATED}</p>
+
+      <p class="lede">
+        By using <strong>datelore.com</strong> ("DateLore", "we", "us") you agree to these terms. If you
+        do not agree, please don't use the site.
+      </p>
+
+      <h2 style="margin-top:var(--s5);">Use of the site</h2>
+      <p>
+        DateLore is provided for general informational and entertainment purposes. You may browse and
+        share our pages freely. You agree not to misuse the site — for example, by attempting to disrupt
+        it, scrape it at abusive volume, or use it for any unlawful purpose.
+      </p>
+
+      <h2 style="margin-top:var(--s5);">Accuracy &amp; disclaimer</h2>
+      <p>
+        The historical events, birthdays, and other information on DateLore are drawn largely from
+        publicly available sources and are provided <strong>"as is," without warranty of any kind</strong>.
+        Dates and details in history are sometimes disputed or recorded differently across sources, so we
+        cannot guarantee that every entry is complete or error-free. Nothing on DateLore is professional
+        advice. The birthday and quiz tools are for fun and should not be relied upon for any important
+        decision.
+      </p>
+
+      <h2 style="margin-top:var(--s5);">Content &amp; intellectual property</h2>
+      <p>
+        Historical content is sourced from <a href="https://en.wikipedia.org/" rel="noopener">Wikipedia</a>
+        and is available under the
+        <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="noopener">Creative Commons
+        Attribution-ShareAlike (CC BY-SA)</a> license; that material remains under that license. The
+        DateLore name, design, original writing, and software are the property of DateLore and may not be
+        copied wholesale without permission.
+      </p>
+
+      <h2 style="margin-top:var(--s5);">Advertising &amp; third-party links</h2>
+      <p>
+        DateLore displays third-party ads and may link to external sites. We are not responsible for the
+        content, products, or privacy practices of advertisers or linked sites. See our
+        <a href="/privacy">privacy policy</a> for how advertising data is handled.
+      </p>
+
+      <h2 style="margin-top:var(--s5);">Limitation of liability</h2>
+      <p>
+        To the fullest extent permitted by law, DateLore is not liable for any loss or damage arising from
+        your use of, or reliance on, the site or its content.
+      </p>
+
+      <h2 style="margin-top:var(--s5);">Changes &amp; contact</h2>
+      <p>
+        We may update these terms from time to time; the "last updated" date above reflects the latest
+        version. Questions? Email
+        <a href={`mailto:${EMAIL}`} style="color:var(--gold-deep);font-weight:600;">{EMAIL}</a> or visit
+        the <a href="/contact">contact page</a>.
+      </p>
+    </div>
+  </section>
+</BaseLayout>
