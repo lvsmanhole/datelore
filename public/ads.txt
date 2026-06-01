@@ -8,3 +8,6 @@ ezoic.ai, cf8c1a84c7047569ec00b0872d31329a, DIRECT
 # 35
 google.com, pub-6644558441501035, DIRECT, f08c47fec0942fa0
 google.com, pub-1175987143200523, RESELLER, f08c47fec0942fa0
+
+# DateLore's own Google AdSense account (for AdSense site verification)
+google.com, pub-9423816375028161, DIRECT, f08c47fec0942fa0
