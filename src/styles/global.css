@@ -430,20 +430,6 @@ p { text-wrap: pretty; }
 .ogcard__sub { color: color-mix(in oklch, var(--on-dark) 86%, transparent); margin-top: var(--s3); }
 .ogcard__foot { margin-top: var(--s5); font-family: var(--font-mono); font-size: var(--step--2); letter-spacing: .14em; text-transform: uppercase; color: color-mix(in oklch, var(--gold) 80%, var(--on-dark)); }
 
-/* 14. ---------------------------------------------------------------- AD SLOTS */
-.ad-slot {
-  display: grid; place-items: center; gap: var(--s1);
-  background: color-mix(in oklch, var(--paper-2) 70%, transparent);
-  border: 1px dashed var(--line-strong); border-radius: var(--r-md);
-  color: var(--ink-faint); text-align: center; margin-inline: auto;
-}
-.ad-slot__label { font-family: var(--font-mono); font-size: var(--step--2); letter-spacing: .18em; text-transform: uppercase; }
-.ad-slot__note { font-size: var(--step--2); color: var(--ink-faint); opacity: .8; }
-.ad-slot--leaderboard { width: 100%; max-width: 728px; min-height: 90px; }
-.ad-slot--rectangle { width: 100%; max-width: 336px; min-height: 250px; }
-.ad-slot--rail { width: 100%; min-height: 600px; position: sticky; top: 88px; }
-.ad-slot--inline { width: 100%; min-height: 110px; }
-
 /* 15. ------------------------------------------------------------------ FOOTER */
 .site-footer { background: var(--paper-3); border-top: 1px solid var(--line); padding-block: var(--s7) var(--s6); margin-top: var(--s8); }
 .site-footer__grid { display: grid; gap: var(--s6); grid-template-columns: 1fr; }

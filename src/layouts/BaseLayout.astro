@@ -30,22 +30,9 @@ const ldScripts = jsonld.map((node) => JSON.stringify(node).replace(/</g, '\\u00
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    {/* Ezoic — must sit as high in <head> as possible. Privacy (CMP) scripts load
-        FIRST so consent is handled before the ad header script. is:inline keeps
-        Astro from bundling/reordering them; data-cfasync="false" stops Cloudflare
-        Rocket Loader from touching the consent scripts. */}
-    <script is:inline data-cfasync="false" src="https://cmp.gatekeeperconsent.com/min.js"></script>
-    <script is:inline data-cfasync="false" src="https://the.gatekeeperconsent.com/cmp.min.js"></script>
-    <script is:inline async src="https://www.ezojs.com/ezoic/sa.min.js"></script>
-    <script is:inline>
-      window.ezstandalone = window.ezstandalone || {};
-      ezstandalone.cmd = ezstandalone.cmd || [];
-    </script>
-    <script is:inline src="https://ezoicanalytics.com/analytics.js"></script>
-
-    {/* Google AdSense — account verification + Auto-ads loader. Present so AdSense
-        can review/verify the site. Keep Auto ads OFF in the AdSense dashboard while
-        Ezoic is managing placements, to avoid double-serving. */}
+    {/* Google AdSense — Auto ads. This loader is all the code Auto ads needs; what
+        renders (and where) is controlled in the AdSense dashboard. Ezoic was removed
+        in favour of AdSense-only, to avoid double-serving the same inventory. */}
     <script is:inline async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9423816375028161" crossorigin="anonymous"></script>
 
     <title>{title}</title>
