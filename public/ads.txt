@@ -1,11 +1,10 @@
-# ads.txt for datelore.com — Authorized Digital Sellers (IAB)
-# https://iabtechlab.com/ads-txt/
-#
-# PLACEHOLDER: no ad partners are authorized yet.
-# When you sign up for Ezoic, they provide either:
-#   (a) the exact authorized-seller lines to paste below, or
-#   (b) an ads.txt redirect to their manager (set up in the Ezoic dashboard).
-# For Google AdSense, add the single line (replace with your publisher ID):
-#   google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0
-#
-# Until then this file intentionally authorizes no sellers.
+#Ads.txt datelore.com
+#Ads.txt managed by AdsTxtManager.com - the free ads.txt management tool for publishers
+ownerdomain=datelore.com
+contact=directsales@ezoic.com
+managerdomain=ezoic.ai
+
+ezoic.ai, cf8c1a84c7047569ec00b0872d31329a, DIRECT
+# 35
+google.com, pub-6644558441501035, DIRECT, f08c47fec0942fa0
+google.com, pub-1175987143200523, RESELLER, f08c47fec0942fa0
