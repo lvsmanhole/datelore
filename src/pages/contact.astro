@@ -1,0 +1,49 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { breadcrumbSchema } from '../lib/jsonld';
+
+const abs = (p: string) => new URL(p, Astro.site).href;
+const EMAIL = 'hello@datelore.com';
+const jsonld = [
+  breadcrumbSchema([
+    { name: 'DateLore', url: abs('/') },
+    { name: 'Contact', url: abs('/contact/') },
+  ]),
+];
+---
+<BaseLayout
+  title="Contact DateLore"
+  description="Get in touch with DateLore — corrections, questions, feedback, or partnership enquiries. We read every message."
+  ogImage="/og/home.png"
+  jsonld={jsonld}
+>
+  <section class="band band--tight">
+    <div class="wrap wrap--narrow stack">
+      <p class="eyebrow">Contact</p>
+      <h1 style="font-size:var(--step-5);line-height:.98;">Get in touch</h1>
+      <p class="lede">
+        Found a mistake in a date, have a question, or want to suggest something? We'd genuinely like
+        to hear from you and we read every message.
+      </p>
+
+      <div class="card card--pad stack" style="margin-top:var(--s4);">
+        <h2 style="font-size:var(--step-2);">Email us</h2>
+        <p>
+          The fastest way to reach DateLore is by email:
+          <br />
+          <a href={`mailto:${EMAIL}`} style="font-size:var(--step-1);color:var(--gold-deep);font-weight:600;">{EMAIL}</a>
+        </p>
+        <p class="muted" style="margin-top:0;">
+          For corrections, please include the date page and what looks wrong — it helps us fix it
+          quickly. We aim to reply within a few days.
+        </p>
+      </div>
+
+      <p style="margin-top:var(--s4);">
+        Curious where our historical data comes from, or how the site works? The
+        <a href="/about">about page</a> has the details, and our <a href="/privacy">privacy policy</a>
+        explains how your data is handled.
+      </p>
+    </div>
+  </section>
+</BaseLayout>

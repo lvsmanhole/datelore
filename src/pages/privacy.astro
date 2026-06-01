@@ -1,0 +1,117 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { breadcrumbSchema } from '../lib/jsonld';
+
+const abs = (p: string) => new URL(p, Astro.site).href;
+const UPDATED = 'June 1, 2026';
+const EMAIL = 'hello@datelore.com';
+const jsonld = [
+  breadcrumbSchema([
+    { name: 'DateLore', url: abs('/') },
+    { name: 'Privacy Policy', url: abs('/privacy/') },
+  ]),
+];
+---
+<BaseLayout
+  title="Privacy Policy · DateLore"
+  description="How DateLore handles your data: what we collect, the cookies our advertising and analytics partners use, your choices, and how to contact us."
+  ogImage="/og/home.png"
+  jsonld={jsonld}
+>
+  <section class="band band--tight">
+    <div class="wrap wrap--narrow stack">
+      <p class="eyebrow">Legal</p>
+      <h1 style="font-size:var(--step-5);line-height:.98;">Privacy Policy</h1>
+      <p class="muted">Last updated: {UPDATED}</p>
+
+      <p class="lede">
+        DateLore ("we", "us") respects your privacy. This page explains what information is collected
+        when you visit <strong>datelore.com</strong>, how it is used, and the choices you have.
+      </p>
+
+      <h2 style="margin-top:var(--s5);">The short version</h2>
+      <p>
+        DateLore is a static website. There are no accounts and nothing to sign up for. The birthday
+        calculator and the daily quiz run entirely in your browser — the dates you enter and your quiz
+        streak are stored locally on your own device and are never transmitted to us. The main way
+        third-party data is collected is through the advertising and analytics services described below.
+      </p>
+
+      <h2 style="margin-top:var(--s5);">Information we collect</h2>
+      <ul class="stack" style="padding-left:1.2em;">
+        <li>
+          <strong>Information you enter:</strong> a birthdate you type into the birthday tool is
+          processed in your browser to calculate your stats. It is not sent to or stored by us.
+        </li>
+        <li>
+          <strong>Local storage:</strong> we use your browser's local storage to remember your daily
+          quiz streak. This stays on your device and you can clear it at any time through your browser.
+        </li>
+        <li>
+          <strong>Server logs:</strong> like most websites, our hosting provider (Cloudflare)
+          automatically records standard technical data such as your IP address, browser type, and the
+          pages requested, for security and to keep the site running.
+        </li>
+        <li>
+          <strong>Cookies and similar technologies:</strong> our advertising and analytics partners
+          may set cookies or use similar technologies, as described in the next section.
+        </li>
+      </ul>
+
+      <h2 style="margin-top:var(--s5);">Advertising</h2>
+      <p>
+        To keep DateLore free, we display ads served by third-party advertising partners, including
+        <strong>Ezoic</strong> and its partners (which may include Google). These partners may use
+        cookies, web beacons, and similar technologies to serve and personalize ads based on your
+        prior visits to this and other websites, and to measure ad performance.
+      </p>
+      <p>
+        Google's use of advertising cookies enables it and its partners to serve ads based on your
+        visits. You can learn about and control personalized advertising here:
+      </p>
+      <ul class="stack" style="padding-left:1.2em;">
+        <li><a href="https://policies.google.com/technologies/ads" rel="noopener">Google Ads &amp; cookies policy</a></li>
+        <li><a href="https://www.google.com/settings/ads" rel="noopener">Google Ads Settings</a> — manage personalized ads on Google</li>
+        <li><a href="https://www.ezoic.com/privacy-policy/" rel="noopener">Ezoic privacy policy</a></li>
+        <li><a href="https://optout.aboutads.info/" rel="noopener">aboutads.info</a> and <a href="https://www.youronlinechoices.com/" rel="noopener">Your Online Choices</a> — industry opt-out tools</li>
+      </ul>
+
+      <h2 style="margin-top:var(--s5);">Your consent choices</h2>
+      <p>
+        If you are visiting from the European Economic Area, the United Kingdom, or another region that
+        requires it, you will be asked for consent before non-essential cookies (such as those used for
+        personalized advertising) are set, and you can change or withdraw that consent at any time
+        through the on-site consent controls.
+      </p>
+
+      <h2 style="margin-top:var(--s5);">Your rights</h2>
+      <p>
+        Depending on where you live, you may have rights to access, correct, or delete personal
+        information, or to opt out of the "sale" or "sharing" of personal information for targeted
+        advertising under laws such as the GDPR (EU/UK) and the CCPA/CPRA (California). Because we do
+        not maintain user accounts, most data is held by the third-party partners listed above — their
+        linked policies describe how to exercise these rights with them. You can also contact us using
+        the details below.
+      </p>
+
+      <h2 style="margin-top:var(--s5);">Children's privacy</h2>
+      <p>
+        DateLore is a general-audience site and is not directed to children under 13, and we do not
+        knowingly collect personal information from them.
+      </p>
+
+      <h2 style="margin-top:var(--s5);">Changes to this policy</h2>
+      <p>
+        We may update this policy from time to time. When we do, we will revise the "last updated" date
+        above. Significant changes will be reflected on this page.
+      </p>
+
+      <h2 style="margin-top:var(--s5);">Contact</h2>
+      <p>
+        Questions about this policy? Email us at
+        <a href={`mailto:${EMAIL}`} style="color:var(--gold-deep);font-weight:600;">{EMAIL}</a>, or
+        visit the <a href="/contact">contact page</a>.
+      </p>
+    </div>
+  </section>
+</BaseLayout>

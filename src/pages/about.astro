@@ -1,0 +1,59 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { breadcrumbSchema } from '../lib/jsonld';
+
+const abs = (p: string) => new URL(p, Astro.site).href;
+const jsonld = [
+  breadcrumbSchema([
+    { name: 'DateLore', url: abs('/') },
+    { name: 'About', url: abs('/about/') },
+  ]),
+];
+---
+<BaseLayout
+  title="About DateLore — The almanac for every day of the year"
+  description="DateLore is an independent almanac of every date: what happened in history, who was born, your own birthday's story, and a daily quiz. Here's who we are and where the data comes from."
+  ogImage="/og/home.png"
+  jsonld={jsonld}
+>
+  <section class="band band--tight">
+    <div class="wrap wrap--narrow stack">
+      <p class="eyebrow">About</p>
+      <h1 style="font-size:var(--step-5);line-height:.98;">An almanac for every day of the year</h1>
+      <p class="lede">
+        DateLore is a warm, browsable almanac of all 366 dates. Pick any day and you'll find the
+        historical events tied to it, the famous people born on it, the notable deaths and the
+        holidays — plus the zodiac, birthstone, and birth flower for that date.
+      </p>
+
+      <h2 style="margin-top:var(--s5);">What you can do here</h2>
+      <ul class="stack" style="padding-left:1.2em;">
+        <li><strong>On This Day</strong> — every date gets its own page of events, birthdays, and observances.</li>
+        <li><strong>Your Birthday</strong> — enter your date of birth and reveal your exact age, the weekday you were born, your Chinese zodiac, your generation, and the countdown to your next birthday.</li>
+        <li><strong>Daily Quiz</strong> — one "which year did it happen?" question a day, with a streak to keep alive.</li>
+        <li><strong>Browse by month</strong> — month hubs gather every day in January through December in one place.</li>
+      </ul>
+
+      <h2 style="margin-top:var(--s5);">How it works</h2>
+      <p>
+        DateLore is a fast, static site — there are no accounts and nothing to sign up for. Your
+        birthday calculations and your quiz streak happen entirely in your own browser; that
+        information is never sent to us.
+      </p>
+
+      <h2 style="margin-top:var(--s5);">Where the data comes from</h2>
+      <p>
+        The historical events, births, deaths, and observances are drawn from
+        <a href="https://en.wikipedia.org/" rel="noopener">Wikipedia</a>, available under the
+        <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="noopener">Creative Commons
+        Attribution-ShareAlike (CC BY-SA)</a> license. DateLore is an independent project and is not
+        affiliated with the Wikimedia Foundation. If you spot something inaccurate, we'd love to hear
+        about it — see the <a href="/contact">contact page</a>.
+      </p>
+
+      <p style="margin-top:var(--s5);">
+        <a class="btn btn--primary" href="/">Explore today in history →</a>
+      </p>
+    </div>
+  </section>
+</BaseLayout>

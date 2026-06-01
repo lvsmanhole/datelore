@@ -452,6 +452,7 @@ p { text-wrap: pretty; }
 .site-footer a { color: var(--ink-soft); text-decoration: none; }
 .site-footer a:hover { color: var(--ink); text-decoration: underline; }
 .footer-months { grid-template-columns: 1fr 1fr; column-gap: var(--s4); }
+.site-footer__legal { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s4); margin-top: var(--s6); font-size: var(--step--1); }
 .attribution {
   margin-top: var(--s6); padding-top: var(--s5); border-top: 1px solid var(--line);
   display: flex; gap: var(--s3); align-items: flex-start;
