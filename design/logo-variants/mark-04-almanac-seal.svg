@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="currentColor" color="#b8842a" role="img" aria-label="DateLore — almanac seal monogram">
+  <circle cx="60" cy="60" r="52" fill="none" stroke="currentColor" stroke-width="6"/>
+  <circle cx="60" cy="60" r="41" fill="none" stroke="currentColor" stroke-width="2.5"/>
+  <path d="M60 12 Q62 22 72 24 Q62 26 60 36 Q58 26 48 24 Q58 22 60 12 Z"/>
+  <path d="M60 84 Q62 94 72 96 Q62 98 60 108 Q58 98 48 96 Q58 94 60 84 Z"/>
+  <circle cx="16.5" cy="60" r="2.6"/>
+  <circle cx="103.5" cy="60" r="2.6"/>
+  <text x="60" y="61" text-anchor="middle" dominant-baseline="central" font-family="Newsreader, Georgia, 'Times New Roman', serif" font-weight="600" font-size="38">DL</text>
+</svg>

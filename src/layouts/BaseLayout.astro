@@ -53,6 +53,9 @@ const ldScripts = jsonld.map((node) => JSON.stringify(node).replace(/</g, '\\u00
     <link rel="canonical" href={canonical} />
     {noindex && <meta name="robots" content="noindex, follow" />}
 
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/og/logo.png" />
+
     <meta property="og:type" content={ogType} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />

@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DateLore — Logo Variants</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700&display=swap">
+<style>
+  :root{
+    --paper:#f6f0e3; --ink:#2a1622; --gold:#d8a23f; --gold-deep:#a86f1d;
+    --aub:#2a1622; --aub2:#1d0f17; --cream:#f6f0e3;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:#efe7d6;color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,system-ui,sans-serif;
+    font-size:16px;line-height:1.5;padding:40px 20px 80px}
+  .wrap{max-width:1120px;margin:0 auto}
+  h1{font-family:"Newsreader",Georgia,serif;font-weight:600;font-size:40px;letter-spacing:-.01em;margin:0 0 6px}
+  .sub{color:#5a4a3a;max-width:70ch;margin:0 0 8px}
+  .legend{font-size:13px;color:#6b5a48;margin:0 0 32px}
+  .legend b{color:var(--ink)}
+
+  .variant{background:#fbf6ea;border:1px solid #e3d6bd;border-radius:18px;
+    padding:22px;margin-bottom:26px;box-shadow:0 1px 2px rgba(74,48,20,.06),0 8px 30px rgba(74,48,20,.05)}
+  .vhead{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:4px}
+  .vnum{font-family:"Newsreader",serif;font-weight:600;font-size:22px;color:var(--gold-deep)}
+  .vname{font-family:"Newsreader",serif;font-weight:600;font-size:22px}
+  .varch{font-size:12px;text-transform:uppercase;letter-spacing:.12em;color:#8a7a66;font-weight:700}
+  .vsig{color:#5a4a3a;font-size:14px;margin:2px 0 18px;max-width:80ch}
+
+  .panels{display:grid;gap:16px;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr)}
+  @media (max-width:780px){.panels{grid-template-columns:1fr}}
+  .col{display:flex;flex-direction:column;gap:14px}
+  .panel{border-radius:14px;overflow:hidden}
+  .caption{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:#8a7a66;font-weight:700;margin:0 0 7px}
+
+  /* OG card — mirrors src/pages/og/[slug].png.ts proportions (1200x630) */
+  .og{aspect-ratio:1200/630;position:relative;border-radius:14px;color:var(--cream);
+    background:linear-gradient(135deg,#2a1622 0%,#1d0f17 100%);
+    padding:5.5% 6.5%;display:flex;flex-direction:column;justify-content:space-between;
+    font-family:"Newsreader",Georgia,serif}
+  .og .frame{position:absolute;inset:3.2%;border:2px solid rgba(216,162,63,.45);border-radius:12px;pointer-events:none}
+  .og .brand{display:flex;align-items:center;gap:.5ch;font-weight:600;font-size:clamp(14px,2.4vw,22px);color:var(--cream)}
+  .og .brand svg{width:1.5em;height:1.5em;color:var(--gold)}
+  .og .body{margin-top:auto}
+  .og .kick{font-size:clamp(9px,1.5vw,14px);letter-spacing:.34em;color:var(--gold);font-weight:600;text-transform:uppercase}
+  .og .big{font-size:clamp(30px,8vw,72px);font-weight:600;line-height:1;margin:.18em 0 0}
+  .og .ogsub{font-size:clamp(11px,2.2vw,21px);color:rgba(246,240,227,.82);margin-top:.5em;line-height:1.3}
+  .og .foot{font-size:clamp(8px,1.4vw,13px);letter-spacing:.28em;color:#e0b667;text-transform:uppercase;margin-top:.6em}
+
+  /* Lockups */
+  .lockrow{display:flex;gap:14px;flex-wrap:wrap}
+  .lockup{flex:1 1 220px;display:flex;align-items:center;gap:12px;padding:18px 20px;border-radius:14px}
+  .lockup svg{width:46px;height:46px;flex:none}
+  .lockup .wm{font-family:"Newsreader",serif;font-weight:600;font-size:30px;letter-spacing:-.02em;line-height:1}
+  .lockup.dark{background:linear-gradient(135deg,#2a1622,#1d0f17)}
+  .lockup.dark svg{color:var(--gold)} .lockup.dark .wm{color:var(--cream)}
+  .lockup.light{background:var(--paper);border:1px solid #e3d6bd}
+  .lockup.light svg{color:var(--gold-deep)} .lockup.light .wm{color:var(--ink)}
+
+  /* Favicon + single colour strip */
+  .apps{display:flex;align-items:center;gap:18px;flex-wrap:wrap;background:#fff;border:1px solid #e3d6bd;border-radius:14px;padding:16px 18px}
+  .chip{display:flex;flex-direction:column;align-items:center;gap:6px}
+  .chip span{font-size:10px;color:#8a7a66;letter-spacing:.08em}
+  .fav{display:grid;place-items:center;background:linear-gradient(135deg,#2a1622,#1d0f17);border-radius:7px}
+  .fav svg{color:var(--gold)}
+  .fav32{width:32px;height:32px} .fav32 svg{width:22px;height:22px}
+  .fav16{width:16px;height:16px;border-radius:4px} .fav16 svg{width:12px;height:12px}
+  .mono{display:grid;place-items:center;width:56px;height:56px;background:#fff;border:1px solid #eee;border-radius:8px}
+  .mono svg{width:40px;height:40px;color:#000}
+  .monoinv{display:grid;place-items:center;width:56px;height:56px;background:#000;border-radius:8px}
+  .monoinv svg{width:40px;height:40px;color:#fff}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>DateLore — logo variants</h1>
+  <p class="sub">Six marks for the share / OG card, all built inside the existing “almanac” system:
+  Newsreader serif, gold <code>#d8a23f</code> on aubergine <code>#2a1622</code>, cream <code>#f6f0e3</code>.
+  Each is a single-colour (currentColor) silhouette, so it survives favicon, embroidery and single-colour print by construction.</p>
+  <p class="legend">Each row shows the mark in <b>the OG card</b> (real 1200×630 proportions) · <b>lockups</b> on dark + parchment · a <b>32px &amp; 16px favicon</b> · and <b>single-colour</b> black/white. Judge the 16px favicon and the single-colour panel hardest — that is where marks die.</p>
+
+  <!-- ===== SPRITE ===== -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="m1" viewBox="0 0 120 120" fill="currentColor">
+      <path d="M60 6 Q66 54 114 60 Q66 66 60 114 Q54 66 6 60 Q54 54 60 6 Z"/>
+      <circle cx="99" cy="21" r="4.5"/><circle cx="23" cy="97" r="3.5"/>
+    </symbol>
+    <symbol id="m2" viewBox="0 0 120 120" fill="currentColor">
+      <rect x="34" y="6" width="9" height="26" rx="4.5"/><rect x="77" y="6" width="9" height="26" rx="4.5"/>
+      <rect x="12" y="20" width="96" height="94" rx="16" fill="none" stroke="currentColor" stroke-width="8"/>
+      <path d="M12 40 V36 a16 16 0 0 1 16 -16 h64 a16 16 0 0 1 16 16 v4 Z"/>
+      <path d="M60 58 Q64 77 82 81 Q64 85 60 104 Q56 85 38 81 Q56 77 60 58 Z"/>
+    </symbol>
+    <symbol id="m3" viewBox="0 0 120 120" fill="currentColor">
+      <g stroke="currentColor" stroke-width="7" stroke-linecap="round">
+        <line x1="60" y1="14" x2="60" y2="30"/><line x1="28" y1="30" x2="38" y2="40"/>
+        <line x1="92" y1="30" x2="82" y2="40"/><line x1="12" y1="60" x2="26" y2="60"/><line x1="108" y1="60" x2="94" y2="60"/>
+      </g>
+      <path d="M32 80 a28 28 0 0 1 56 0 Z"/><rect x="10" y="88" width="100" height="9" rx="4.5"/>
+    </symbol>
+    <symbol id="m4" viewBox="0 0 120 120" fill="currentColor">
+      <circle cx="60" cy="60" r="52" fill="none" stroke="currentColor" stroke-width="6"/>
+      <circle cx="60" cy="60" r="41" fill="none" stroke="currentColor" stroke-width="2.5"/>
+      <path d="M60 12 Q62 22 72 24 Q62 26 60 36 Q58 26 48 24 Q58 22 60 12 Z"/>
+      <path d="M60 84 Q62 94 72 96 Q62 98 60 108 Q58 98 48 96 Q58 94 60 84 Z"/>
+      <circle cx="16.5" cy="60" r="2.6"/><circle cx="103.5" cy="60" r="2.6"/>
+      <text x="60" y="61" text-anchor="middle" dominant-baseline="central" font-family="Newsreader,Georgia,serif" font-weight="600" font-size="38">DL</text>
+    </symbol>
+    <symbol id="m5" viewBox="0 0 120 120" fill="currentColor">
+      <circle cx="60" cy="60" r="46" fill="none" stroke="currentColor" stroke-width="6"/>
+      <circle cx="92.5" cy="27.5" r="9"/>
+      <text x="60" y="63" text-anchor="middle" dominant-baseline="central" font-family="Newsreader,Georgia,serif" font-weight="600" font-size="50">D</text>
+    </symbol>
+    <symbol id="m6" viewBox="0 0 120 120" fill="currentColor">
+      <path fill-rule="evenodd" d="M30 16 H62 a44 44 0 0 1 0 88 H30 Z M44 30 H60 a30 30 0 0 1 0 60 H44 Z"/>
+      <path d="M62 46 Q66 58 78 60 Q66 62 62 74 Q58 62 46 60 Q58 58 62 46 Z"/>
+    </symbol>
+  </svg>
+
+  <!-- variants rendered below -->
+  <div id="grid"></div>
+</div>
+
+<script>
+const V = [
+  {id:'m1', name:'Almanac Star', arch:'Lockup · abstract / celestial', sig:'Formalises the ✦ already in the header into a precise four-point north-star with two spark dots. The safe, on-brand evolution — instantly coherent with what ships today.'},
+  {id:'m2', name:'Day Cell', arch:'Lockup · literal (calendar)', sig:'A calendar day-cell with spiral binding and a star in place of a number — reads “a date” in a heartbeat without locking to one specific day.'},
+  {id:'m3', name:'Dawn Sun', arch:'Symbol · literal (“On This Day”)', sig:'A sun cresting the horizon — the most literal expression of “on this day / a new day.” Warm, almanac-ephemeris energy and a superb favicon.'},
+  {id:'m4', name:'Almanac Seal', arch:'Monogram · DL in a ticked medallion', sig:'A wax-seal / coin medallion with a DL monogram and star ornaments. Heritage, authoritative, foil-stamp friendly — strongest in square contexts.'},
+  {id:'m5', name:'Date Dial', arch:'Symbol · abstract gesture (time)', sig:'A serif D inside a ring, with one dot marking a day in the year’s orbit. Modern, minimal, and the dot is a natural motion entry point.'},
+  {id:'m6', name:'Serif “D” + Star Counter', arch:'Letterform-as-symbol', sig:'A bold Newsreader D whose counter cradles the ✦ star. Maximum wordmark coherence; the most ownable single-letter fallback.'},
+];
+const sub = "Born today: Walt Whitman, Clint Eastwood, Brooke Shields";
+grid.innerHTML = V.map((v,i)=>`
+  <section class="variant">
+    <div class="vhead">
+      <span class="vnum">0${i+1}</span><span class="vname">${v.name}</span>
+      <span class="varch">${v.arch}</span>
+    </div>
+    <p class="vsig">${v.sig}</p>
+    <div class="panels">
+      <div class="col">
+        <div>
+          <p class="caption">In the OG / share card · 1200×630</p>
+          <div class="panel og">
+            <div class="frame"></div>
+            <div class="brand"><svg viewBox="0 0 120 120"><use href="#${v.id}"/></svg> DateLore</div>
+            <div class="body">
+              <div class="kick">On This Day</div>
+              <div class="big">May 31</div>
+              <div class="ogsub">${sub}</div>
+              <div class="foot">datelore.com</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div>
+          <p class="caption">Lockup</p>
+          <div class="lockrow">
+            <div class="lockup dark"><svg viewBox="0 0 120 120"><use href="#${v.id}"/></svg><span class="wm">DateLore</span></div>
+          </div>
+          <div class="lockrow" style="margin-top:14px">
+            <div class="lockup light"><svg viewBox="0 0 120 120"><use href="#${v.id}"/></svg><span class="wm">DateLore</span></div>
+          </div>
+        </div>
+        <div>
+          <p class="caption">Favicon &amp; single-colour</p>
+          <div class="apps">
+            <div class="chip"><div class="fav fav32"><svg viewBox="0 0 120 120"><use href="#${v.id}"/></svg></div><span>32px</span></div>
+            <div class="chip"><div class="fav fav16"><svg viewBox="0 0 120 120"><use href="#${v.id}"/></svg></div><span>16px</span></div>
+            <div class="chip"><div class="mono"><svg viewBox="0 0 120 120"><use href="#${v.id}"/></svg></div><span>1-colour</span></div>
+            <div class="chip"><div class="monoinv"><svg viewBox="0 0 120 120"><use href="#${v.id}"/></svg></div><span>reverse</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>`).join('');
+</script>
+</body>
+</html>

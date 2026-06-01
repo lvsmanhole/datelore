@@ -33,6 +33,20 @@ const C = {
   border: 'rgba(216,162,63,0.45)',
 };
 
+// Brand mark — "Dawn Sun" (a sun cresting the horizon = "On This Day"). Embedded as
+// a base64 <img> data-URI so Satori rasterizes it as a standalone image; gold is
+// baked in because currentColor does not resolve inside an <img>. Master source:
+// design/logo-variants/mark-03-dawn-sun.svg.
+const MARK_SVG =
+  '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">' +
+  '<g stroke="#d8a23f" stroke-width="7" stroke-linecap="round">' +
+  '<line x1="60" y1="14" x2="60" y2="30"/><line x1="28" y1="30" x2="38" y2="40"/>' +
+  '<line x1="92" y1="30" x2="82" y2="40"/><line x1="12" y1="60" x2="26" y2="60"/>' +
+  '<line x1="108" y1="60" x2="94" y2="60"/></g>' +
+  '<path d="M32 80 a28 28 0 0 1 56 0 Z" fill="#d8a23f"/>' +
+  '<rect x="10" y="88" width="100" height="9" rx="4.5" fill="#d8a23f"/></svg>';
+const MARK_URI = `data:image/svg+xml;base64,${Buffer.from(MARK_SVG).toString('base64')}`;
+
 type RenderProps =
   | { kind: 'day'; key: string }
   | { kind: 'month'; month: number }
@@ -55,6 +69,10 @@ export function getStaticPaths() {
 // Minimal hyperscript so we don't need a JSX runtime — Satori reads {type, props}.
 type Node = { type: string; props: { style: Record<string, unknown>; children?: unknown } };
 const box = (style: Record<string, unknown>, children?: unknown): Node => ({ type: 'div', props: { style, children } });
+const img = (src: string, size: number) => ({
+  type: 'img',
+  props: { src, width: size, height: size, style: { width: `${size}px`, height: `${size}px` } },
+});
 
 function cardTree(card: CardText): Node {
   return box(
@@ -82,9 +100,15 @@ function cardTree(card: CardText): Node {
         border: `2px solid ${C.border}`,
         borderRadius: '20px',
       }),
-      box({ display: 'flex', fontSize: '30px', letterSpacing: '7px', color: C.gold, fontWeight: 600 }, card.kicker.toUpperCase()),
+      // brand lockup — Dawn Sun mark + wordmark
+      box({ display: 'flex', alignItems: 'center' }, [
+        img(MARK_URI, 64),
+        box({ display: 'flex', fontSize: '42px', fontWeight: 600, color: C.cream, marginLeft: '18px' }, 'DateLore'),
+      ]),
+      // headline block — eyebrow over title over subtitle
       box({ display: 'flex', flexDirection: 'column' }, [
-        box({ display: 'flex', fontSize: '118px', fontWeight: 600, lineHeight: 1.0 }, card.title),
+        box({ display: 'flex', fontSize: '30px', letterSpacing: '7px', color: C.gold, fontWeight: 600 }, card.kicker.toUpperCase()),
+        box({ display: 'flex', fontSize: '118px', fontWeight: 600, lineHeight: 1.0, marginTop: '14px' }, card.title),
         box({ display: 'flex', fontSize: '42px', color: C.sub, lineHeight: 1.32, marginTop: '24px' }, card.subtitle),
       ]),
       box({ display: 'flex', fontSize: '26px', letterSpacing: '5px', color: C.gold }, card.foot.toUpperCase()),
@@ -106,22 +130,8 @@ function logoTree(): Node {
       fontFamily: 'Newsreader',
     },
     [
-      box(
-        {
-          display: 'flex',
-          width: '136px',
-          height: '136px',
-          borderRadius: '32px',
-          backgroundColor: C.gold,
-          color: C.bg,
-          alignItems: 'center',
-          justifyContent: 'center',
-          fontSize: '92px',
-          fontWeight: 600,
-        },
-        'D',
-      ),
-      box({ display: 'flex', fontSize: '70px', fontWeight: 600, marginTop: '26px' }, 'DateLore'),
+      img(MARK_URI, 210),
+      box({ display: 'flex', fontSize: '70px', fontWeight: 600, marginTop: '18px' }, 'DateLore'),
     ],
   );
 }

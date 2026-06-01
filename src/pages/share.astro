@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import BrandMark from '../components/BrandMark.astro';
 import { breadcrumbSchema } from '../lib/jsonld';
 
 const abs = (p: string) => new URL(p, Astro.site).href;
@@ -43,7 +44,7 @@ const jsonld = [
       <div class="share-gallery">
         <div class="share-item">
           <article class="ogcard" aria-label="Today in History share card for May 31">
-            <p class="ogcard__brand"><span class="mark">✦</span> DateLore</p>
+            <p class="ogcard__brand"><BrandMark class="mark" /> DateLore</p>
             <p class="ogcard__big">Today in History — May 31</p>
             <p class="ogcard__sub">Big Ben started ticking. The Titanic hit the water.</p>
             <p class="ogcard__foot">datelore.com · on this day</p>
@@ -59,7 +60,7 @@ const jsonld = [
 
         <div class="share-item">
           <article class="ogcard" aria-label="Birthday share card for May 31">
-            <p class="ogcard__brand"><span class="mark">✦</span> DateLore</p>
+            <p class="ogcard__brand"><BrandMark class="mark" /> DateLore</p>
             <p class="ogcard__big">Born on May 31?</p>
             <p class="ogcard__sub">Find your zodiac, your birthday twins, and your exact age in days.</p>
             <p class="ogcard__foot">datelore.com · your birthday</p>

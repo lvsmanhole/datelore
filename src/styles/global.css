@@ -213,7 +213,7 @@ p { text-wrap: pretty; }
   text-decoration: none; line-height: 1;
 }
 .wordmark:hover { color: var(--ink); }
-.wordmark__mark { color: var(--gold-deep); font-size: 0.85em; transform: translateY(-1px); }
+.wordmark__mark { color: var(--gold-deep); width: 1.05em; height: 1.05em; flex: none; }
 
 .nav { margin-left: auto; }
 .nav ul { list-style: none; display: flex; gap: var(--s2); padding: 0; align-items: center; }
@@ -425,7 +425,7 @@ p { text-wrap: pretty; }
 }
 .ogcard::after { content: ""; position: absolute; inset: 16px; border: 1.5px solid color-mix(in oklch, var(--gold) 50%, transparent); border-radius: calc(var(--r-xl) - 10px); pointer-events: none; }
 .ogcard__brand { font-family: var(--font-display); font-weight: 600; letter-spacing: .02em; display: inline-flex; gap: .5ch; align-items: center; }
-.ogcard__brand .mark { color: var(--gold); }
+.ogcard__brand .mark { color: var(--gold); width: 1.15em; height: 1.15em; flex: none; }
 .ogcard__big { font-family: var(--font-display); font-size: clamp(2.4rem, 8vw, 3.4rem); line-height: 1.0; margin-top: auto; }
 .ogcard__sub { color: color-mix(in oklch, var(--on-dark) 86%, transparent); margin-top: var(--s3); }
 .ogcard__foot { margin-top: var(--s5); font-family: var(--font-mono); font-size: var(--step--2); letter-spacing: .14em; text-transform: uppercase; color: color-mix(in oklch, var(--gold) 80%, var(--on-dark)); }
