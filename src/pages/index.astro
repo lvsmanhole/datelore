@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { DATES } from '../data/dates.js';
 import { toSlug, monthName } from '../lib/slug';
 import { zodiacForDate, birthstoneForMonth, birthFlowerForMonth } from '../lib/reference';
+import { websiteSchema, organizationSchema } from '../lib/jsonld';
 
 // Server-rendered spotlight (the richest sample date). The client repoints the
 // "today" label + links to the visitor's local date via data-today-* hooks.
@@ -12,10 +13,17 @@ const [mm, dd] = FEATURE.split('-').map(Number);
 const mName = monthName(mm);
 const z = zodiacForDate(mm, dd);
 const featureSlug = `/${toSlug(FEATURE)}`;
+
+// Site-wide identity lives on the homepage; inner pages carry their own
+// Article/CollectionPage/Breadcrumb schema that references these by @id.
+const origin = Astro.site!.origin;
+const jsonld = [websiteSchema(origin), organizationSchema(origin)];
 ---
 <BaseLayout
   title="DateLore — What happened on this day in history"
   description="DateLore is the almanac for every day of the year. See today in history, famous birthdays, a daily quiz, and the story your own birthday tells."
+  ogImage="/og/home.png"
+  jsonld={jsonld}
 >
   <!-- ===== Hero ===== -->
   <section class="band">

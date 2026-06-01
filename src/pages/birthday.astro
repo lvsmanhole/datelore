@@ -1,7 +1,16 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { breadcrumbSchema } from '../lib/jsonld';
+
+const abs = (p: string) => new URL(p, Astro.site).href;
+const jsonld = [
+  breadcrumbSchema([
+    { name: 'DateLore', url: abs('/') },
+    { name: 'Your Birthday', url: abs('/birthday/') },
+  ]),
+];
 ---
-<BaseLayout title="Your Birthday — The day you were born · DateLore" description="Enter your date of birth and reveal a shareable birthday card: your exact age, days and hours lived, the weekday you were born, your zodiac, Chinese zodiac, generation, and the countdown to your next birthday.">
+<BaseLayout title="Your Birthday — The day you were born · DateLore" description="Enter your date of birth and reveal a shareable birthday card: your exact age, days and hours lived, the weekday you were born, your zodiac, Chinese zodiac, generation, and the countdown to your next birthday." ogImage="/og/home.png" jsonld={jsonld}>
   <style>
     .stat--on-card {
       background: color-mix(in oklch, var(--on-dark) 14%, transparent);

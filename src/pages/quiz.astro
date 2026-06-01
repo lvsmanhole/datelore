@@ -1,13 +1,22 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { DATES } from '../data/dates.js';
+import { breadcrumbSchema } from '../lib/jsonld';
 
 // Compact {MM-DD: [{year,title}]} pool for the client's deterministic picker.
 const pool = Object.fromEntries(
   Object.entries(DATES).map(([k, v]) => [k, v.events.map((e) => ({ year: e.year, title: e.title }))]),
 );
+
+const abs = (p: string) => new URL(p, Astro.site).href;
+const jsonld = [
+  breadcrumbSchema([
+    { name: 'DateLore', url: abs('/') },
+    { name: 'Daily Quiz', url: abs('/quiz/') },
+  ]),
+];
 ---
-<BaseLayout title="Daily Quiz · DateLore" description="Today's DateLore puzzle: one question a day. Guess the year a famous moment from history happened, and build your streak.">
+<BaseLayout title="Daily Quiz · DateLore" description="Today's DateLore puzzle: one question a day. Guess the year a famous moment from history happened, and build your streak." ogImage="/og/home.png" jsonld={jsonld}>
   <section class="band band--tight">
     <div class="wrap wrap--narrow stack-lg text-center">
       <div class="stack-sm">

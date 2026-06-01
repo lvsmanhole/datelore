@@ -8,10 +8,19 @@ const {
   description = "What happened on this day in history, the story of the day you were born, and a daily 'which year?' quiz. A warm almanac of every date.",
   ogImage,
   ogType = 'website',
-} = Astro.props;
+  jsonld = [],
+} = Astro.props as {
+  title?: string;
+  description?: string;
+  ogImage?: string;
+  ogType?: string;
+  jsonld?: object[];
+};
 
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
 const ogImageUrl = ogImage ? new URL(ogImage, Astro.site).href : undefined;
+// Escape `<` so a stray "</script>" inside any string can't break out of the tag.
+const ldScripts = jsonld.map((node) => JSON.stringify(node).replace(/</g, '\\u003c'));
 ---
 <!doctype html>
 <html lang="en">
@@ -28,6 +37,10 @@ const ogImageUrl = ogImage ? new URL(ogImage, Astro.site).href : undefined;
     <meta property="og:url" content={canonical} />
     {ogImageUrl && <meta property="og:image" content={ogImageUrl} />}
     <meta name="twitter:card" content={ogImageUrl ? 'summary_large_image' : 'summary'} />
+
+    {ldScripts.map((json) => (
+      <script type="application/ld+json" is:inline set:html={json} />
+    ))}
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

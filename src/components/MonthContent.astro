@@ -1,0 +1,118 @@
+---
+// Month hub body. Rendered by src/pages/[slug].astro for month slugs (e.g.
+// /may). Lists every day in the month — a crawl-depth + internal-linking surface
+// and the landing page for "<month> in history" queries.
+import { DATES } from '../data/dates.js';
+import { toSlug, monthName, sortKeysByDate, MONTHS } from '../lib/slug';
+import { birthstoneForMonth, birthFlowerForMonth } from '../lib/reference';
+
+const { month } = Astro.props as { month: number };
+const mName = monthName(month);
+const mm = String(month).padStart(2, '0');
+const stone = birthstoneForMonth(month);
+const flower = birthFlowerForMonth(month);
+
+const days = sortKeysByDate(Object.keys(DATES).filter((k) => k.startsWith(`${mm}-`))).map((key) => {
+  const dd = Number(key.split('-')[1]);
+  const entry = DATES[key];
+  return { dd, slug: toSlug(key), teaser: entry.births[0]?.name ?? entry.events[0]?.title ?? '' };
+});
+
+const prevSlug = MONTHS[(month + 10) % 12].toLowerCase();
+const nextSlug = MONTHS[month % 12].toLowerCase();
+const abbr = mName.slice(0, 3);
+---
+<!-- ===== Month header ===== -->
+<section class="band band--tight">
+  <div class="wrap">
+    <p class="eyebrow">The Almanac · Month index</p>
+    <h1 style="font-size:var(--step-6);line-height:.95;margin-top:var(--s3);">{mName}</h1>
+    <p class="lede" style="margin-top:var(--s3);">
+      Every day in {mName} — the historical events, the famous birthdays, and the holidays behind each
+      date. {days.length} days to wander.
+    </p>
+    <div class="badges" style="margin-top:var(--s5);">
+      <span class="badge"><span class="badge__glyph">◈</span><span class="badge__text"><span class="badge__label">Birthstone</span><span class="badge__value">{stone}</span></span></span>
+      <span class="badge badge--coral"><span class="badge__glyph">❀</span><span class="badge__text"><span class="badge__label">Birth flower</span><span class="badge__value">{flower}</span></span></span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Leaderboard ad ===== -->
+<div class="wrap" style="margin-block:var(--s4);">
+  <div class="ad-slot ad-slot--leaderboard">
+    <span class="ad-slot__label">Advertisement</span>
+    <span class="ad-slot__note">728 × 90 leaderboard</span>
+  </div>
+</div>
+
+<!-- ===== Day grid ===== -->
+<section class="band band--tight">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>All {days.length} days</h2>
+      <span class="eyebrow eyebrow--soft">Pick a date</span>
+    </div>
+    <ul class="month-grid">
+      {days.map((d) => (
+        <li>
+          <a class="month-day" href={`/${d.slug}`}>
+            <span class="month-day__num">{abbr} {d.dd}</span>
+            {d.teaser && <span class="month-day__teaser">{d.teaser}</span>}
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <nav class="month-nav" aria-label="Other months">
+      <a class="btn btn--ghost btn--sm" href={`/${prevSlug}`}>‹ {monthName((month + 10) % 12 + 1)}</a>
+      <a class="btn btn--ghost btn--sm" href={`/${nextSlug}`}>{monthName(month % 12 + 1)} ›</a>
+    </nav>
+  </div>
+</section>
+
+<style>
+  .month-grid {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: var(--s3);
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+  .month-day {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    height: 100%;
+    padding: var(--s3) var(--s4);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md, 12px);
+    background: var(--paper-2);
+    text-decoration: none;
+    transition: border-color .15s ease, background .15s ease, transform .15s ease;
+  }
+  .month-day:hover {
+    border-color: var(--line-strong);
+    background: var(--gold-wash);
+    transform: translateY(-2px);
+  }
+  .month-day__num {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: var(--step-1);
+    color: var(--ink);
+  }
+  .month-day__teaser {
+    font-size: var(--step--1);
+    color: var(--ink-faint);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .month-nav {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--s3);
+    margin-top: var(--s6);
+  }
+</style>

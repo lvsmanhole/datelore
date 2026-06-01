@@ -451,6 +451,7 @@ p { text-wrap: pretty; }
 .site-footer ul { list-style: none; padding: 0; display: grid; gap: var(--s2); }
 .site-footer a { color: var(--ink-soft); text-decoration: none; }
 .site-footer a:hover { color: var(--ink); text-decoration: underline; }
+.footer-months { grid-template-columns: 1fr 1fr; column-gap: var(--s4); }
 .attribution {
   margin-top: var(--s6); padding-top: var(--s5); border-top: 1px solid var(--line);
   display: flex; gap: var(--s3); align-items: flex-start;
@@ -482,7 +483,7 @@ p { text-wrap: pretty; }
 
 @media (min-width: 720px) {
   .hide-sm { display: revert; }
-  .site-footer__grid { grid-template-columns: 2fr 1fr 1fr; }
+  .site-footer__grid { grid-template-columns: 2fr 1fr 1fr 1.4fr; }
   .timeline__item { grid-template-columns: 6rem 1fr; }
   .timeline__item::before, .timeline__item::after { left: 6rem; }
 }

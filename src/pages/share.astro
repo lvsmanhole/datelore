@@ -1,9 +1,20 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { breadcrumbSchema } from '../lib/jsonld';
+
+const abs = (p: string) => new URL(p, Astro.site).href;
+const jsonld = [
+  breadcrumbSchema([
+    { name: 'DateLore', url: abs('/') },
+    { name: 'Share Card', url: abs('/share/') },
+  ]),
+];
 ---
 <BaseLayout
   title="Share Card — Made to be pinned · DateLore"
   description="The tall 2:3 share cards from DateLore — screenshot-ready almanac and birthday cards built for Pinterest and TikTok."
+  ogImage="/og/home.png"
+  jsonld={jsonld}
 >
   <style>
     .share-gallery { display: grid; gap: var(--s7); grid-template-columns: 1fr; }
