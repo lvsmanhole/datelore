@@ -62,8 +62,12 @@ if (props.kind === 'day') {
   title = `${mName} — Every Day in History · DateLore`;
   description = `Browse every day in ${mName}: what happened on each date, who was born, and the holidays behind the day — a day-by-day almanac of ${mName}.`;
   ogImage = `/og/${MONTHS[month - 1].toLowerCase()}.png`;
+  const days = Object.keys(DATES)
+    .filter((k) => Number(k.slice(0, 2)) === month)
+    .sort((a, b) => Number(a.slice(3)) - Number(b.slice(3)))
+    .map((k) => ({ name: `${mName} ${Number(k.slice(3))}`, url: abs(`/${toSlug(k)}/`) }));
   jsonld = [
-    monthCollectionSchema({ origin, url, monthName: mName, description, image: abs(ogImage) }),
+    monthCollectionSchema({ origin, url, monthName: mName, description, image: abs(ogImage), days }),
     breadcrumbSchema([
       { name: 'DateLore', url: abs('/') },
       { name: mName, url },

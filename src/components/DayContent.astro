@@ -33,6 +33,28 @@ const label = (k: string) => {
 };
 
 const shareTitle = `On This Day — ${mName} ${dd} · DateLore`;
+
+// AEO: a self-contained, extractable answer to "what happened on <date>?", built
+// from the page's own facts (no invented claims). AI engines pull the first direct
+// answer they see, so this leads the body under a question-phrased heading.
+const birthNames = entry.births.slice(0, 3).map((b) => b.name);
+const nameList =
+  birthNames.length <= 1
+    ? birthNames.join('')
+    : `${birthNames.slice(0, -1).join(', ')} and ${birthNames[birthNames.length - 1]}`;
+const eventYears = events.map((e) => e.year);
+const yearSpan = eventYears.length
+  ? Math.min(...eventYears) === Math.max(...eventYears)
+    ? `in ${eventYears[0]}`
+    : `between ${Math.min(...eventYears)} and ${Math.max(...eventYears)}`
+  : '';
+const answer = [
+  `${mName} ${dd} is the ${ordinal(doy)} day of the year.`,
+  events.length
+    ? `It marks ${events.length} notable event${events.length > 1 ? 's' : ''} in history, dated ${yearSpan}.`
+    : '',
+  birthNames.length ? `Famous people born on ${mName} ${dd} include ${nameList}.` : '',
+].filter(Boolean).join(' ');
 ---
 <!-- ===== Date header ===== -->
 <section class="band band--tight">
@@ -53,6 +75,14 @@ const shareTitle = `On This Day — ${mName} ${dd} · DateLore`;
       <span class="badge"><span class="badge__glyph">◈</span><span class="badge__text"><span class="badge__label">Birthstone</span><span class="badge__value">{stone}</span></span></span>
       <span class="badge badge--coral"><span class="badge__glyph">❀</span><span class="badge__text"><span class="badge__label">Birth flower</span><span class="badge__value">{flower}</span></span></span>
     </div>
+  </div>
+</section>
+
+<!-- ===== Direct answer (AEO: question header + extractable summary) ===== -->
+<section class="band band--tight">
+  <div class="wrap">
+    <h2 style="font-size:var(--step-2);">What happened on {mName} {dd}?</h2>
+    <p class="lede" style="margin-top:var(--s2);">{answer}</p>
   </div>
 </section>
 

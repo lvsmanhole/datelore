@@ -91,6 +91,7 @@ export interface MonthCollectionInput {
   monthName: string;
   description: string;
   image: string;
+  days: { name: string; url: string }[]; // every day page in the month, in order
 }
 
 /** A month hub listing every day in that month. */
@@ -104,5 +105,15 @@ export function monthCollectionSchema(m: MonthCollectionInput) {
     image: m.image,
     inLanguage: 'en',
     isPartOf: { '@id': websiteId(m.origin) },
+    // Enumerate the day pages so AI/search can crawl the set as a list.
+    mainEntity: {
+      '@type': 'ItemList',
+      itemListElement: m.days.map((d, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        name: d.name,
+        url: d.url,
+      })),
+    },
   };
 }
