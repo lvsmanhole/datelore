@@ -5,6 +5,7 @@
 import { DATES } from '../data/dates.js';
 import { toSlug, monthName, sortKeysByDate, MONTHS } from '../lib/slug';
 import { birthstoneForMonth, birthFlowerForMonth } from '../lib/reference';
+import { monthBlurb } from '../lib/reference-content';
 
 const { month } = Astro.props as { month: number };
 const mName = monthName(month);
@@ -31,6 +32,7 @@ const abbr = mName.slice(0, 3);
       Every day in {mName} — the historical events, the famous birthdays, and the holidays behind each
       date. {days.length} days to wander.
     </p>
+    <p style="margin-top:var(--s3);max-width:62ch;">{monthBlurb(month)}</p>
     <div class="badges" style="margin-top:var(--s5);">
       <span class="badge"><span class="badge__glyph">◈</span><span class="badge__text"><span class="badge__label">Birthstone</span><span class="badge__value">{stone}</span></span></span>
       <span class="badge badge--coral"><span class="badge__glyph">❀</span><span class="badge__text"><span class="badge__label">Birth flower</span><span class="badge__value">{flower}</span></span></span>

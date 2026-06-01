@@ -5,6 +5,8 @@
 import { DATES } from '../data/dates.js';
 import { toSlug, monthName, dayOfYear, ordinal, sortKeysByDate, MONTHS } from '../lib/slug';
 import { zodiacForDate, birthstoneForMonth, birthFlowerForMonth } from '../lib/reference';
+import { dayInsights } from '../lib/insights';
+import { zodiacBlurb, birthstoneBlurb, flowerBlurb } from '../lib/reference-content';
 
 const { dateKey } = Astro.props as { dateKey: string };
 const key = dateKey;
@@ -19,6 +21,7 @@ const z = zodiacForDate(mm, dd);
 const stone = birthstoneForMonth(mm);
 const flower = birthFlowerForMonth(mm);
 const doy = dayOfYear(mm, dd);
+const insights = dayInsights(entry, mm, dd);
 
 const sorted = sortKeysByDate(Object.keys(DATES));
 const i = sorted.indexOf(key);
@@ -49,6 +52,19 @@ const shareTitle = `On This Day — ${mName} ${dd} · DateLore`;
       <span class="badge"><span class="badge__glyph">{z.glyph}</span><span class="badge__text"><span class="badge__label">Zodiac</span><span class="badge__value">{z.sign}</span></span></span>
       <span class="badge"><span class="badge__glyph">◈</span><span class="badge__text"><span class="badge__label">Birthstone</span><span class="badge__value">{stone}</span></span></span>
       <span class="badge badge--coral"><span class="badge__glyph">❀</span><span class="badge__text"><span class="badge__label">Birth flower</span><span class="badge__value">{flower}</span></span></span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== By the numbers (computed) + reference depth ===== -->
+<section class="band band--tight band--alt">
+  <div class="wrap stack">
+    <div class="section-head"><h2 style="font-size:var(--step-2);">By the numbers</h2></div>
+    <p class="lede" style="margin-top:0;">{insights.sentence}</p>
+    <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--s4);margin-top:var(--s2);">
+      <div class="card card--pad"><p class="eyebrow">Zodiac · {z.sign}</p><p style="margin-top:var(--s2);">{zodiacBlurb(z.sign)}</p></div>
+      <div class="card card--pad"><p class="eyebrow">Birthstone · {stone}</p><p style="margin-top:var(--s2);">{birthstoneBlurb(mm)}</p></div>
+      <div class="card card--pad"><p class="eyebrow eyebrow--coral">Birth flower · {flower}</p><p style="margin-top:var(--s2);">{flowerBlurb(mm)}</p></div>
     </div>
   </div>
 </section>
