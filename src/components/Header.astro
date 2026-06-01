@@ -15,7 +15,8 @@ const isDay = path !== '/' && !['/birthday', '/quiz', '/share'].includes(path);
     </nav>
     <form class="quick-date hide-sm" role="search" aria-label="Jump to a date">
       <label for="qd">Go to date</label>
-      <input type="date" id="qd" data-quick-date>
+      <input type="date" id="qd" data-quick-date aria-describedby="qd-error">
+      <span id="qd-error" class="visually-hidden" role="alert" data-quick-date-error hidden>Pick a valid date.</span>
     </form>
   </div>
 </header>

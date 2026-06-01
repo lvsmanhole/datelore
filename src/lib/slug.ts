@@ -22,6 +22,20 @@ export function slugFromParts(month: number, day: number): string {
   return `${MONTH_SLUGS[month - 1]}-${day}`;
 }
 
+/**
+ * "YYYY-MM-DD" (a date-input value) -> the day-page slug "may-31", or null if it
+ * is not a real calendar month/day. The year is ignored — day pages are
+ * year-agnostic — but Feb 29 is allowed since february-29 has its own page.
+ */
+export function daySlugFromISO(value: string): string | null {
+  const [, m, d] = value.split('-').map((p) => parseInt(p, 10));
+  if (!Number.isInteger(m) || !Number.isInteger(d)) return null;
+  if (m < 1 || m > 12) return null;
+  const max = m === 2 ? 29 : DAYS_IN_MONTH[m - 1]; // allow Feb 29
+  if (d < 1 || d > max) return null;
+  return slugFromParts(m, d);
+}
+
 /** "may-31" -> "05-31" (zero-padded data key), or null if not a real date. */
 export function fromSlug(slug: string): string | null {
   const idx = slug.lastIndexOf('-');

@@ -3,7 +3,7 @@
 // opt-in via data-attributes, so a page without the hooks still renders fine.
 import { parseBirthdate, computeBirthday, type BirthdayStats } from '../lib/birthday';
 import { selectQuizForToday, type QuizEvent } from '../lib/quiz';
-import { toSlug, slugFromParts, monthName } from '../lib/slug';
+import { slugFromParts, monthName, daySlugFromISO } from '../lib/slug';
 
 function fmtNum(n: number): string { return n.toLocaleString('en-US'); }
 
@@ -32,6 +32,9 @@ function wireBirthday(): void {
     const input = form.querySelector<HTMLInputElement>('[data-bday-input]');
     const scope: ParentNode = form.closest('[data-bday-scope]') ?? document;
     if (!input) return;
+    // Bound the native picker to a sane range: nothing in the future, nothing absurdly old.
+    input.max = new Date().toISOString().slice(0, 10);
+    if (!input.min) input.min = '1900-01-01';
     form.addEventListener('submit', (e) => {
       e.preventDefault();
       const parsed = parseBirthdate(input.value);
@@ -144,10 +147,18 @@ function wireShare(): void {
 /* ------------------------------------------------ header quick-date jump */
 function wireQuickDate(): void {
   document.querySelectorAll<HTMLInputElement>('[data-quick-date]').forEach((input) => {
+    const err = input.form?.querySelector<HTMLElement>('[data-quick-date-error]') ?? null;
     const go = (): void => {
-      if (!input.value) return;
-      const [, mm, dd] = input.value.split('-');
-      if (mm && dd) window.location.href = `/${toSlug(`${mm}-${dd}`)}`;
+      if (!input.value) return; // nothing entered yet — not an error
+      const slug = daySlugFromISO(input.value);
+      if (!slug) {
+        input.setAttribute('aria-invalid', 'true');
+        if (err) err.hidden = false;
+        return;
+      }
+      input.setAttribute('aria-invalid', 'false');
+      if (err) err.hidden = true;
+      window.location.href = `/${slug}`;
     };
     // A native date input fires `change` mid-edit — once a single year digit forms
     // a valid date — which would navigate away before you finish typing the full

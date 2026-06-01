@@ -40,12 +40,12 @@ const jsonld = [
         <form class="bday-form" data-bday-form>
           <div class="field">
             <label for="bd-day">Your date of birth</label>
-            <input type="date" id="bd-day" data-bday-input value="1990-05-31" required>
+            <input type="date" id="bd-day" data-bday-input value="1990-05-31" min="1900-01-01" required>
           </div>
           <button class="btn btn--coral" type="submit">Reveal my card →</button>
         </form>
         <p class="muted" data-bday-error hidden style="color:var(--coral-deep);font-weight:600;">
-          Please pick a valid date in the past.
+          Please enter a real date between 1900 and today.
         </p>
       </div>
     </section>

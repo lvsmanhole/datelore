@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import {
-  toSlug, slugFromParts, fromSlug, monthName, dayOfYear, ordinal, sortKeysByDate,
+  toSlug, slugFromParts, fromSlug, monthName, dayOfYear, ordinal, sortKeysByDate, daySlugFromISO,
 } from './slug';
 
 describe('toSlug / fromSlug', () => {
@@ -61,5 +61,22 @@ describe('monthName', () => {
   it('returns the full month name', () => {
     expect(monthName(5)).toBe('May');
     expect(monthName(12)).toBe('December');
+  });
+});
+
+describe('daySlugFromISO (header "go to date")', () => {
+  it('maps a date-input value to a day slug, ignoring the year', () => {
+    expect(daySlugFromISO('2024-05-31')).toBe('may-31');
+    expect(daySlugFromISO('1066-07-04')).toBe('july-4');
+  });
+  it('allows Feb 29', () => {
+    expect(daySlugFromISO('2024-02-29')).toBe('february-29');
+  });
+  it('rejects impossible or malformed values', () => {
+    expect(daySlugFromISO('2024-13-01')).toBeNull(); // no month 13
+    expect(daySlugFromISO('2024-04-31')).toBeNull(); // April has 30 days
+    expect(daySlugFromISO('2024-06-00')).toBeNull(); // day 0
+    expect(daySlugFromISO('')).toBeNull();
+    expect(daySlugFromISO('garbage')).toBeNull();
   });
 });

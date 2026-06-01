@@ -13,6 +13,11 @@ describe('parseBirthdate', () => {
     expect(parseBirthdate('1990-13-01')).toBeNull();
     expect(parseBirthdate('not-a-date')).toBeNull();
   });
+  it('rejects years before 1900', () => {
+    expect(parseBirthdate('1000-01-01')).toBeNull();
+    expect(parseBirthdate('1899-12-31')).toBeNull();
+    expect(parseBirthdate('1900-01-01')).toEqual({ year: 1900, month: 1, day: 1 });
+  });
 });
 
 describe('computeBirthday', () => {

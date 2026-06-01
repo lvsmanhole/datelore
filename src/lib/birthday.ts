@@ -22,6 +22,7 @@ export function parseBirthdate(value: string): BirthdayInput | null {
   if (parts.length !== 3) return null;
   const year = +parts[0], month = +parts[1], day = +parts[2];
   if (![year, month, day].every(Number.isInteger)) return null;
+  if (year < 1900) return null; // reject ancient/absurd years; future dates are caught by computeBirthday
   const d = new Date(year, month - 1, day);
   if (d.getFullYear() !== year || d.getMonth() !== month - 1 || d.getDate() !== day) return null;
   return { year, month, day };
