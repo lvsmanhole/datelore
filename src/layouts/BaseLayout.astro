@@ -35,6 +35,15 @@ const ldScripts = jsonld.map((node) => JSON.stringify(node).replace(/</g, '\\u00
         in favour of AdSense-only, to avoid double-serving the same inventory. */}
     <script is:inline async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9423816375028161" crossorigin="anonymous"></script>
 
+    {/* Google Analytics 4 (gtag.js) */}
+    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-BXK13FN2SE"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-BXK13FN2SE');
+    </script>
+
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
