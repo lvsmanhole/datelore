@@ -145,35 +145,43 @@ function wireShare(): void {
 }
 
 /* ------------------------------------------------ header quick-date jump */
+// Month/day only — day pages are year-agnostic, so the picker is two selects
+// instead of a native date input (which forces a year).
+const QD_DAYS_IN_MONTH = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]; // Feb allows 29
 function wireQuickDate(): void {
-  document.querySelectorAll<HTMLInputElement>('[data-quick-date]').forEach((input) => {
-    const err = input.form?.querySelector<HTMLElement>('[data-quick-date-error]') ?? null;
+  document.querySelectorAll<HTMLSelectElement>('[data-quick-month]').forEach((monthSel) => {
+    const form = monthSel.closest('form');
+    const daySel = form?.querySelector<HTMLSelectElement>('[data-quick-day]') ?? null;
+    const err = form?.querySelector<HTMLElement>('[data-quick-date-error]') ?? null;
+    if (!form || !daySel) return;
+
+    // Keep the day list honest for the chosen month so an invalid combo
+    // (April 31, Feb 30) can never be picked — no error state to recover from.
+    const capDays = (): void => {
+      const m = parseInt(monthSel.value, 10);
+      const max = Number.isInteger(m) ? QD_DAYS_IN_MONTH[m - 1] : 31;
+      daySel.querySelectorAll<HTMLOptionElement>('option').forEach((opt) => {
+        const d = parseInt(opt.value, 10);
+        if (Number.isInteger(d)) opt.hidden = opt.disabled = d > max;
+      });
+      if (parseInt(daySel.value, 10) > max) daySel.value = '';
+    };
+
     const go = (): void => {
-      if (!input.value) return; // nothing entered yet — not an error
-      const slug = daySlugFromISO(input.value);
+      if (!monthSel.value || !daySel.value) return; // not fully chosen yet
+      const slug = daySlugFromISO(`2000-${monthSel.value}-${daySel.value}`);
       if (!slug) {
-        input.setAttribute('aria-invalid', 'true');
         if (err) err.hidden = false;
         return;
       }
-      input.setAttribute('aria-invalid', 'false');
       if (err) err.hidden = true;
       window.location.href = `/${slug}`;
     };
-    // A native date input fires `change` mid-edit — once a single year digit forms
-    // a valid date — which would navigate away before you finish typing the full
-    // yyyy. Debounce so the whole year is entered first; pressing Enter jumps
-    // immediately instead of reloading the page via the form's default submit.
-    let timer = 0;
-    input.addEventListener('change', () => {
-      window.clearTimeout(timer);
-      timer = window.setTimeout(go, 500);
-    });
-    input.form?.addEventListener('submit', (e) => {
-      e.preventDefault();
-      window.clearTimeout(timer);
-      go();
-    });
+
+    monthSel.addEventListener('change', () => { capDays(); go(); });
+    daySel.addEventListener('change', go);
+    form.addEventListener('submit', (e) => { e.preventDefault(); go(); });
+    capDays();
   });
 }
 

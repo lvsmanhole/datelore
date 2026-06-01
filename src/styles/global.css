@@ -230,11 +230,12 @@ p { text-wrap: pretty; }
   padding: var(--s1) var(--s1) var(--s1) var(--s3);
 }
 .quick-date label { font-size: var(--step--2); color: var(--ink-faint); font-weight: 600; }
-.quick-date input {
-  border: 0; background: transparent; min-width: 8.5rem;
-  font-size: var(--step--1);
+.quick-date select {
+  border: 0; background: transparent; color: inherit; cursor: pointer;
+  font-family: inherit; font-size: var(--step--1); font-weight: 600;
+  padding-block: 2px;
 }
-.quick-date input:focus-visible { outline-offset: 4px; }
+.quick-date select:focus-visible { outline-offset: 4px; }
 
 /* Mobile nav: hide text labels behind a tidy row; keep it simple/static-friendly */
 @media (max-width: 640px) {

@@ -20,7 +20,15 @@ const jsonld = [
     .stat--on-card .stat__num { color: var(--on-dark); }
     .stat--on-card .stat__label { color: color-mix(in oklch, var(--on-dark) 76%, transparent); }
     .stat--on-card .stat__sub { color: color-mix(in oklch, var(--on-dark) 85%, transparent); }
-    .stat__num--word { font-size: var(--step-2); }
+    /* Each stat is a query container so long values scale to the card width
+       instead of overrunning it: days reach 5–6 digits, hours 6–9 (a 1900
+       birthdate is ~1,085,760 hours). Capped at the display size for short ones. */
+    .stat { container-type: inline-size; }
+    .stat__num--long { font-size: clamp(1.1rem, 14cqi, var(--step-4)); }
+    /* Word values (weekday, zodiac, generation, …) scale to the card too, so a
+       single long word like "Wednesday" or "Millennial" fits on one line instead
+       of overrunning; multi-word phrases like "Greatest Generation" wrap cleanly. */
+    .stat__num--word { font-size: clamp(0.8rem, 12cqi, var(--step-2)); overflow-wrap: anywhere; }
     .btn--on-card {
       --btn-bg: color-mix(in oklch, var(--on-dark) 92%, transparent);
       --btn-fg: var(--aubergine-2);
@@ -74,13 +82,13 @@ const jsonld = [
             </div>
             <div class="stats">
               <div class="stat stat--hero"><div class="stat__num" data-bday-out="years">—</div><div class="stat__label">Years young</div></div>
-              <div class="stat stat--coral"><div class="stat__num" data-bday-out="days">—</div><div class="stat__label">Days lived</div></div>
-              <div class="stat"><div class="stat__num" data-bday-out="hours">—</div><div class="stat__label">Hours of life</div></div>
+              <div class="stat stat--coral"><div class="stat__num stat__num--long" data-bday-out="days">—</div><div class="stat__label">Days lived</div></div>
+              <div class="stat"><div class="stat__num stat__num--long" data-bday-out="hours">—</div><div class="stat__label">Hours of life</div></div>
               <div class="stat"><div class="stat__num stat__num--word" data-bday-out="weekday">—</div><div class="stat__label">Born on a …</div></div>
               <div class="stat"><div class="stat__num stat__num--word" data-bday-out="zodiac">—</div><div class="stat__label">Zodiac</div></div>
               <div class="stat"><div class="stat__num stat__num--word" data-bday-out="chinese">—</div><div class="stat__label">Chinese zodiac</div></div>
               <div class="stat"><div class="stat__num stat__num--word" data-bday-out="generation">—</div><div class="stat__label">Generation</div></div>
-              <div class="stat stat--coral"><div class="stat__num" data-bday-out="countdown">—</div><div class="stat__label">Days to next birthday</div></div>
+              <div class="stat stat--coral"><div class="stat__num stat__num--long" data-bday-out="countdown">—</div><div class="stat__label">Days to next birthday</div></div>
             </div>
           </div>
         </div>

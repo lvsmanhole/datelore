@@ -1,5 +1,6 @@
 ---
 import BrandMark from './BrandMark.astro';
+import { MONTHS } from '../lib/slug';
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 const isDay = path !== '/' && !['/birthday', '/quiz', '/share'].includes(path);
 ---
@@ -13,9 +14,16 @@ const isDay = path !== '/' && !['/birthday', '/quiz', '/share'].includes(path);
         <li><a href="/quiz" aria-current={path === '/quiz' ? 'page' : undefined}>Daily Quiz</a></li>
       </ul>
     </nav>
-    <form class="quick-date hide-sm" role="search" aria-label="Jump to a date">
-      <label for="qd">Go to date</label>
-      <input type="date" id="qd" data-quick-date aria-describedby="qd-error">
+    <form class="quick-date hide-sm" role="search" aria-label="Jump to a date" data-quick-date-form>
+      <label for="qd-month">Go to date</label>
+      <select id="qd-month" data-quick-month aria-describedby="qd-error">
+        <option value="">Month</option>
+        {MONTHS.map((m, i) => <option value={i + 1}>{m}</option>)}
+      </select>
+      <select id="qd-day" data-quick-day aria-label="Day" aria-describedby="qd-error">
+        <option value="">Day</option>
+        {Array.from({ length: 31 }, (_, i) => <option value={i + 1}>{i + 1}</option>)}
+      </select>
       <span id="qd-error" class="visually-hidden" role="alert" data-quick-date-error hidden>Pick a valid date.</span>
     </form>
   </div>
