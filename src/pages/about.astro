@@ -8,6 +8,13 @@ const jsonld = [
     { name: 'DateLore', url: abs('/') },
     { name: 'About', url: abs('/about/') },
   ]),
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: 'Roman Tailor',
+    description: 'History enthusiast and creator of DateLore, an almanac of every day of the year.',
+    url: abs('/about/'),
+  },
 ];
 ---
 <BaseLayout
@@ -34,11 +41,29 @@ const jsonld = [
         <li><strong>Browse by month</strong> — month hubs gather every day in January through December in one place.</li>
       </ul>
 
+      <h2 style="margin-top:var(--s5);">Who's behind DateLore</h2>
+      <p>
+        Hi — I'm <strong>Roman Tailor</strong>, and DateLore is mine. I've always been a history
+        buff: the kind of person who opens one Wikipedia article and resurfaces an hour later three
+        centuries away. Somewhere along the line I realised the thing I loved most was the
+        <em>date</em> itself — how a single square on the calendar can hold a revolution, a first
+        flight, a hit song, and someone's grandfather's birthday all at once.
+      </p>
+      <p>
+        I built DateLore so anyone could feel that without falling down the rabbit hole. Pick a day —
+        any day — and see what the world got up to on it: who was born, what changed, and what's
+        worth remembering. No account, no clutter, just the story of the date.
+      </p>
+      <p>
+        It's an independent project I run on my own, and I read every correction that comes in. If
+        something looks off, please <a href="/contact">tell me</a> — I'd genuinely like to fix it.
+      </p>
+
       <h2 style="margin-top:var(--s5);">How it works</h2>
       <p>
         DateLore is a fast, static site — there are no accounts and nothing to sign up for. Your
         birthday calculations and your quiz streak happen entirely in your own browser; that
-        information is never sent to us.
+        information is never sent to me.
       </p>
 
       <h2 style="margin-top:var(--s5);">Where the data comes from</h2>
@@ -47,7 +72,7 @@ const jsonld = [
         <a href="https://en.wikipedia.org/" rel="noopener">Wikipedia</a>, available under the
         <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="noopener">Creative Commons
         Attribution-ShareAlike (CC BY-SA)</a> license. DateLore is an independent project and is not
-        affiliated with the Wikimedia Foundation. If you spot something inaccurate, we'd love to hear
+        affiliated with the Wikimedia Foundation. If you spot something inaccurate, I'd love to hear
         about it — see the <a href="/contact">contact page</a>.
       </p>
 
