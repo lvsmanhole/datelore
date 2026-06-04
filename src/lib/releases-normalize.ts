@@ -25,3 +25,35 @@ export function spotifyPopularity(raw: number): number {
 export function isoFromUnix(sec: number): string {
   return new Date(sec * 1000).toISOString().slice(0, 10);
 }
+
+const TMDB_IMG = 'https://image.tmdb.org/t/p/w342';
+
+export interface TmdbMovie { id: number; title: string; release_date: string; popularity: number; poster_path: string | null; }
+export function normalizeTmdbMovie(m: TmdbMovie): Release | null {
+  if (!m.release_date) return null;
+  return {
+    id: `movie:tmdb:${m.id}`,
+    vertical: 'movie',
+    title: m.title,
+    date: m.release_date,
+    popularity: tmdbPopularity(m.popularity),
+    image: m.poster_path ? `${TMDB_IMG}${m.poster_path}` : undefined,
+    meta: { vertical: 'movie' },
+    sourceUrl: `https://www.themoviedb.org/movie/${m.id}`,
+  };
+}
+
+export interface TmdbTv { id: number; name: string; first_air_date: string; popularity: number; poster_path: string | null; }
+export function normalizeTmdbTv(t: TmdbTv): Release | null {
+  if (!t.first_air_date) return null;
+  return {
+    id: `tv:tmdb:${t.id}`,
+    vertical: 'tv',
+    title: t.name,
+    date: t.first_air_date,
+    popularity: tmdbPopularity(t.popularity),
+    image: t.poster_path ? `${TMDB_IMG}${t.poster_path}` : undefined,
+    meta: { vertical: 'tv' },
+    sourceUrl: `https://www.themoviedb.org/tv/${t.id}`,
+  };
+}
