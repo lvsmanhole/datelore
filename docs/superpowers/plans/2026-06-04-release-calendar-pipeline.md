@@ -451,7 +451,7 @@ async function igdbGames(): Promise<Release[]> {
   const out: Release[] = [];
   for (let offset = 0; offset < 5000; offset += 500) {
     const body = `fields id,name,first_release_date,total_rating,hypes,cover.url;`
-      + ` where first_release_date >= ${gte} & first_release_date <= ${lte} & category = 0;`
+      + ` where first_release_date >= ${gte} & first_release_date <= ${lte} & game_type = 0;`
       + ` sort hypes desc; limit 500; offset ${offset};`;
     const res = await fetch('https://api.igdb.com/v4/games', {
       method: 'POST',
