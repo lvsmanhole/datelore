@@ -6,6 +6,8 @@
 // for upcoming, dated events — historical "on this day" entries don't qualify and
 // would be a mismatch) and FAQPage (there is no real Q&A content on these pages).
 
+import type { Vertical } from '../data/releases-types';
+
 export const SITE_NAME = 'DateLore';
 export const SITE_DESC =
   "What happened on this day in history, the story of the day you were born, and a daily 'which year?' quiz — a warm almanac of every date.";
@@ -115,5 +117,44 @@ export function monthCollectionSchema(m: MonthCollectionInput) {
         url: d.url,
       })),
     },
+  };
+}
+
+const RELEASE_SCHEMA_TYPE: Record<Vertical, string> = {
+  movie: 'Movie', tv: 'TVSeries', game: 'VideoGame', music: 'MusicAlbum',
+};
+
+export interface ReleaseListItem {
+  vertical: Vertical;
+  title: string;
+  date: string;   // ISO YYYY-MM-DD
+  url?: string;   // canonical source URL
+  image?: string;
+}
+
+export interface ReleaseListInput {
+  url: string;
+  name: string;
+  items: ReleaseListItem[];
+}
+
+/** A release calendar (hub / month / day) as a schema.org ItemList of dated works. */
+export function releaseListSchema(input: ReleaseListInput) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: input.name,
+    url: input.url,
+    itemListElement: input.items.map((it, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      item: {
+        '@type': RELEASE_SCHEMA_TYPE[it.vertical],
+        name: it.title,
+        datePublished: it.date,
+        ...(it.url ? { sameAs: it.url } : {}),
+        ...(it.image ? { image: it.image } : {}),
+      },
+    })),
   };
 }

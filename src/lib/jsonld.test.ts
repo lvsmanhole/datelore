@@ -5,6 +5,7 @@ import {
   breadcrumbSchema,
   dayArticleSchema,
   monthCollectionSchema,
+  releaseListSchema,
   websiteId,
   orgId,
 } from './jsonld';
@@ -89,5 +90,25 @@ describe('monthCollectionSchema', () => {
     expect(s.isPartOf).toEqual({ '@id': websiteId(ORIGIN) });
     expect(s.mainEntity.itemListElement).toHaveLength(2);
     expect(s.mainEntity.itemListElement[0]).toMatchObject({ position: 1, name: 'May 1', url: `${ORIGIN}/may-1` });
+  });
+});
+
+describe('releaseListSchema', () => {
+  it('is an ItemList mapping verticals to schema.org types', () => {
+    const s = releaseListSchema({
+      url: 'https://datelore.com/releases/2026-06',
+      name: 'Releases in June 2026',
+      items: [
+        { vertical: 'movie', title: 'A Big Film', date: '2026-06-10', url: 'https://example.test/film', image: 'https://example.test/film.jpg' },
+        { vertical: 'game', title: 'A Big Game', date: '2026-06-20', url: 'https://example.test/game' },
+      ],
+    });
+    expect(s['@type']).toBe('ItemList');
+    expect(s.itemListElement).toHaveLength(2);
+    expect(s.itemListElement[0]).toMatchObject({
+      '@type': 'ListItem', position: 1,
+      item: { '@type': 'Movie', name: 'A Big Film', datePublished: '2026-06-10', image: 'https://example.test/film.jpg' },
+    });
+    expect(s.itemListElement[1].item['@type']).toBe('VideoGame');
   });
 });
