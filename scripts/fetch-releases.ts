@@ -162,12 +162,16 @@ async function safe(label: string, fetcher: () => Promise<Release[]>, fallback: 
 async function main() {
   console.log(`Fetching releases [mode=${MODE}] window ${GTE}..${LTE}`);
   const priorBy = groupByVertical(loadExisting());
-  const [movies, tv, games, music] = await Promise.all([
+  const [movies, tv, games] = await Promise.all([
     safe('tmdb:movie', () => tmdbDiscover('movie'), priorBy.movie),
     safe('tmdb:tv', () => tmdbDiscover('tv'), priorBy.tv),
     safe('igdb:game', igdbGames, priorBy.game),
-    safe('spotify:music', spotifyAlbums, priorBy.music),
   ]);
+  // Music is opt-in: only fetch when Spotify credentials are configured. Add the
+  // SPOTIFY_* secrets later and the music vertical activates automatically.
+  const music = (process.env.SPOTIFY_CLIENT_ID && process.env.SPOTIFY_CLIENT_SECRET)
+    ? await safe('spotify:music', spotifyAlbums, priorBy.music)
+    : (console.log('[spotify:music] skipped — Spotify not configured'), priorBy.music);
 
   const notable = filterNotable([...movies, ...tv, ...games, ...music])
     .map((r) => ({ ...r, amazonUrl: buildAmazonLink(r) }));

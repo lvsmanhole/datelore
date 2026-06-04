@@ -23,10 +23,14 @@ export const RELEASE_CONFIG: ReleaseConfig = {
   archiveYears: 5,
   activePastDays: 60,
   activeFutureMonths: 18,
+  // Calibrated 2026-06-04 against live data. Movies/TV use TMDB popularity (raw,
+  // clamped to 100); games use IGDB rating-or-hype (hypes×3). Games release far
+  // more often than wide-release films, so a higher game gate keeps the mix sane
+  // without burying the games vertical. Music is unused until Spotify is configured.
   verticals: {
     movie: { minPopularity: 20, amazonCategory: 'movie' },
     tv:    { minPopularity: 20, amazonCategory: 'tv series' },
-    game:  { minPopularity: 20, amazonCategory: 'video game' },
+    game:  { minPopularity: 60, amazonCategory: 'video game' },
     music: { minPopularity: 20, amazonCategory: 'album' },
   },
 };
