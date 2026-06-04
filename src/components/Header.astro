@@ -2,7 +2,7 @@
 import BrandMark from './BrandMark.astro';
 import { MONTHS } from '../lib/slug';
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
-const isDay = path !== '/' && !['/birthday', '/quiz', '/share'].includes(path);
+const isDay = path !== '/' && !['/birthday', '/quiz', '/share'].includes(path) && !path.startsWith('/releases');
 ---
 <header class="site-header">
   <div class="wrap site-header__inner">
@@ -10,6 +10,7 @@ const isDay = path !== '/' && !['/birthday', '/quiz', '/share'].includes(path);
     <nav class="nav" aria-label="Primary">
       <ul>
         <li><a href="/may-31" data-today-link aria-current={isDay ? 'page' : undefined}>Today</a></li>
+        <li><a href="/releases/" aria-current={path.startsWith('/releases') ? 'page' : undefined}>Releases</a></li>
         <li><a href="/birthday" aria-current={path === '/birthday' ? 'page' : undefined}>Your Birthday</a></li>
         <li><a href="/quiz" aria-current={path === '/quiz' ? 'page' : undefined}>Daily Quiz</a></li>
       </ul>
