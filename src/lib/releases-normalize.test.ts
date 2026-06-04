@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import {
   tmdbPopularity, igdbPopularity, spotifyPopularity, isoFromUnix,
-  normalizeTmdbMovie, normalizeTmdbTv,
+  normalizeTmdbMovie, normalizeTmdbTv, normalizeIgdbGame,
 } from './releases-normalize';
 
 describe('popularity scalers (all clamp to 0..100)', () => {
@@ -48,5 +48,23 @@ describe('normalizeTmdbTv', () => {
     const rel = normalizeTmdbTv({ id: 94997, name: 'House of the Dragon', first_air_date: '2022-08-21', popularity: 88, poster_path: null });
     expect(rel).toMatchObject({ id: 'tv:tmdb:94997', vertical: 'tv', title: 'House of the Dragon', date: '2022-08-21', popularity: 88 });
     expect(rel?.image).toBeUndefined();
+  });
+});
+
+describe('normalizeIgdbGame', () => {
+  it('maps an IGDB game (unix date, cover upgrade) to a Release', () => {
+    const rel = normalizeIgdbGame({
+      id: 1942, name: 'The Witcher 3', first_release_date: 1431993600,
+      total_rating: 94, cover: { url: '//images.igdb.com/igdb/image/upload/t_thumb/co1wyy.jpg' },
+    });
+    expect(rel).toMatchObject({
+      id: 'game:igdb:1942', vertical: 'game', title: 'The Witcher 3',
+      date: '2015-05-19', popularity: 94,
+      image: 'https://images.igdb.com/igdb/image/upload/t_cover_big/co1wyy.jpg',
+      sourceUrl: 'https://www.igdb.com/games/1942',
+    });
+  });
+  it('drops games with no release date', () => {
+    expect(normalizeIgdbGame({ id: 1, name: 'TBA', hypes: 5 })).toBeNull();
   });
 });

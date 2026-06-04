@@ -57,3 +57,24 @@ export function normalizeTmdbTv(t: TmdbTv): Release | null {
     sourceUrl: `https://www.themoviedb.org/tv/${t.id}`,
   };
 }
+
+export interface IgdbGame {
+  id: number; name: string; first_release_date?: number;
+  total_rating?: number; hypes?: number; cover?: { url?: string };
+}
+export function normalizeIgdbGame(g: IgdbGame): Release | null {
+  if (!g.first_release_date) return null;
+  // IGDB cover URLs are protocol-relative (//images.igdb.com/...); prefix https and
+  // request the large art (t_thumb → t_cover_big).
+  const cover = g.cover?.url ? `https:${g.cover.url}`.replace('t_thumb', 't_cover_big') : undefined;
+  return {
+    id: `game:igdb:${g.id}`,
+    vertical: 'game',
+    title: g.name,
+    date: isoFromUnix(g.first_release_date),
+    popularity: igdbPopularity(g),
+    image: cover,
+    meta: { vertical: 'game' },
+    sourceUrl: `https://www.igdb.com/games/${g.id}`,
+  };
+}
