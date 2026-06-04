@@ -79,9 +79,15 @@ describe('monthCollectionSchema', () => {
       monthName: 'May',
       description: 'Every day in May.',
       image: `${ORIGIN}/og/may.png`,
+      days: [
+        { name: 'May 1', url: `${ORIGIN}/may-1` },
+        { name: 'May 2', url: `${ORIGIN}/may-2` },
+      ],
     });
     expect(s['@type']).toBe('CollectionPage');
     expect(s.name).toBe('May — Every Day in History');
     expect(s.isPartOf).toEqual({ '@id': websiteId(ORIGIN) });
+    expect(s.mainEntity.itemListElement).toHaveLength(2);
+    expect(s.mainEntity.itemListElement[0]).toMatchObject({ position: 1, name: 'May 1', url: `${ORIGIN}/may-1` });
   });
 });
