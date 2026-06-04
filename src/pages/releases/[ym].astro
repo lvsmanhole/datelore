@@ -22,8 +22,8 @@ const month = releasesInMonth(all, ym);
 const label = monthLabel(ym);
 const today = new Date().toISOString().slice(0, 10);
 
-const title = `${label} Releases — Movies, TV, Games & Music · DateLore`;
-const description = `Every notable movie, TV, video game, and music release in ${label}, with release dates and where to buy or pre-order.`;
+const title = `${label} Releases — Games, Movies & TV · DateLore`;
+const description = `Every notable video game, movie, and TV release in ${label}, with release dates and where to pre-order or buy.`;
 const ogImage = '/og/releases.png';
 const jsonld = [
   releaseListSchema({

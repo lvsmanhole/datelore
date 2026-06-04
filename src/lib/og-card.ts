@@ -61,7 +61,7 @@ export function releasesCard(): CardText {
   return {
     kicker: 'Release Calendar',
     title: 'What Releases Next',
-    subtitle: 'Movies, TV, games & music — curated release dates, past and future.',
+    subtitle: 'Games, movies & TV — curated release dates, past and future.',
     foot: FOOT,
   };
 }
