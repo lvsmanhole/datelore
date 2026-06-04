@@ -78,3 +78,26 @@ export function normalizeIgdbGame(g: IgdbGame): Release | null {
     sourceUrl: `https://www.igdb.com/games/${g.id}`,
   };
 }
+
+export interface SpotifyAlbum {
+  id: string; name: string; release_date: string;
+  release_date_precision: 'day' | 'month' | 'year';
+  images?: { url: string }[]; artists?: { name: string }[];
+  album_type?: 'album' | 'single' | 'compilation';
+}
+
+// Spotify search returns simplified albums WITHOUT popularity; the orchestrator
+// resolves popularity via a second /albums batch call and passes it in here.
+export function normalizeSpotifyAlbum(a: SpotifyAlbum, popularity = 0): Release | null {
+  if (a.release_date_precision !== 'day') return null; // need an exact calendar date
+  return {
+    id: `music:spotify:${a.id}`,
+    vertical: 'music',
+    title: a.name,
+    date: a.release_date,
+    popularity: spotifyPopularity(popularity),
+    image: a.images?.[0]?.url,
+    meta: { vertical: 'music', artist: a.artists?.[0]?.name, recordType: a.album_type === 'single' ? 'single' : 'album' },
+    sourceUrl: `https://open.spotify.com/album/${a.id}`,
+  };
+}

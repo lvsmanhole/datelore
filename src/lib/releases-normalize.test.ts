@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import {
   tmdbPopularity, igdbPopularity, spotifyPopularity, isoFromUnix,
-  normalizeTmdbMovie, normalizeTmdbTv, normalizeIgdbGame,
+  normalizeTmdbMovie, normalizeTmdbTv, normalizeIgdbGame, normalizeSpotifyAlbum,
 } from './releases-normalize';
 
 describe('popularity scalers (all clamp to 0..100)', () => {
@@ -66,5 +66,26 @@ describe('normalizeIgdbGame', () => {
   });
   it('drops games with no release date', () => {
     expect(normalizeIgdbGame({ id: 1, name: 'TBA', hypes: 5 })).toBeNull();
+  });
+});
+
+describe('normalizeSpotifyAlbum', () => {
+  it('maps a day-precision album to a Release, using the passed popularity', () => {
+    const rel = normalizeSpotifyAlbum({
+      id: '4abc', name: 'Midnights', release_date: '2022-10-21', release_date_precision: 'day',
+      images: [{ url: 'https://i.scdn.co/x.jpg' }], artists: [{ name: 'Taylor Swift' }], album_type: 'album',
+    }, 95);
+    expect(rel).toMatchObject({
+      id: 'music:spotify:4abc', vertical: 'music', title: 'Midnights', date: '2022-10-21', popularity: 95,
+      meta: { vertical: 'music', artist: 'Taylor Swift', recordType: 'album' },
+      sourceUrl: 'https://open.spotify.com/album/4abc',
+    });
+  });
+  it('drops albums without a day-precision date (a calendar day is required)', () => {
+    expect(normalizeSpotifyAlbum({ id: '1', name: 'X', release_date: '2022', release_date_precision: 'year' })).toBeNull();
+  });
+  it('classifies singles', () => {
+    const rel = normalizeSpotifyAlbum({ id: '2', name: 'S', release_date: '2024-01-01', release_date_precision: 'day', album_type: 'single' }, 10);
+    expect(rel?.meta).toMatchObject({ recordType: 'single' });
   });
 });
