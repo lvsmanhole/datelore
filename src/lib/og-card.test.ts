@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { teaser, dayCard, monthCard, siteCard } from './og-card';
+import { teaser, dayCard, monthCard, siteCard, releasesCard } from './og-card';
 import type { DayEntry } from '../data/types';
 
 const entry = (births: { name: string }[]): DayEntry => ({
@@ -43,5 +43,14 @@ describe('monthCard / siteCard', () => {
   });
   it('site card is the default almanac framing', () => {
     expect(siteCard().title).toBe('On This Day');
+  });
+});
+
+describe('releasesCard', () => {
+  it('returns a release-calendar card on the brand foot', () => {
+    const c = releasesCard();
+    expect(c.kicker).toBe('Release Calendar');
+    expect(c.title).toBe('What Releases Next');
+    expect(c.foot).toBe('datelore.com');
   });
 });

@@ -11,7 +11,7 @@ import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { DATES } from '../../data/dates.js';
 import { MONTHS, toSlug, monthName } from '../../lib/slug';
-import { dayCard, monthCard, siteCard, type CardText } from '../../lib/og-card';
+import { dayCard, monthCard, siteCard, releasesCard, type CardText } from '../../lib/og-card';
 
 // Fonts are read from the source tree at build time (cwd === project root during
 // `astro build`), which is robust to Vite bundling moving import.meta.url around.
@@ -51,6 +51,7 @@ type RenderProps =
   | { kind: 'day'; key: string }
   | { kind: 'month'; month: number }
   | { kind: 'site' }
+  | { kind: 'releases' }
   | { kind: 'logo' };
 
 export function getStaticPaths() {
@@ -62,6 +63,7 @@ export function getStaticPaths() {
     paths.push({ params: { slug: MONTHS[m - 1].toLowerCase() }, props: { kind: 'month', month: m } });
   }
   paths.push({ params: { slug: 'home' }, props: { kind: 'site' } });
+  paths.push({ params: { slug: 'releases' }, props: { kind: 'releases' } });
   paths.push({ params: { slug: 'logo' }, props: { kind: 'logo' } });
   return paths;
 }
@@ -150,6 +152,7 @@ function cardFor(props: RenderProps): CardText {
     return dayCard(monthName(mm), dd, DATES[props.key]);
   }
   if (props.kind === 'month') return monthCard(monthName(props.month));
+  if (props.kind === 'releases') return releasesCard();
   return siteCard();
 }
 
