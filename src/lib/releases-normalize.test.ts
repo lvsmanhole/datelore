@@ -34,7 +34,7 @@ describe('normalizeTmdbMovie', () => {
     expect(rel).toMatchObject({
       id: 'movie:tmdb:693134', vertical: 'movie', title: 'Dune: Part Two',
       date: '2024-03-01', popularity: 100,
-      image: 'https://image.tmdb.org/t/p/w342/abc.jpg',
+      image: 'https://image.tmdb.org/t/p/w185/abc.jpg',
       sourceUrl: 'https://www.themoviedb.org/movie/693134',
     });
   });

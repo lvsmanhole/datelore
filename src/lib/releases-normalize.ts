@@ -26,7 +26,8 @@ export function isoFromUnix(sec: number): string {
   return new Date(sec * 1000).toISOString().slice(0, 10);
 }
 
-const TMDB_IMG = 'https://image.tmdb.org/t/p/w342';
+// w185 matches the ~96px card display at 2x without over-fetching (Lighthouse: 'properly size images').
+const TMDB_IMG = 'https://image.tmdb.org/t/p/w185';
 
 export interface TmdbMovie { id: number; title: string; release_date: string; popularity: number; poster_path: string | null; }
 export function normalizeTmdbMovie(m: TmdbMovie): Release | null {

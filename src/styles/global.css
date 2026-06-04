@@ -434,7 +434,7 @@ p { text-wrap: pretty; }
 /* 15. ------------------------------------------------------------------ FOOTER */
 .site-footer { background: var(--paper-3); border-top: 1px solid var(--line); padding-block: var(--s7) var(--s6); margin-top: var(--s8); }
 .site-footer__grid { display: grid; gap: var(--s6); grid-template-columns: 1fr; }
-.site-footer h3 { font-family: var(--font-mono); font-size: var(--step--2); text-transform: uppercase; letter-spacing: .14em; color: var(--ink-faint); font-weight: 700; margin-bottom: var(--s3); }
+.site-footer h3 { font-family: var(--font-mono); font-size: var(--step--2); text-transform: uppercase; letter-spacing: .14em; color: var(--ink-soft); font-weight: 700; margin-bottom: var(--s3); }
 .site-footer ul { list-style: none; padding: 0; display: grid; gap: var(--s2); }
 .site-footer a { color: var(--ink-soft); text-decoration: none; }
 .site-footer a:hover { color: var(--ink); text-decoration: underline; }
