@@ -1,0 +1,26 @@
+---
+// One release: cover, vertical tag, title, date, and an Amazon CTA. The CTA reads
+// "Pre-order" for future-dated releases and "Buy on Amazon" once released. Affiliate
+// links are rel="sponsored nofollow noopener" and open in a new tab.
+import type { Release } from '../data/releases-types';
+import { formatReleaseDate, verticalLabel } from '../lib/releases-view';
+
+const { release, today } = Astro.props as { release: Release; today: string };
+const isUpcoming = release.date >= today;
+const cta = isUpcoming ? 'Pre-order' : 'Buy on Amazon';
+---
+<article class="card card--pad" style="display:flex;gap:var(--s4);align-items:flex-start;">
+  {release.image && (
+    <img src={release.image} alt="" loading="lazy" width="96" height="144"
+         style="border-radius:8px;flex:0 0 auto;width:96px;height:144px;object-fit:cover;" />
+  )}
+  <div style="flex:1;min-width:0;">
+    <span class="eyebrow eyebrow--soft">{verticalLabel(release.vertical)}</span>
+    <h3 style="font-size:var(--step-1);margin-top:var(--s1);">{release.title}</h3>
+    <p class="muted" style="margin-top:var(--s1);">{formatReleaseDate(release.date)}</p>
+    {release.amazonUrl && (
+      <a class="btn btn--ghost btn--sm" href={release.amazonUrl} target="_blank"
+         rel="sponsored nofollow noopener" style="margin-top:var(--s3);">{cta} →</a>
+    )}
+  </div>
+</article>
