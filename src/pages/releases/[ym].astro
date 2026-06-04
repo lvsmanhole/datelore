@@ -1,0 +1,59 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ReleaseCard from '../../components/ReleaseCard.astro';
+import ReleaseDisclosure from '../../components/ReleaseDisclosure.astro';
+import { loadReleases, releasesInMonth } from '../../lib/releases';
+import { configuredMonthWindow, monthLabel } from '../../lib/releases-view';
+import { breadcrumbSchema, releaseListSchema } from '../../lib/jsonld';
+
+export function getStaticPaths() {
+  // Build-time "today" so the month window tracks the nightly rebuild.
+  const today = new Date().toISOString().slice(0, 10);
+  return configuredMonthWindow(today).map((ym) => ({ params: { ym }, props: { ym } }));
+}
+
+const { ym } = Astro.props as { ym: string };
+const site = Astro.site!;
+const abs = (p: string) => new URL(p, site).href;
+const url = new URL(Astro.url.pathname, site).href;
+
+const all = loadReleases();
+const month = releasesInMonth(all, ym);
+const label = monthLabel(ym);
+const today = new Date().toISOString().slice(0, 10);
+
+const title = `${label} Releases — Movies, TV, Games & Music · DateLore`;
+const description = `Every notable movie, TV, video game, and music release in ${label}, with release dates and where to buy or pre-order.`;
+const ogImage = '/og/releases.png';
+const jsonld = [
+  releaseListSchema({
+    url,
+    name: `Releases in ${label}`,
+    items: month.map((r) => ({ vertical: r.vertical, title: r.title, date: r.date, url: r.sourceUrl, image: r.image })),
+  }),
+  breadcrumbSchema([
+    { name: 'DateLore', url: abs('/') },
+    { name: 'Releases', url: abs('/releases/') },
+    { name: label, url },
+  ]),
+];
+---
+<BaseLayout title={title} description={description} ogImage={ogImage} ogType="article" jsonld={jsonld}>
+  <section class="band band--tight">
+    <div class="wrap">
+      <p class="eyebrow"><a href="/releases/" style="color:var(--gold-deep);">Release Calendar</a></p>
+      <h1 style="font-size:var(--step-5);">{label} releases</h1>
+      <p class="lede" style="margin-top:var(--s3);">{month.length} notable {month.length === 1 ? 'release' : 'releases'} in {label}.</p>
+    </div>
+  </section>
+
+  <section class="band band--tight band--alt">
+    <div class="wrap">
+      {month.length
+        ? <div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--s4);">{month.map((r) => <ReleaseCard release={r} today={today} />)}</div>
+        : <p class="muted">No notable releases logged for {label} yet — check back after the next refresh.</p>}
+    </div>
+  </section>
+
+  <ReleaseDisclosure />
+</BaseLayout>
