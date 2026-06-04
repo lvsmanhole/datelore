@@ -18,9 +18,11 @@ const cta = isUpcoming ? 'Pre-order' : 'Buy on Amazon';
     <span class="eyebrow eyebrow--soft">{verticalLabel(release.vertical)}</span>
     <h3 style="font-size:var(--step-1);margin-top:var(--s1);">{release.title}</h3>
     <p class="muted" style="margin-top:var(--s1);">{formatReleaseDate(release.date)}</p>
-    {release.amazonUrl && (
-      <a class="btn btn--ghost btn--sm" href={release.amazonUrl} target="_blank"
-         rel="sponsored nofollow noopener" style="margin-top:var(--s3);">{cta} →</a>
-    )}
+    {release.amazonUrl
+      ? <a class="btn btn--ghost btn--sm" href={release.amazonUrl} target="_blank"
+           rel="sponsored nofollow noopener" style="margin-top:var(--s3);">{cta} →</a>
+      : <span class="btn btn--ghost btn--sm" aria-disabled="true"
+              title="No Amazon pre-order link available yet"
+              style="margin-top:var(--s3);opacity:.45;cursor:not-allowed;pointer-events:none;">{isUpcoming ? 'Pre-order unavailable' : 'Not on Amazon'}</span>}
   </div>
 </article>
