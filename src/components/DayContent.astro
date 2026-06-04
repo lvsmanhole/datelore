@@ -7,6 +7,8 @@ import { toSlug, monthName, dayOfYear, ordinal, sortKeysByDate, MONTHS } from '.
 import { zodiacForDate, birthstoneForMonth, birthFlowerForMonth } from '../lib/reference';
 import { dayInsights } from '../lib/insights';
 import { zodiacBlurb, birthstoneBlurb, flowerBlurb } from '../lib/reference-content';
+import { loadReleases, releasesForDayPage } from '../lib/releases';
+import { verticalLabel } from '../lib/releases-view';
 
 const { dateKey } = Astro.props as { dateKey: string };
 const key = dateKey;
@@ -22,6 +24,7 @@ const stone = birthstoneForMonth(mm);
 const flower = birthFlowerForMonth(mm);
 const doy = dayOfYear(mm, dd);
 const insights = dayInsights(entry, mm, dd);
+const releaseGroups = releasesForDayPage(loadReleases(), mm, dd);
 
 const sorted = sortKeysByDate(Object.keys(DATES));
 const i = sorted.indexOf(key);
@@ -98,6 +101,36 @@ const answer = [
     </div>
   </div>
 </section>
+
+<!-- ===== Released on this day (entertainment releases) ===== -->
+{releaseGroups.length > 0 && (
+  <section class="band band--tight">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 style="font-size:var(--step-2);">Released on {mName} {dd}</h2>
+        <span class="eyebrow eyebrow--soft">Movies, games, albums &amp; shows</span>
+      </div>
+      <div class="stack" style="margin-top:var(--s4);">
+        {releaseGroups.map((g) => (
+          <div>
+            <h3 style="font-size:var(--step-1);color:var(--gold-deep);">{g.year}</h3>
+            <ul class="mini-list" style="margin-top:var(--s2);">
+              {g.releases.map((r) => (
+                <li>
+                  <span class="mini-list__year">{verticalLabel(r.vertical)}</span>
+                  <span class="mini-list__text">{r.amazonUrl
+                    ? <a href={r.amazonUrl} target="_blank" rel="sponsored nofollow noopener">{r.title}</a>
+                    : r.title}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+      <p class="muted" style="margin-top:var(--s4);font-size:var(--step--1);">Release data from TMDB, IGDB, MusicBrainz &amp; Spotify. As an Amazon Associate, DateLore earns from qualifying purchases.</p>
+    </div>
+  </section>
+)}
 
 <!-- ===== Main two-column ===== -->
 <section class="band band--tight">
