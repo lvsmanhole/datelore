@@ -11,7 +11,7 @@ const cta = isUpcoming ? 'Pre-order' : 'Buy on Amazon';
 ---
 <article class="card card--pad" style="display:flex;gap:var(--s4);align-items:flex-start;">
   {release.image && (
-    <img src={release.image} alt="" loading="lazy" width="96" height="144"
+    <img src={release.image} alt={`${release.title} cover`} loading="lazy" width="96" height="144"
          style="border-radius:8px;flex:0 0 auto;width:96px;height:144px;object-fit:cover;" />
   )}
   <div style="flex:1;min-width:0;">

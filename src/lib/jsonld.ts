@@ -120,12 +120,8 @@ export function monthCollectionSchema(m: MonthCollectionInput) {
   };
 }
 
-const RELEASE_SCHEMA_TYPE: Record<Vertical, string> = {
-  movie: 'Movie', tv: 'TVSeries', game: 'VideoGame', music: 'MusicAlbum',
-};
-
 export interface ReleaseListItem {
-  vertical: Vertical;
+  vertical: Vertical; // retained so callers pass release data through unchanged; not emitted below
   title: string;
   date: string;   // ISO YYYY-MM-DD
   url?: string;   // canonical source URL
@@ -138,23 +134,26 @@ export interface ReleaseListInput {
   items: ReleaseListItem[];
 }
 
-/** A release calendar (hub / month / day) as a schema.org ItemList of dated works. */
+/**
+ * A release calendar (hub / month) as a plain schema.org ItemList of named entries.
+ * Deliberately NOT typed as Movie/VideoGame/TVSeries items: nesting those rich-result
+ * types makes Google read the list as a Movie/Game *carousel* and require per-item
+ * `image` + `url`, which most third-party releases lack — that produced the "Google
+ * rich results validation error". A generic ListItem (name + optional url) is valid
+ * and error-free while still describing the list for search + AI engines.
+ */
 export function releaseListSchema(input: ReleaseListInput) {
   return {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
     name: input.name,
     url: input.url,
+    numberOfItems: input.items.length,
     itemListElement: input.items.map((it, i) => ({
       '@type': 'ListItem',
       position: i + 1,
-      item: {
-        '@type': RELEASE_SCHEMA_TYPE[it.vertical],
-        name: it.title,
-        datePublished: it.date,
-        ...(it.url ? { sameAs: it.url } : {}),
-        ...(it.image ? { image: it.image } : {}),
-      },
+      name: it.title,
+      ...(it.url ? { url: it.url } : {}),
     })),
   };
 }

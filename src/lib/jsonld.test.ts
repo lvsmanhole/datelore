@@ -94,21 +94,25 @@ describe('monthCollectionSchema', () => {
 });
 
 describe('releaseListSchema', () => {
-  it('is an ItemList mapping verticals to schema.org types', () => {
+  it('is a plain ItemList of named ListItems (no rich-result media types)', () => {
     const s = releaseListSchema({
       url: 'https://datelore.com/releases/2026-06',
       name: 'Releases in June 2026',
       items: [
         { vertical: 'movie', title: 'A Big Film', date: '2026-06-10', url: 'https://example.test/film', image: 'https://example.test/film.jpg' },
-        { vertical: 'game', title: 'A Big Game', date: '2026-06-20', url: 'https://example.test/game' },
+        { vertical: 'game', title: 'A Big Game', date: '2026-06-20' },
       ],
     });
     expect(s['@type']).toBe('ItemList');
+    expect(s.numberOfItems).toBe(2);
     expect(s.itemListElement).toHaveLength(2);
     expect(s.itemListElement[0]).toMatchObject({
-      '@type': 'ListItem', position: 1,
-      item: { '@type': 'Movie', name: 'A Big Film', datePublished: '2026-06-10', image: 'https://example.test/film.jpg' },
+      '@type': 'ListItem', position: 1, name: 'A Big Film', url: 'https://example.test/film',
     });
-    expect(s.itemListElement[1].item['@type']).toBe('VideoGame');
+    // No nested Movie/VideoGame item — that triggered Google's carousel validation.
+    expect(s.itemListElement[0]).not.toHaveProperty('item');
+    // url is omitted when the release has no source URL.
+    expect(s.itemListElement[1]).toMatchObject({ position: 2, name: 'A Big Game' });
+    expect(s.itemListElement[1]).not.toHaveProperty('url');
   });
 });
