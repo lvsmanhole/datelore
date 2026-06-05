@@ -50,7 +50,7 @@ const abbr = mName.slice(0, 3);
     <ul class="month-grid">
       {days.map((d) => (
         <li>
-          <a class="month-day" href={`/${d.slug}`}>
+          <a class="month-day" href={`/${d.slug}/`}>
             <span class="month-day__num">{abbr} {d.dd}</span>
             {d.teaser && <span class="month-day__teaser">{d.teaser}</span>}
           </a>
@@ -59,8 +59,8 @@ const abbr = mName.slice(0, 3);
     </ul>
 
     <nav class="month-nav" aria-label="Other months">
-      <a class="btn btn--ghost btn--sm" href={`/${prevSlug}`}>‹ {monthName((month + 10) % 12 + 1)}</a>
-      <a class="btn btn--ghost btn--sm" href={`/${nextSlug}`}>{monthName(month % 12 + 1)} ›</a>
+      <a class="btn btn--ghost btn--sm" href={`/${prevSlug}/`}>‹ {monthName((month + 10) % 12 + 1)}</a>
+      <a class="btn btn--ghost btn--sm" href={`/${nextSlug}/`}>{monthName(month % 12 + 1)} ›</a>
     </nav>
   </div>
 </section>

@@ -22,6 +22,14 @@ const month = releasesInMonth(all, ym);
 const label = monthLabel(ym);
 const today = new Date().toISOString().slice(0, 10);
 
+// Adjacent months within the built window, so each month page links to its
+// neighbours (deeper internal linking + obvious UX) without ever pointing at an
+// unbuilt /releases/YYYY-MM/.
+const monthsWindow = configuredMonthWindow(today);
+const idx = monthsWindow.indexOf(ym);
+const prevYm = idx > 0 ? monthsWindow[idx - 1] : null;
+const nextYm = idx >= 0 && idx < monthsWindow.length - 1 ? monthsWindow[idx + 1] : null;
+
 const title = `${label} Releases — Games, Movies & TV · DateLore`;
 const description = `Every notable video game, movie, and TV release in ${label}, with release dates and where to pre-order or buy.`;
 const ogImage = '/og/releases.png';
@@ -52,6 +60,20 @@ const jsonld = [
       {month.length
         ? <div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--s4);">{month.map((r) => <ReleaseCard release={r} today={today} />)}</div>
         : <p class="muted">No notable releases logged for {label} yet — check back after the next refresh.</p>}
+    </div>
+  </section>
+
+  <section class="band band--tight">
+    <div class="wrap">
+      <nav aria-label="Other release months" style="display:flex;justify-content:space-between;gap:var(--s3);flex-wrap:wrap;align-items:center;">
+        {prevYm
+          ? <a class="btn btn--ghost btn--sm" href={`/releases/${prevYm}/`}>‹ {monthLabel(prevYm)}</a>
+          : <span></span>}
+        <a class="btn btn--ghost btn--sm" href="/releases/">All months</a>
+        {nextYm
+          ? <a class="btn btn--ghost btn--sm" href={`/releases/${nextYm}/`}>{monthLabel(nextYm)} ›</a>
+          : <span></span>}
+      </nav>
     </div>
   </section>
 

@@ -12,7 +12,7 @@ const entry = DATES[FEATURE];
 const [mm, dd] = FEATURE.split('-').map(Number);
 const mName = monthName(mm);
 const z = zodiacForDate(mm, dd);
-const featureSlug = `/${toSlug(FEATURE)}`;
+const featureSlug = `/${toSlug(FEATURE)}/`;
 
 // Site-wide identity lives on the homepage; inner pages carry their own
 // Article/CollectionPage/Breadcrumb schema that references these by @id.
@@ -72,7 +72,7 @@ const jsonld = [websiteSchema(origin), organizationSchema(origin)];
             <div class="stat stat--coral"><div class="stat__num" data-bday-out="years">—</div><div class="stat__label">Years old</div></div>
             <div class="stat"><div class="stat__num" data-bday-out="weekday" style="font-size:var(--step-2);">—</div><div class="stat__label">Day you were born</div></div>
           </div>
-          <p style="margin-top:var(--s4);"><a href="/birthday">See the full birthday card →</a></p>
+          <p style="margin-top:var(--s4);"><a href="/birthday/">See the full birthday card →</a></p>
         </div>
       </div>
     </div>
@@ -127,7 +127,7 @@ const jsonld = [websiteSchema(origin), organizationSchema(origin)];
         <p class="eyebrow">Daily quiz</p>
         <h2 style="font-size:var(--step-2);">Which year did it happen?</h2>
         <p class="muted" style="margin-top:0;">One question a day, drawn from the date. Answer right and keep your streak alive.</p>
-        <a class="btn btn--primary" href="/quiz">Play today's quiz →</a>
+        <a class="btn btn--primary" href="/quiz/">Play today's quiz →</a>
       </div>
     </div>
   </section>

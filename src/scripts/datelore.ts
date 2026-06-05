@@ -175,7 +175,7 @@ function wireQuickDate(): void {
         return;
       }
       if (err) err.hidden = true;
-      window.location.href = `/${slug}`;
+      window.location.href = `/${slug}/`;
     };
 
     monthSel.addEventListener('change', () => { capDays(); go(); });
@@ -196,7 +196,7 @@ function wireToday(): void {
     el.textContent = label;
   });
   document.querySelectorAll<HTMLAnchorElement>('[data-today-link]').forEach((a) => {
-    a.href = `/${slug}`;
+    a.href = `/${slug}/`;
   });
 }
 

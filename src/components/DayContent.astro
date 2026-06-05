@@ -217,7 +217,7 @@ const answer = [
             <div class="stat" style="background:color-mix(in oklch,var(--on-dark) 14%,transparent);border-color:transparent;color:var(--on-dark);"><div class="stat__num" data-bday-out="days" style="color:var(--on-dark);">—</div><div class="stat__label" style="color:color-mix(in oklch,var(--on-dark) 75%,transparent);">Days lived</div></div>
             <div class="stat" style="background:color-mix(in oklch,var(--on-dark) 14%,transparent);border-color:transparent;color:var(--on-dark);"><div class="stat__num" data-bday-out="weekday" style="color:var(--on-dark);font-size:var(--step-2);">—</div><div class="stat__label" style="color:color-mix(in oklch,var(--on-dark) 75%,transparent);">Day you were born</div></div>
           </div>
-          <p style="margin-top:var(--s4);"><a href="/birthday" style="color:var(--gold);">See the full birthday card →</a></p>
+          <p style="margin-top:var(--s4);"><a href="/birthday/" style="color:var(--gold);">See the full birthday card →</a></p>
         </div>
       </div>
     </div>
@@ -228,16 +228,16 @@ const answer = [
         <p class="eyebrow">Daily quiz</p>
         <h2 style="font-size:var(--step-2);margin-top:var(--s2);">Which year did it happen?</h2>
         <p class="muted" style="margin-top:var(--s2);">One question a day. Keep your streak alive.</p>
-        <a class="btn btn--primary" href="/quiz" style="margin-top:var(--s4);width:100%;">Play today's quiz</a>
+        <a class="btn btn--primary" href="/quiz/" style="margin-top:var(--s4);width:100%;">Play today's quiz</a>
       </div>
 
       <nav class="card card--pad" aria-label="Nearby dates">
         <p class="eyebrow eyebrow--soft">Wander the calendar</p>
         <ul style="list-style:none;padding:0;margin-top:var(--s3);display:grid;gap:var(--s2);">
-          <li><a href={`/${toSlug(prevKey)}`} style="text-decoration:none;color:var(--ink-soft);">‹ {label(prevKey)}</a></li>
-          <li><a href={`/${toSlug(nextKey)}`} style="text-decoration:none;color:var(--ink-soft);">{label(nextKey)} ›</a></li>
-          <li><a href={`/${monthSlug}`} style="text-decoration:none;color:var(--gold-deep);">All of {mName} →</a></li>
-          <li><a href="/birthday" style="text-decoration:none;color:var(--ink-soft);">Your birthday →</a></li>
+          <li><a href={`/${toSlug(prevKey)}/`} style="text-decoration:none;color:var(--ink-soft);">‹ {label(prevKey)}</a></li>
+          <li><a href={`/${toSlug(nextKey)}/`} style="text-decoration:none;color:var(--ink-soft);">{label(nextKey)} ›</a></li>
+          <li><a href={`/${monthSlug}/`} style="text-decoration:none;color:var(--gold-deep);">All of {mName} →</a></li>
+          <li><a href="/birthday/" style="text-decoration:none;color:var(--ink-soft);">Your birthday →</a></li>
         </ul>
       </nav>
     </aside>

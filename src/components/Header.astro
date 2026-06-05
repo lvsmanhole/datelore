@@ -9,10 +9,10 @@ const isDay = path !== '/' && !['/birthday', '/quiz', '/share'].includes(path) &
     <a class="wordmark" href="/"><BrandMark class="wordmark__mark" /> DateLore</a>
     <nav class="nav" aria-label="Primary">
       <ul>
-        <li><a href="/may-31" data-today-link aria-current={isDay ? 'page' : undefined}>Today</a></li>
+        <li><a href="/may-31/" data-today-link aria-current={isDay ? 'page' : undefined}>Today</a></li>
         <li><a href="/releases/" aria-current={path.startsWith('/releases') ? 'page' : undefined}>Releases</a></li>
-        <li><a href="/birthday" aria-current={path === '/birthday' ? 'page' : undefined}>Your Birthday</a></li>
-        <li><a href="/quiz" aria-current={path === '/quiz' ? 'page' : undefined}>Daily Quiz</a></li>
+        <li><a href="/birthday/" aria-current={path === '/birthday' ? 'page' : undefined}>Your Birthday</a></li>
+        <li><a href="/quiz/" aria-current={path === '/quiz' ? 'page' : undefined}>Daily Quiz</a></li>
       </ul>
     </nav>
     <form class="quick-date hide-sm" role="search" aria-label="Jump to a date" data-quick-date-form>

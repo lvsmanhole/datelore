@@ -3,7 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import ReleaseCard from '../../components/ReleaseCard.astro';
 import ReleaseDisclosure from '../../components/ReleaseDisclosure.astro';
 import { loadReleases, releasesOn, upcoming } from '../../lib/releases';
-import { formatReleaseDate, monthLabel, groupByVertical } from '../../lib/releases-view';
+import { formatReleaseDate, monthLabel, groupByVertical, configuredMonthWindow } from '../../lib/releases-view';
 import { breadcrumbSchema, releaseListSchema } from '../../lib/jsonld';
 
 const site = Astro.site!;
@@ -13,6 +13,9 @@ const url = new URL(Astro.url.pathname, site).href;
 const all = loadReleases();
 const today = new Date().toISOString().slice(0, 10); // build-time "today"; nightly rebuild keeps it fresh
 const ym = today.slice(0, 7);
+// Every month page in the built window, newest-first — gives each /releases/YYYY-MM/
+// page an internal link so none are orphaned (Ahrefs "Orphan page" finding).
+const months = configuredMonthWindow(today).slice().reverse();
 const todays = releasesOn(all, today);
 const soon = upcoming(all, today, 500); // soonest-first; grouped into per-vertical sections below
 const byVert = groupByVertical(soon);
@@ -75,10 +78,37 @@ const jsonld = [
   ))}
 
   <section class="band band--tight band--alt">
-    <div class="wrap">
-      <p class="muted">Browse a full month: <a href={`/releases/${ym}/`} style="color:var(--gold-deep);">All of {monthLabel(ym)} →</a></p>
+    <div class="wrap stack">
+      <div class="section-head"><h2 style="font-size:var(--step-2);">Browse by month</h2></div>
+      <ul class="release-months">
+        {months.map((m) => (
+          <li><a href={`/releases/${m}/`} aria-current={m === ym ? 'page' : undefined}>{monthLabel(m)}</a></li>
+        ))}
+      </ul>
     </div>
   </section>
 
   <ReleaseDisclosure />
+
+  <style>
+    .release-months {
+      list-style: none;
+      padding: 0;
+      display: grid;
+      gap: var(--s2);
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    }
+    .release-months a {
+      display: block;
+      padding: var(--s2) var(--s3);
+      border: 1px solid var(--line);
+      border-radius: var(--r-md, 12px);
+      background: var(--paper-2);
+      text-decoration: none;
+      color: var(--ink);
+      transition: border-color .15s ease, background .15s ease;
+    }
+    .release-months a:hover { border-color: var(--line-strong); background: var(--gold-wash); }
+    .release-months a[aria-current='page'] { border-color: var(--gold-deep); color: var(--gold-deep); font-weight: 600; }
+  </style>
 </BaseLayout>
