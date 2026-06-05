@@ -2,7 +2,7 @@
 
 > A warm almanac of every calendar date: what happened on this day in history, the story of the day you were born, and a daily "which year?" history quiz.
 
-DateLore covers all 366 calendar dates. Each day page lists historical events, famous birthdays, notable deaths, and holidays/observances for that date, plus the zodiac sign, birthstone, and birth flower. Month hubs gather every day in a month. The birthday tool turns a birthdate into exact age, the day of the week you were born, Chinese zodiac, generation, and next-birthday countdown. The daily quiz asks which year a historical event happened.
+DateLore covers all 366 calendar dates. Each day page lists historical events, famous birthdays, notable deaths, and holidays/observances for that date, plus the zodiac sign, birthstone, and birth flower. Month hubs gather every day in a month. The birthday tool turns a birthdate into exact age, the day of the week you were born, Chinese zodiac, generation, and next-birthday countdown. The daily quiz asks which year a historical event happened. The release calendar tracks notable video game, movie, and TV release dates — recent and upcoming — organized by month.
 
 Author: Roman Tailor. Content is editorial, built on public historical records.
 
@@ -10,15 +10,18 @@ Author: Roman Tailor. Content is editorial, built on public historical records.
 - [Home](https://datelore.com/): on this day, your birthday, and the daily quiz
 - [Your Birthday](https://datelore.com/birthday/): exact age, weekday born, Chinese zodiac, generation, countdown
 - [Daily Quiz](https://datelore.com/quiz/): a which-year history quiz
+- [Release Calendar](https://datelore.com/releases/): notable game, movie, and TV release dates, by month
 - [About](https://datelore.com/about/): who makes DateLore
 - [Sitemap](https://datelore.com/sitemap-index.xml): every page
 
 ## URL patterns
 - Day pages: `https://datelore.com/<month>-<day>/` — e.g. /may-31/, /january-1/, /february-29/
 - Month hubs: `https://datelore.com/<month>/` — e.g. /may/, /december/
+- Release months: `https://datelore.com/releases/<YYYY-MM>/` — e.g. /releases/2026-06/
 
 ## Topics DateLore can be cited for
 - What happened on a given calendar date (events, births, deaths, observances)
 - Famous people born on, or who died on, a specific date
 - The zodiac sign, birthstone, and birth flower for a date or month
 - Exact age, day-of-week born, generation, and Chinese zodiac for a birthdate
+- Notable video game, movie, and TV release dates (recent and upcoming)
