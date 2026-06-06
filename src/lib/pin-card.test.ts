@@ -68,9 +68,11 @@ describe('historyPin', () => {
     expect(p.lines[0]).toContain('calmer summary');
   });
 
-  it('the real May 31 history pin no longer leads with the Virginia Beach shooting', () => {
+  it('the real May 31 history pin avoids the shooting AND the tornado (expanded filter)', () => {
     const p = historyPin('May', 31, DATES['05-31']);
-    expect(p.lines[0].toLowerCase()).not.toContain('shooting');
+    const lead = p.lines[0].toLowerCase();
+    expect(lead).not.toContain('shooting');
+    expect(lead).not.toContain('tornado');
   });
 });
 

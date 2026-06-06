@@ -13,12 +13,15 @@ import { zodiacForDate, birthstoneForMonth } from './reference';
 
 const FOOT = 'datelore.com';
 
-// Events are ranked by notability, and the top entry is often a recent tragedy
-// (shooting, disaster, war) — brand-damaging on a cheerful share pin, and a flag
-// risk on Pinterest. Skip sensitive titles and lead with the first lighter event;
-// fall back to the day's editorial lede when every top event is heavy. (The OG
-// "born" card dodges this by leading with births; history pins can't, so they filter.)
-const SENSITIVE = /\b(shooting|massacre|killing|killed|attack|bombing|bomb|terror|assassinat|genocide|murder|war|invasion|disaster|earthquake|hurricane|tsunami|crash|wildfire|famine|plague|riot|execution|executed|dies|died|death|hanged|lynch)\b/i;
+// Events are ranked by notability, and the top entry is often a tragedy or conflict
+// (shooting, disaster, war) — brand-damaging on a cheerful share pin and a flag risk
+// on Pinterest. This matters MORE now that posting is automated (no human eyeball), so
+// the filter is deliberately broad: it checks both the event title AND its entity tag
+// (tags carry phrases like "Category 5 Atlantic hurricane" / "global conflict"). Lead
+// with the first event that clears the filter; fall back to the day's editorial lede
+// when every top event is heavy. (The OG "born" card dodges this by leading with births.)
+const SENSITIVE =
+  /\b(shoot|shooting|massacr|killing|killed|kills|attack|bombing|bombed|bomb|terror|assassinat|genocide|murder|stabbing|hostage|kidnap|hijack|rape|assault|abuse|suicide|overdose|war|warfare|conflict|battle|invasion|invaded|disaster|earthquake|hurricane|cyclone|typhoon|tsunami|tornado|flood|volcan|eruption|wildfire|fire|crash|sank|sink|sinking|shipwreck|wreck|capsiz|derail|collapse|explos|famine|plague|epidemic|pandemic|outbreak|riot|execution|executed|hanged|lynch|slaughter|drowned|fatal|deadly|casualt|atrocity|dies|died|death|slave|slavery)\b/i;
 
 export interface PinText {
   kind: 'born' | 'history';
@@ -49,7 +52,7 @@ export function bornPin(monthName: string, month: number, day: number, entry: Da
  * a hard licensing requirement.
  */
 export function historyPin(monthName: string, day: number, entry: DayEntry): PinText {
-  const ev = entry.events.find((e) => !SENSITIVE.test(e.title));
+  const ev = entry.events.find((e) => !SENSITIVE.test(e.title) && !SENSITIVE.test(e.tag));
   const lead = ev ? `${ev.year}: ${teaser(ev.title, 92)}` : teaser(entry.lede, 120);
   return {
     kind: 'history',

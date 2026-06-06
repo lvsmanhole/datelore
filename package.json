@@ -10,7 +10,9 @@
     "preview": "astro preview",
     "astro": "astro",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "pins:auth": "tsx scripts/pinterest-auth.ts",
+    "pins:post": "tsx scripts/post-to-pinterest.ts"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",

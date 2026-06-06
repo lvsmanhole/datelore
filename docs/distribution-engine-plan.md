@@ -113,7 +113,9 @@ datelore.com, which doesn't block bots.
   2. Post/schedule pins from `/pins.json`, **dripped** (20–50 high-interest dates first —
      holidays, today, this week's birthdays — *not* all 366 at once).
   3. Read the monthly KPI (referral sessions, indexed-page count, keywords leaving zero).
-- **Later optimization:** Pinterest API for scheduled publishing, to cut owner weekly time.
+- **Automated (built):** the Pinterest-API auto-poster drips a batch nightly via GitHub
+  Actions — see [`pinterest-autoposter.md`](pinterest-autoposter.md). Once set up, the
+  weekly posting chore disappears; manual posting from `/pins.json` still works too.
 
 ## 6. Rollout & measurement
 
@@ -134,7 +136,7 @@ weekly hours.
 
 - **Short-form video (TikTok/Shorts)** — far higher owner-time/skill cost; revisit if Pinterest
   proves the thesis and the owner wants it.
-- **Pinterest API automation** — a time-saver, not a prerequisite; add after manual posting works.
+- ~~**Pinterest API automation**~~ — **now built** (phase 2): nightly auto-poster, see `pinterest-autoposter.md`.
 - **Approach C (product differentiation / uniqueness moat)** — the deeper long-game; revisit as
   Phase 4 *after* the engine shows traction.
 - **Self-hosting IGDB/TMDB covers** — only needed for *release-specific* pins, which aren't in
