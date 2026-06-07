@@ -153,9 +153,24 @@ async function main() {
     }
   }
 
-  saveLedger(ledger.posted);
-  console.log(`\nPosted ${ok}/${batch.length}. Ledger now ${ledger.posted.length} of ${manifest.length}.`);
-  if (ok === 0) { console.error('Every pin failed — exiting non-zero so CI surfaces it.'); process.exit(1); }
+  if (ok > 0) {
+    saveLedger(ledger.posted);
+    console.log(`\nPosted ${ok}/${batch.length}. Ledger now ${ledger.posted.length} of ${manifest.length}.`);
+    return;
+  }
+
+  // Nothing posted — don't write the ledger (avoids spurious empty commits).
+  console.log(`\nPosted 0/${batch.length}. Nothing recorded.`);
+  const allTrial = failures.length > 0 && failures.every((f) => /Trial access|"code"\s*:\s*29/i.test(f));
+  if (allTrial) {
+    console.warn(
+      'All pins blocked by Pinterest Trial access (code 29). The app needs STANDARD access ' +
+        '(see docs/pinterest-autoposter.md). Exiting 0 — the cron will auto-resume once approved.',
+    );
+    return;
+  }
+  console.error('Every pin failed (non-trial errors) — exiting non-zero so CI surfaces it.');
+  process.exit(1);
 }
 
 main().catch((e) => { console.error(e); process.exit(1); });

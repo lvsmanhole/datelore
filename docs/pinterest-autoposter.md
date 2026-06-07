@@ -32,9 +32,12 @@ Pinterest API — so the channel runs itself once it's set up. Manual posting fr
 
 1. **Create a Pinterest app** at <https://developers.pinterest.com/apps/>. Note the
    **App ID** and **App secret**. Add a redirect URI (use `https://datelore.com/`).
-   - New apps start in **trial access**, which permits posting to *your own* account —
-     all this needs. If pin creation later returns a permissions error, request
-     "standard access" in the app settings.
+   - **Important — access tier:** new apps start in **trial access**, which **cannot
+     create pins in production** (you'll get `403 code 29: "Apps with Trial access may
+     not create Pins in production… use API Sandbox instead"`). You must apply for
+     **standard access** in the developer portal and wait for approval before the poster
+     can post real pins. Auth and board creation work under trial — only pin creation is
+     gated. (Manual posting via the Pinterest website is unaffected and works immediately.)
 2. **Get a refresh token** (one time, locally):
    ```bash
    export PINTEREST_APP_ID=...        # PowerShell: $env:PINTEREST_APP_ID="..."
