@@ -30,6 +30,10 @@ const ldScripts = jsonld.map((node) => JSON.stringify(node).replace(/</g, '\\u00
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+    {/* Pinterest domain verification — claims datelore.com for analytics, attribution,
+        and Rich Pins (same token as the DNS pinterest-site-verification record). */}
+    <meta name="p:domain_verify" content="1e3247530ace3d9d9e4d2ff950282e85" />
+
     {/* Google Consent Mode v2 — these defaults MUST run before any Google tag
         (AdSense + GA). Denied in the EEA/UK/Switzerland until the visitor consents
         via the Funding Choices CMP (enable Consent Mode + publish a GDPR message in
