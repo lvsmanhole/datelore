@@ -11,7 +11,14 @@ const cta = isUpcoming ? 'Pre-order' : 'Buy on Amazon';
 ---
 <article class="card card--pad" style="display:flex;gap:var(--s4);align-items:flex-start;">
   {release.image && (
+    // Covers are hotlinked from TMDB/IGDB. `referrerpolicy="no-referrer"` is the
+    // hotlink-friendly request (these CDNs serve no-referrer fetches; a foreign
+    // Referer is what hotlink protection blocks), and `onerror` hides the element
+    // if a cover ever 404s/blocks so the card degrades to clean text instead of a
+    // broken-image glyph. (IGDB serves Googlebot + browsers 200; it only 403s the
+    // AhrefsBot user-agent, which is why a site audit flags these as "broken".)
     <img src={release.image} alt={`${release.title} cover`} loading="lazy" width="96" height="144"
+         referrerpolicy="no-referrer" onerror="this.style.display='none'"
          style="border-radius:8px;flex:0 0 auto;width:96px;height:144px;object-fit:cover;" />
   )}
   <div style="flex:1;min-width:0;">
