@@ -17,7 +17,8 @@ daily-pin system**. Today the engine generates exactly two pins per day (`Born o
 3. A seeded **"Released on this day"** pin per qualifying day, built from the existing release
    calendar (`src/lib/releases.ts`) — **evergreen anniversaries** of movies/TV/games/music.
 4. A **continuous daily-posting** path: any file dropped into a day folder renders to a branded
-   image, enters `/pins.json`, and is picked up by the existing nightly drip poster.
+   image and enters `/pins.json` — ready to post **by hand** now (the built auto-poster stays
+   dormant), and automatically later when it's re-enabled.
 
 The model is **additive and low-risk**: the working born/history generator is untouched; the
 folder is purely a growth surface. Everything stays 100% static and build-time, consistent with
@@ -41,6 +42,11 @@ the current architecture.
    on-brand and auto-postable.
 5. **Keyword research runs as Phase 0 inside the build** (not as a separate pre-spec task). The
    spec parameterizes the keyword-driven values; Phase 0 fills them in as the first step.
+6. **Posting mode: manual for now.** The owner posts pins by hand; the built auto-poster
+   (`post-to-pinterest.ts` + cron) stays **dormant** until later (it's gated on Pinterest
+   Standard access anyway). Design implication: the manifest must be **copy-paste-ready for a
+   human** (exact title, description + hashtags, destination link, board, image URL), and a
+   lightweight human-readable posting view is worth more right now than poster automation.
 
 ## Context: what already exists (do not rebuild)
 
@@ -203,7 +209,13 @@ src/data/pins/
 - **Descriptions** follow the Phase-0 formula: keyword-rich lead + day context + hashtags
   (Pinterest descriptions are search-indexed). `hashtags` from the spec are appended.
 - **Boards:** add **"Released On This Day"** (final name from Phase 0) to `ALLOWED_BOARDS`. The
-  owner creates it on Pinterest (the auto-poster already auto-creates boards by name).
+  owner creates it on Pinterest by hand (the dormant auto-poster auto-creates boards by name when
+  re-enabled).
+- **Manual-posting first (current mode):** every manifest entry already carries copy-paste-ready
+  `title`, `description` (with hashtags), UTM'd `link`, `board`, and `image`. Add an **optional
+  lightweight `/pins/` HTML index** (rendered straight off the manifest) that groups pins by
+  priority/date so the owner can work a daily posting queue and copy fields from one place. The
+  auto-poster stays built but dormant and reads the same manifest when re-enabled.
 
 ## Phase 0 — Pinterest keyword research (first implementation step)
 
@@ -269,9 +281,10 @@ templates, description formula, hashtag sets, priority dates.
 `pinDestination`; append folder pins in `buildPinManifest()`; description/hashtag composition;
 optional release art accent; guard tests over the full manifest.
 
-**Phase 4 — Posting workflow + docs.** Owner creates the new board; confirm the drip poster
-picks up folder pins from `/pins.json`; document the "add a pin" authoring loop and the
-priority-date seeding order in `docs/pinterest-autoposter.md` (or a new `docs/daily-pins.md`).
+**Phase 4 — Manual posting workflow + docs.** Owner creates the new board. Ship the
+copy-paste-ready manifest (+ optional `/pins/` posting-queue page); the auto-poster stays built
+but **dormant** until Pinterest Standard access *and* a decision to automate. Document the
+"add a pin" authoring loop and the priority-date posting order in a new `docs/daily-pins.md`.
 
 ## Out of scope (deferred, with rationale)
 
@@ -348,7 +361,10 @@ pre-rendered smoke).
 
 **Posting changes:** extend `scripts/post-to-pinterest.ts` with the 4-step video media flow;
 reuse the static PNG as the cover. Subject to the same Pinterest **Standard-access** gate as
-image pins.
+image pins. **But manual posting sidesteps all of it** — uploading an MP4 by hand in Pinterest's
+UI needs no media API, no cover-image URL, and no Standard access, so video pins are actually
+**available immediately for manual posting**. The API flow above only matters if/when posting is
+automated.
 
 **Scope:** a Phase-2 **multiplier on a curated subset** (priority/marquee dates + proven
 "winner" pins), built only after the static 366-day baseline earns traffic. Not a replacement
