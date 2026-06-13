@@ -295,3 +295,66 @@ priority-date seeding order in `docs/pinterest-autoposter.md` (or a new `docs/da
    Google keyword volume is a weak cross-reference for a Pinterest-search goal, not the signal.
 5. **Re-seed clobber** — guarded by the `generated` flag + `--force`/`--force-all` split so a
    re-seed never silently overwrites curated edits.
+
+## Phase 2 (exploration) — Animated / Video Pins
+
+> Status: explored + prototyped 2026-06-13 (side quest). **Not in the Phase-1 build.**
+> Reference spike kept at `tools/pin-video-spike/` (scratch, not production).
+
+**Why:** a static pin doesn't stop a fast scroll; thematic motion does, and Pinterest
+currently boosts video distribution. Goal: a "stop in ~5s" hook — background motion tied to
+the day (fireworks on July 4, snow at Christmas) behind the brand text.
+
+**Pinterest video-pin specs (verified from Pinterest docs, 2026-06-13):**
+- Format `.MP4`/`.MOV`/`.M4V`, **H.264 or H.265**, ≤ 2 GB.
+- Length min 4s, max 15 min; **6–15s recommended**.
+- Aspect ratio vertical/square; **2:3 = 1000×1500 matches existing pins exactly**.
+- Title ≤ 100 chars (first ~40 show in feed); description is search-indexed.
+
+**API flow (v5) — 4 steps vs. an image pin's single POST:**
+1. `POST /v5/media {"media_type":"video"}` → `media_id` + S3 `upload_url` + `upload_parameters`.
+2. `POST` the file to the S3 `upload_url` as `multipart/form-data` (all `upload_parameters` +
+   `file`), **no auth** → 204.
+3. Poll `GET /v5/media/{media_id}` until `status: succeeded`.
+4. `POST /v5/pins` with `media_source: {source_type:"video_id", media_id, cover_image_url}`.
+   **A cover image URL is required** (400 without one) — the existing static
+   `/pin/<day>-<id>.png` is the free cover.
+- Pinterest now exposes `ai_disclosures` fields; our own programmatic art needs none, but any
+  AI-generated clips (below) would.
+
+**Sourcing strategy — Hybrid (chosen):**
+
+| | Marquee days (~30–50) | Everyday days (~340) |
+|---|---|---|
+| Background | bespoke procedural (fireworks, snow, hearts) or AI/stock for photoreal | shared **ambient loop library** (render once, reuse) |
+| Per-day cost | one custom render | text overlay + ffmpeg composite (seconds) |
+| Render weight | heavy (~3 min, heavy blur) | light (~1 min/loop, one-time) |
+| Posting | new video media flow; static PNG = the required cover | same |
+
+**Validated approach (own-art — keeps the same "no third-party images" rule as static pins):**
+- Render frames with the **existing Satori/resvg pipeline** (brand-identical), stitch with
+  **ffmpeg** (`-c:v libx264 -pix_fmt yuv420p`). No Remotion/React toolchain needed.
+- Marquee: procedural effects — fireworks prototype has launch shells, comet trails,
+  ring/willow/chrysanthemum shapes, detonation flashes, drifting smoke, twinkling stars.
+- Everyday: a **shared library of seamless ambient loops** (gold-bokeh prototype; pure
+  sinusoidal motion over the clip period = a perfect loop). Render each loop **once**, reuse
+  across many days; only the per-day **text overlay** changes (cheap composite). This is what
+  makes the everyday half scale — the expensive moving background is reused, not regenerated.
+
+**Render-cost reality:** video **cannot** render in the Astro build (hundreds of clips ×
+~180 frames would blow the ~7-min build). It is a separate **offline/cron batch**. Heavy
+procedural ≈ 3 min/clip; light ambient ≈ 1 min/loop (one-time). Tunable (smaller blur σ,
+pre-rendered smoke).
+
+**Posting changes:** extend `scripts/post-to-pinterest.ts` with the 4-step video media flow;
+reuse the static PNG as the cover. Subject to the same Pinterest **Standard-access** gate as
+image pins.
+
+**Scope:** a Phase-2 **multiplier on a curated subset** (priority/marquee dates + proven
+"winner" pins), built only after the static 366-day baseline earns traffic. Not a replacement
+for static pins.
+
+**Open decisions for when this is built:**
+- AI-disclosure handling for any AI/stock clips.
+- Ambient library size + variants (bokeh done; starfield / ink-in-water / light-leak TBD).
+- Whether marquee photoreal uses AI (Kling/Sora/fal) or licensed stock.
