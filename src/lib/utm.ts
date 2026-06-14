@@ -30,14 +30,12 @@ export function withUtm(path: string, p: UtmParams): string {
   return url.toString();
 }
 
-export type PinKind = 'born' | 'history';
-
-/** UTM'd destination for a pin: the day page, tagged by pin kind. */
-export function pinDestination(daySlug: string, kind: PinKind): string {
+/** UTM'd destination for a pin: the day page, tagged by an arbitrary campaign. */
+export function pinDestination(daySlug: string, campaign: string): string {
   return withUtm(`/${daySlug}/`, {
     source: 'pinterest',
     medium: 'social',
-    campaign: kind === 'born' ? 'born-on' : 'on-this-day',
+    campaign,
     content: daySlug,
   });
 }

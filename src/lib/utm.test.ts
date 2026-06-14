@@ -19,10 +19,10 @@ describe('withUtm', () => {
 });
 
 describe('pinDestination', () => {
-  it('tags the day page by pin kind', () => {
-    expect(pinDestination('may-31', 'born')).toBe(
+  it('tags the day page with an arbitrary campaign', () => {
+    expect(pinDestination('may-31', 'born-on')).toBe(
       `${SITE_ORIGIN}/may-31/?utm_source=pinterest&utm_medium=social&utm_campaign=born-on&utm_content=may-31`,
     );
-    expect(pinDestination('may-31', 'history')).toContain('utm_campaign=on-this-day');
+    expect(pinDestination('may-31', 'released-on-this-day')).toContain('utm_campaign=released-on-this-day');
   });
 });
