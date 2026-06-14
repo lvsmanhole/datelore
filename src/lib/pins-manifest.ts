@@ -5,9 +5,10 @@ import { DATES } from '../data/dates.js';
 import { toSlug, monthName } from './slug';
 import { SITE_ORIGIN, pinDestination } from './utm';
 import { bornPin, historyPin } from './pin-card';
+import { loadPinSpecs, pinSpecToManifest } from './pin-content';
 
 export interface PinManifestEntry {
-  kind: 'born' | 'history';
+  kind: string;
   day: string; // day slug, e.g. 'may-31'
   image: string; // absolute, same-origin pin PNG
   link: string; // UTM'd day-page destination
@@ -45,6 +46,9 @@ export function buildPinManifest(): PinManifestEntry[] {
       description: `${hist.lines.join(' · ')} — events, famous births, and observances for ${monthName(mm)} ${dd} on DateLore.`,
       board: 'On This Day in History',
     });
+  }
+  for (const { mm, dd, spec } of loadPinSpecs()) {
+    pins.push(pinSpecToManifest(spec, mm, dd));
   }
   return pins;
 }
