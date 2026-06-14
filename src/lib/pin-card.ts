@@ -20,8 +20,11 @@ const FOOT = 'datelore.com';
 // (tags carry phrases like "Category 5 Atlantic hurricane" / "global conflict"). Lead
 // with the first event that clears the filter; fall back to the day's editorial lede
 // when every top event is heavy. (The OG "born" card dodges this by leading with births.)
-const SENSITIVE =
-  /\b(shoot|shooting|massacr|killing|killed|kills|attack|bombing|bombed|bomb|terror|assassinat|genocide|murder|stabbing|hostage|kidnap|hijack|rape|assault|abuse|suicide|overdose|war|warfare|conflict|battle|invasion|invaded|disaster|earthquake|hurricane|cyclone|typhoon|tsunami|tornado|flood|volcan|eruption|wildfire|fire|crash|sank|sink|sinking|shipwreck|wreck|capsiz|derail|collapse|explos|famine|plague|epidemic|pandemic|outbreak|riot|execution|executed|hanged|lynch|slaughter|drowned|fatal|deadly|casualt|atrocity|dies|died|death|slave|slavery)\b/i;
+// Truncated stems carry a trailing \w* so they catch inflected forms (massacr\w* →
+// "massacre"/"massacred", terror\w* → "terrorism"); without it the group's closing \b
+// lands mid-word and the stem never matches its own inflections.
+export const SENSITIVE =
+  /\b(shoot|shooting|massacr\w*|killing|killed|kills|attack|bombing|bombed|bomb|terror\w*|assassinat\w*|genocide|murder|stabbing|hostage|kidnap|hijack|rape|assault|abuse|suicide|overdose|war|warfare|conflict|battle|invasion|invaded|disaster|earthquake|hurricane|cyclone|typhoon|tsunami|tornado|flood|volcan\w*|eruption|wildfire|fire|crash|sank|sink|sinking|shipwreck|wreck|capsiz\w*|derail|collapse|explos\w*|famine|plague|epidemic|pandemic|outbreak|riot|execution|executed|hanged|lynch|slaughter|drowned|fatal|deadly|casualt\w*|atrocity|dies|died|death|slave|slavery)\b/i;
 
 export interface PinText {
   kind: string;
