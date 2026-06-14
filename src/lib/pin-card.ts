@@ -24,7 +24,7 @@ const SENSITIVE =
   /\b(shoot|shooting|massacr|killing|killed|kills|attack|bombing|bombed|bomb|terror|assassinat|genocide|murder|stabbing|hostage|kidnap|hijack|rape|assault|abuse|suicide|overdose|war|warfare|conflict|battle|invasion|invaded|disaster|earthquake|hurricane|cyclone|typhoon|tsunami|tornado|flood|volcan|eruption|wildfire|fire|crash|sank|sink|sinking|shipwreck|wreck|capsiz|derail|collapse|explos|famine|plague|epidemic|pandemic|outbreak|riot|execution|executed|hanged|lynch|slaughter|drowned|fatal|deadly|casualt|atrocity|dies|died|death|slave|slavery)\b/i;
 
 export interface PinText {
-  kind: 'born' | 'history';
+  kind: string;
   kicker: string; // small uppercase eyebrow
   title: string; // the big serif line
   lines: string[]; // 1–3 supporting lines (always non-empty)
