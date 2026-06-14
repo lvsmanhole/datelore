@@ -17,3 +17,10 @@ npm-debug.log*
 
 # stray build logs
 *.log
+.gstack/
+
+# pinterest video spike (scratch — kept on disk for reference, not versioned)
+tools/pin-video-spike/
+
+# rendered video pins (re-render from src/data/video-pins via `npm run pins:video`)
+video-out/
