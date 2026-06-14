@@ -19,7 +19,7 @@ function fail(where: string, msg: string): never {
 export function validateVideoPinSpec(raw: unknown, where: string): VideoPinSpec {
   const base = validatePinSpec(raw, where); // id/board/kind/lines/hashtags rules, throws on bad
   const s = raw as Record<string, unknown>;
-  if (!(EFFECTS as readonly string[]).includes(s.effect as string)) fail(where, `effect must be one of ${EFFECTS.join(' | ')}`);
+  if (typeof s.effect !== 'string' || !(EFFECTS as readonly string[]).includes(s.effect)) fail(where, `effect must be one of ${EFFECTS.join(' | ')}`);
   if (s.durationSec !== undefined) {
     if (typeof s.durationSec !== 'number' || s.durationSec < 4 || s.durationSec > 15) fail(where, 'durationSec must be a number 4–15');
   }
