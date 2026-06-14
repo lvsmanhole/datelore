@@ -1,0 +1,19 @@
+{
+  "id": "release",
+  "kind": "release",
+  "board": "Released On This Day",
+  "kicker": "Released On This Day",
+  "title": "Released on June 2",
+  "lines": [
+    "2026 · Fatekeeper",
+    "2023 · Street Fighter 6",
+    "2022 · Souldiers"
+  ],
+  "hashtags": [
+    "#OnThisDay",
+    "#OnThisDayInHistory",
+    "#PopCulture"
+  ],
+  "attribution": "Sources: TMDB · IGDB · MusicBrainz",
+  "generated": true
+}

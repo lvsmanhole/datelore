@@ -1,0 +1,19 @@
+{
+  "id": "release",
+  "kind": "release",
+  "board": "Released On This Day",
+  "kicker": "Released On This Day",
+  "title": "Released on May 12",
+  "lines": [
+    "2026 · The Punisher: One Last Kill",
+    "2023 · The Legend of Zelda: Tears of the Kingdom",
+    "2022 · The Centennial Case: A Shijima Story"
+  ],
+  "hashtags": [
+    "#OnThisDay",
+    "#OnThisDayInHistory",
+    "#PopCulture"
+  ],
+  "attribution": "Sources: TMDB · IGDB · MusicBrainz",
+  "generated": true
+}

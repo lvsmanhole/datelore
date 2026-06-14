@@ -1,0 +1,19 @@
+{
+  "id": "release",
+  "kind": "release",
+  "board": "Released On This Day",
+  "kicker": "Released On This Day",
+  "title": "Released on February 24",
+  "lines": [
+    "2023 · Octopath Traveler II",
+    "2023 · Kerbal Space Program 2",
+    "2022 · Martha Is Dead"
+  ],
+  "hashtags": [
+    "#OnThisDay",
+    "#OnThisDayInHistory",
+    "#PopCulture"
+  ],
+  "attribution": "Sources: TMDB · IGDB · MusicBrainz",
+  "generated": true
+}

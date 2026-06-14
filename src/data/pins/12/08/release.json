@@ -1,0 +1,19 @@
+{
+  "id": "release",
+  "kind": "release",
+  "board": "Released On This Day",
+  "kicker": "Released On This Day",
+  "title": "Released on December 8",
+  "lines": [
+    "2023 · Against the Storm",
+    "2022 · Chained Echoes",
+    "2021 · Halo Infinite"
+  ],
+  "hashtags": [
+    "#OnThisDay",
+    "#OnThisDayInHistory",
+    "#PopCulture"
+  ],
+  "attribution": "Sources: TMDB · IGDB · MusicBrainz",
+  "generated": true
+}

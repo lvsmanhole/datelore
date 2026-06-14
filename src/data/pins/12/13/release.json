@@ -1,0 +1,19 @@
+{
+  "id": "release",
+  "kind": "release",
+  "board": "Released On This Day",
+  "kicker": "Released On This Day",
+  "title": "Released on December 13",
+  "lines": [
+    "2023 · Ready or Not",
+    "2022 · High on Life",
+    "2022 · Potion Craft"
+  ],
+  "hashtags": [
+    "#OnThisDay",
+    "#OnThisDayInHistory",
+    "#PopCulture"
+  ],
+  "attribution": "Sources: TMDB · IGDB · MusicBrainz",
+  "generated": true
+}

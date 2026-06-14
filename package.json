@@ -12,7 +12,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "pins:auth": "tsx scripts/pinterest-auth.ts",
-    "pins:post": "tsx scripts/post-to-pinterest.ts"
+    "pins:post": "tsx scripts/post-to-pinterest.ts",
+    "pins:seed": "tsx scripts/seed-release-pins.ts"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",
