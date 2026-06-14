@@ -1,0 +1,49 @@
+---
+// src/pages/pins/index.astro — internal manual-posting queue (noindex). Reads the same
+// manifest as /pins.json and groups pins by board so the owner can copy fields in one place.
+import { buildPinManifest } from '../../lib/pins-manifest';
+
+const pins = buildPinManifest();
+const byBoard: Record<string, typeof pins> = {};
+for (const p of pins) (byBoard[p.board] ??= []).push(p);
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Pin posting queue — DateLore</title>
+    <style>
+      body { font: 15px/1.5 system-ui, sans-serif; margin: 2rem; color: #1d0f17; }
+      h1 { margin-bottom: 0.25rem; }
+      h2 { margin-top: 2rem; border-bottom: 2px solid #d8a23f; padding-bottom: 0.25rem; }
+      .pin { display: grid; grid-template-columns: 120px 1fr; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid #eee; }
+      .pin img { width: 120px; height: 180px; object-fit: cover; border-radius: 8px; }
+      .pin h3 { margin: 0 0 0.25rem; }
+      .pin p { margin: 0.25rem 0; }
+      .pin a { color: #9a6b1f; word-break: break-all; }
+      code { background: #f4efe6; padding: 0 0.25rem; }
+    </style>
+  </head>
+  <body>
+    <h1>Pin posting queue</h1>
+    <p>{pins.length} pins. Internal tool (noindex). Post each to its board; copy the title, description, and destination link.</p>
+    {Object.entries(byBoard).map(([board, list]) => (
+      <section>
+        <h2>{board} ({list.length})</h2>
+        {list.map((p) => (
+          <div class="pin">
+            <img src={p.image} alt={p.title} loading="lazy" />
+            <div>
+              <h3>{p.title}</h3>
+              <p>{p.description}</p>
+              <p>Link: <a href={p.link}>{p.link}</a></p>
+              <p>Image: <code>{p.image}</code></p>
+            </div>
+          </div>
+        ))}
+      </section>
+    ))}
+  </body>
+</html>
