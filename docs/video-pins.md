@@ -17,6 +17,14 @@ Authored as JSON under `src/data/video-pins/<MM>/<DD>/<id>.json`, rendered offli
    - `board` ∈ `Born On This Day · On This Day in History · Released On This Day`.
    - 1–3 `lines`. Optional `durationSec` (4–15, default 6). `enabled:false` hides it.
 
+## Effects: looping vs one-shot
+All effects except `fireworks` are **seamless loops** — the last frame matches the first, so
+Pinterest's autoplay loop is invisible. `fireworks` is **one-shot**: it starts on a near-empty
+sky and ends on fading sparks, so when the feed loops the clip there's a visible "reset" (like
+the lull between real fireworks). That's acceptable for the firework dates (Jan 1, Jul 4); if you
+want a seamless marquee instead, switch those specs to `confetti`/`bokeh`, or tune the bursts in
+`tools/video-pins/effects/fireworks.mjs` so the sky is dark again by the final frame.
+
 ## Render
 - `npm run pins:video` — render new specs (add-only) → `video-out/<day>-<id>.mp4`.
 - `npm run pins:video -- --force` — re-render everything.

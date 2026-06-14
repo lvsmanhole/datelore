@@ -25,6 +25,9 @@ export function parseDayFromVideoPath(path: string): { mm: number; dd: number } 
   return { mm, dd };
 }
 
+// Deliberately uniform `video-<kind>` (unlike static pinDestination's campaignForKind, which
+// special-cases release → 'released-on-this-day'). Video keeps its own attribution namespace so
+// GA can split video vs static traffic per kind — do not "align" it with the static mapping.
 export function videoCampaign(kind: string): string {
   return `video-${kind}`;
 }

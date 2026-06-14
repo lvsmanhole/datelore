@@ -1,1 +1,15 @@
-{"id":"fireworks","kind":"observance","board":"On This Day in History","kicker":"Fourth Of July","title":"July 4 in History","lines":["1776 · The Declaration of Independence is adopted"],"hashtags":["#FourthOfJuly"],"effect":"fireworks","generated":true}
+{
+  "id": "fireworks",
+  "kind": "observance",
+  "board": "On This Day in History",
+  "kicker": "Fourth Of July",
+  "title": "July 4 in History",
+  "lines": [
+    "1776 · The Declaration of Independence is adopted"
+  ],
+  "hashtags": [
+    "#FourthOfJuly"
+  ],
+  "effect": "fireworks",
+  "generated": true
+}
