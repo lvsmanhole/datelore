@@ -1,0 +1,16 @@
+{
+  "id": "stpatricks",
+  "kind": "observance",
+  "board": "On This Day in History",
+  "kicker": "St. Patrick's Day",
+  "title": "Happy St. Patrick’s Day",
+  "lines": [
+    "A day of parades and luck"
+  ],
+  "hashtags": [
+    "#OnThisDay",
+    "#OnThisDayInHistory"
+  ],
+  "effect": "confetti",
+  "generated": true
+}

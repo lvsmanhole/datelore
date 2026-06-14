@@ -1,0 +1,16 @@
+{
+  "id": "thanksgiving",
+  "kind": "observance",
+  "board": "On This Day in History",
+  "kicker": "Thanksgiving",
+  "title": "Happy Thanksgiving",
+  "lines": [
+    "Gratitude, season by season"
+  ],
+  "hashtags": [
+    "#OnThisDay",
+    "#OnThisDayInHistory"
+  ],
+  "effect": "leaves",
+  "generated": true
+}

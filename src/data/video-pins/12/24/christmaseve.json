@@ -1,0 +1,16 @@
+{
+  "id": "christmaseve",
+  "kind": "observance",
+  "board": "On This Day in History",
+  "kicker": "Christmas Eve",
+  "title": "Christmas Eve",
+  "lines": [
+    "The night before"
+  ],
+  "hashtags": [
+    "#OnThisDay",
+    "#OnThisDayInHistory"
+  ],
+  "effect": "snow",
+  "generated": true
+}

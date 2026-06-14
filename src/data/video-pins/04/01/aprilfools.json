@@ -1,0 +1,16 @@
+{
+  "id": "aprilfools",
+  "kind": "observance",
+  "board": "On This Day in History",
+  "kicker": "April Fools' Day",
+  "title": "April Fools’ Day",
+  "lines": [
+    "Trust nothing you read today"
+  ],
+  "hashtags": [
+    "#OnThisDay",
+    "#OnThisDayInHistory"
+  ],
+  "effect": "bokeh",
+  "generated": true
+}

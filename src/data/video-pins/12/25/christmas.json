@@ -1,0 +1,16 @@
+{
+  "id": "christmas",
+  "kind": "observance",
+  "board": "On This Day in History",
+  "kicker": "Christmas Day",
+  "title": "Merry Christmas",
+  "lines": [
+    "A day of history and wonder"
+  ],
+  "hashtags": [
+    "#OnThisDay",
+    "#OnThisDayInHistory"
+  ],
+  "effect": "snow",
+  "generated": true
+}

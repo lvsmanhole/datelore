@@ -1,0 +1,16 @@
+{
+  "id": "maythe4th",
+  "kind": "observance",
+  "board": "On This Day in History",
+  "kicker": "May The 4th",
+  "title": "May the 4th Be With You",
+  "lines": [
+    "A galaxy of release-day history"
+  ],
+  "hashtags": [
+    "#OnThisDay",
+    "#OnThisDayInHistory"
+  ],
+  "effect": "starfield",
+  "generated": true
+}

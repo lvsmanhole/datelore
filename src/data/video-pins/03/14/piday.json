@@ -1,0 +1,16 @@
+{
+  "id": "piday",
+  "kind": "observance",
+  "board": "On This Day in History",
+  "kicker": "Pi Day",
+  "title": "Happy Pi Day",
+  "lines": [
+    "3.14159 · the math the internet loves"
+  ],
+  "hashtags": [
+    "#OnThisDay",
+    "#OnThisDayInHistory"
+  ],
+  "effect": "bokeh",
+  "generated": true
+}

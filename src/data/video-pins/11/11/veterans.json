@@ -1,0 +1,16 @@
+{
+  "id": "veterans",
+  "kind": "observance",
+  "board": "On This Day in History",
+  "kicker": "Veterans Day",
+  "title": "Veterans Day",
+  "lines": [
+    "Honoring those who served"
+  ],
+  "hashtags": [
+    "#OnThisDay",
+    "#OnThisDayInHistory"
+  ],
+  "effect": "bokeh",
+  "generated": true
+}

@@ -1,0 +1,16 @@
+{
+  "id": "newyear",
+  "kind": "observance",
+  "board": "On This Day in History",
+  "kicker": "New Year",
+  "title": "Happy New Year",
+  "lines": [
+    "A fresh page in the calendar"
+  ],
+  "hashtags": [
+    "#OnThisDay",
+    "#OnThisDayInHistory"
+  ],
+  "effect": "fireworks",
+  "generated": true
+}

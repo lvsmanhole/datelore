@@ -1,0 +1,16 @@
+{
+  "id": "groundhog",
+  "kind": "observance",
+  "board": "On This Day in History",
+  "kicker": "Groundhog Day",
+  "title": "Groundhog Day",
+  "lines": [
+    "Six more weeks of winter?"
+  ],
+  "hashtags": [
+    "#OnThisDay",
+    "#OnThisDayInHistory"
+  ],
+  "effect": "bokeh",
+  "generated": true
+}

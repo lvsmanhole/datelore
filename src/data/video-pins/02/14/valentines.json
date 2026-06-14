@@ -1,0 +1,16 @@
+{
+  "id": "valentines",
+  "kind": "observance",
+  "board": "On This Day in History",
+  "kicker": "Valentine's Day",
+  "title": "Happy Valentine’s Day",
+  "lines": [
+    "Love, through history"
+  ],
+  "hashtags": [
+    "#OnThisDay",
+    "#OnThisDayInHistory"
+  ],
+  "effect": "hearts",
+  "generated": true
+}
