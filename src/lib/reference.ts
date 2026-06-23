@@ -18,6 +18,9 @@ const ZODIAC: { sign: string; glyph: string; from: [number, number]; to: [number
   { sign: 'Sagittarius', glyph: '♐', from: [11, 22], to: [12, 21] },
 ];
 
+/** Public list of the 12 signs (name + glyph), for routing and hub pages. */
+export const ZODIAC_SIGNS: Zodiac[] = ZODIAC.map((z) => ({ sign: z.sign, glyph: z.glyph }));
+
 export function zodiacForDate(month: number, day: number): Zodiac {
   for (const z of ZODIAC) {
     if ((month === z.from[0] && day >= z.from[1]) ||
