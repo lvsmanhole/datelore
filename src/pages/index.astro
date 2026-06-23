@@ -4,6 +4,7 @@ import { DATES } from '../data/dates.js';
 import { toSlug, monthName, MONTHS } from '../lib/slug';
 import { zodiacForDate, birthstoneForMonth, birthFlowerForMonth } from '../lib/reference';
 import { websiteSchema, organizationSchema } from '../lib/jsonld';
+import { isYearName } from '../lib/demote';
 
 // Server-rendered spotlight (the richest sample date). The client repoints the
 // "today" label + links to the visitor's local date via data-today-* hooks.
@@ -107,7 +108,7 @@ const jsonld = [websiteSchema(origin), organizationSchema(origin)];
         <span class="eyebrow eyebrow--coral">Born on <span data-today-label>{mName} {dd}</span></span>
       </div>
       <div class="twins">
-        {entry.births.slice(0, 3).map((b) => (
+        {entry.births.filter((b) => !isYearName(b.name)).slice(0, 3).map((b) => (
           <article class="twin">
             <span class="twin__monogram" aria-hidden="true">{b.monogram}</span>
             <div><h3 class="twin__name">{b.name}</h3><p class="twin__year">b. {b.year}</p></div>

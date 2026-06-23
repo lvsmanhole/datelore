@@ -12,7 +12,7 @@ import { zodiacBlurb, birthstoneBlurb, flowerBlurb } from '../lib/reference-cont
 import { loadReleases, releasesForDayPage } from '../lib/releases';
 import { verticalLabel } from '../lib/releases-view';
 import { BUILD_ISO } from '../lib/build-meta';
-import { boldName } from '../lib/demote';
+import { boldName, isYearName } from '../lib/demote';
 
 const { dateKey } = Astro.props as { dateKey: string };
 const key = dateKey;
@@ -20,6 +20,10 @@ const entry = DATES[key];
 // Chronological timeline (oldest → newest) so the page reads as history rather
 // than leading with the most recent — and often tragic — entry.
 const events = [...entry.events].sort((a, b) => a.year - b.year);
+const births = entry.births.filter((b) => !isYearName(b.name));
+const deaths = entry.deaths
+  .map((d) => ({ year: d.year, name: boldName(d.text) }))
+  .filter((d) => d.name && !isYearName(d.name));
 const [mm, dd] = key.split('-').map(Number);
 const mName = monthName(mm);
 const monthSlug = MONTHS[mm - 1].toLowerCase();
@@ -54,7 +58,7 @@ const shareTitle = `On This Day — ${mName} ${dd} · DateLore`;
 // AEO: a self-contained, extractable answer to "what happened on <date>?", built
 // from the page's own facts (no invented claims). AI engines pull the first direct
 // answer they see, so this leads the body under a question-phrased heading.
-const birthNames = entry.births.slice(0, 3).map((b) => b.name);
+const birthNames = births.slice(0, 3).map((b) => b.name);
 const nameList =
   birthNames.length <= 1
     ? birthNames.join('')
@@ -178,7 +182,7 @@ const answer = [
           <span class="eyebrow eyebrow--coral">Born on {mName} {dd}</span>
         </div>
         <div class="twins">
-          {entry.births.map((b) => (
+          {births.map((b) => (
             <article class="twin">
               <span class="twin__monogram" aria-hidden="true">{b.monogram}</span>
               <div><h3 class="twin__name">{b.name}</h3><p class="twin__year">b. {b.year}</p></div>
@@ -194,8 +198,8 @@ const answer = [
             <h2 style="font-size:var(--step-2);">Deaths</h2>
           </div>
           <ul class="mini-list">
-            {entry.deaths.map((d) => (
-              <li><span class="mini-list__year">{d.year}</span><span class="mini-list__text">{boldName(d.text)}</span></li>
+            {deaths.map((d) => (
+              <li><span class="mini-list__year">{d.year}</span><span class="mini-list__text">{d.name}</span></li>
             ))}
           </ul>
         </div>
