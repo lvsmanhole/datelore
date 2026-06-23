@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { DATES } from '../data/dates.js';
-import { toSlug, monthName } from '../lib/slug';
+import { toSlug, monthName, MONTHS } from '../lib/slug';
 import { zodiacForDate, birthstoneForMonth, birthFlowerForMonth } from '../lib/reference';
 import { websiteSchema, organizationSchema } from '../lib/jsonld';
 
@@ -117,6 +117,21 @@ const jsonld = [websiteSchema(origin), organizationSchema(origin)];
         ))}
       </div>
       <p style="margin-top:var(--s4);"><a href={featureSlug} data-today-link>See everyone →</a></p>
+    </div>
+  </section>
+
+  <!-- ===== Browse by month (internal-link surface) ===== -->
+  <section class="band band--tight band--alt">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Browse the calendar by month</h2>
+        <span class="eyebrow eyebrow--soft">All 366 days</span>
+      </div>
+      <ul style="list-style:none;padding:0;margin-top:var(--s4);display:grid;gap:var(--s3);grid-template-columns:repeat(auto-fill,minmax(170px,1fr));">
+        {MONTHS.map((m) => (
+          <li><a href={`/${m.toLowerCase()}/`}>See all days in {m} →</a></li>
+        ))}
+      </ul>
     </div>
   </section>
 
