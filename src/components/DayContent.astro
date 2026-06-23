@@ -12,6 +12,7 @@ import { zodiacBlurb, birthstoneBlurb, flowerBlurb } from '../lib/reference-cont
 import { loadReleases, releasesForDayPage } from '../lib/releases';
 import { verticalLabel } from '../lib/releases-view';
 import { BUILD_ISO } from '../lib/build-meta';
+import { boldName } from '../lib/demote';
 
 const { dateKey } = Astro.props as { dateKey: string };
 const key = dateKey;
@@ -164,8 +165,6 @@ const answer = [
               <span class="timeline__year">{e.year}</span>
               <div class="timeline__body">
                 <h3 class="timeline__title">{e.title}</h3>
-                <p class="timeline__desc" set:html={e.desc}></p>
-                <span class="timeline__tag">{e.tag}</span>
               </div>
             </li>
           ))}
@@ -182,7 +181,7 @@ const answer = [
           {entry.births.map((b) => (
             <article class="twin">
               <span class="twin__monogram" aria-hidden="true">{b.monogram}</span>
-              <div><h3 class="twin__name">{b.name}</h3><p class="twin__year">b. {b.year}</p><p class="twin__line" set:html={b.line}></p></div>
+              <div><h3 class="twin__name">{b.name}</h3><p class="twin__year">b. {b.year}</p></div>
             </article>
           ))}
         </div>
@@ -196,7 +195,7 @@ const answer = [
           </div>
           <ul class="mini-list">
             {entry.deaths.map((d) => (
-              <li><span class="mini-list__year">{d.year}</span><span class="mini-list__text" set:html={d.text}></span></li>
+              <li><span class="mini-list__year">{d.year}</span><span class="mini-list__text">{boldName(d.text)}</span></li>
             ))}
           </ul>
         </div>
@@ -211,6 +210,10 @@ const answer = [
           </ul>
         </div>
       </div>
+
+      <p class="muted" style="font-size:var(--step--1);">
+        The factual record above — events, births, deaths and observances — is compiled from <a href="https://en.wikipedia.org/" rel="noopener">Wikipedia</a> (<a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="noopener">CC BY-SA</a>). The summaries and analysis are DateLore's own.
+      </p>
 
       <!-- Born on this day CTA -->
       <div class="bcard" data-bday-scope>
