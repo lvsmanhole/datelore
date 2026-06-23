@@ -23,7 +23,10 @@ export default defineConfig({
   trailingSlash: 'always',
   integrations: [
     sitemap({
-      filter: (page) => !page.includes('/share/'),
+      filter: (page) =>
+        !page.includes('/share/') &&
+        !page.includes('/pins/') &&
+        !page.includes('/video-pins/'),
       serialize(item) {
         item.lastmod = BUILD_LASTMOD;
         return item;
