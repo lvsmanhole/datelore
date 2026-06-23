@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { DATES } from '../../data/dates';
+import { DATES } from '../../data/dates.js';
 import { ZODIAC_SIGNS } from '../../lib/reference';
 import { signSlug, daysUnderSign } from '../../lib/zodiac';
 import { zodiacBlurb } from '../../lib/reference-content';
@@ -10,11 +10,11 @@ import { breadcrumbSchema } from '../../lib/jsonld';
 export function getStaticPaths() {
   return ZODIAC_SIGNS.map((z) => ({
     params: { sign: signSlug(z.sign) },
-    props: { sign: z.sign, glyph: z.glyph },
+    props: { sign: z.sign, glyph: z.glyph, from: z.from, to: z.to },
   }));
 }
 
-const { sign, glyph } = Astro.props as { sign: string; glyph: string };
+const { sign, glyph, from, to } = Astro.props as { sign: string; glyph: string; from: [number, number]; to: [number, number] };
 const abs = (p: string) => new URL(p, Astro.site).href;
 const url = new URL(Astro.url.pathname, Astro.site).href;
 
@@ -23,7 +23,7 @@ const days = dayKeys.map((k) => {
   const [mm, dd] = k.split('-').map(Number);
   return { slug: toSlug(k), label: `${monthName(mm)} ${dd}` };
 });
-const rangeLabel = days.length ? `${days[0].label} – ${days[days.length - 1].label}` : '';
+const rangeLabel = `${monthName(from[0])} ${from[1]} – ${monthName(to[0])} ${to[1]}`;
 
 const title = `${sign} ${glyph} — Dates & Traits · DateLore`;
 const description = `${sign} (${rangeLabel}): the sign's character and every date that falls under it on the DateLore almanac.`;
