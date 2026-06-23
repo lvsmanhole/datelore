@@ -32,8 +32,9 @@ export function parseEssay(raw: string): ParsedEssay {
     const key = line.slice(0, idx).trim();
     let value = line.slice(idx + 1).trim();
     if (
-      (value.startsWith('"') && value.endsWith('"')) ||
-      (value.startsWith("'") && value.endsWith("'"))
+      value.length >= 2 &&
+      ((value.startsWith('"') && value.endsWith('"')) ||
+        (value.startsWith("'") && value.endsWith("'")))
     ) {
       value = value.slice(1, -1);
     }

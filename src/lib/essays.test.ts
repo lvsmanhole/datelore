@@ -18,6 +18,7 @@ describe('parseEssay', () => {
     const { meta, body } = parseEssay(SAMPLE);
     expect(meta.title).toBe('Sample title');
     expect(meta.author).toBe('Roman Tailor');
+    expect(meta.summary).toBe('A short summary under 160 characters.');
     expect(meta.reviewedOn).toBe('2026-06-23');
     expect(meta.reviewed).toBe(true);
     expect(body.startsWith('Body paragraph one.')).toBe(true);
@@ -25,6 +26,11 @@ describe('parseEssay', () => {
 
   it('throws on a file with no frontmatter block', () => {
     expect(() => parseEssay('just some text, no dashes')).toThrow();
+  });
+
+  it('does not strip a lone quote character to empty', () => {
+    const { meta } = parseEssay(SAMPLE.replace('title: "Sample title"', 'title: "'));
+    expect(meta.title).toBe('"');
   });
 });
 
