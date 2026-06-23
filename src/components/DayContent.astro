@@ -8,11 +8,11 @@ import { zodiacForDate, birthstoneForMonth, birthFlowerForMonth } from '../lib/r
 import { buildInsightData } from '../lib/insights';
 import { insightProse } from '../lib/insight-voice';
 import { corpusStats, percentileRank } from '../lib/corpus-stats';
-import { zodiacBlurb, birthstoneBlurb, flowerBlurb } from '../lib/reference-content';
 import { loadReleases, releasesForDayPage } from '../lib/releases';
 import { verticalLabel } from '../lib/releases-view';
 import { BUILD_ISO } from '../lib/build-meta';
 import { boldName, isYearName } from '../lib/demote';
+import { signSlug } from '../lib/zodiac';
 
 const { dateKey } = Astro.props as { dateKey: string };
 const key = dateKey;
@@ -92,9 +92,9 @@ const answer = [
     </div>
     <p class="lede" style="margin-top:var(--s3);">{entry.lede}</p>
     <div class="badges" style="margin-top:var(--s5);">
-      <span class="badge"><span class="badge__glyph">{z.glyph}</span><span class="badge__text"><span class="badge__label">Zodiac</span><span class="badge__value">{z.sign}</span></span></span>
-      <span class="badge"><span class="badge__glyph">◈</span><span class="badge__text"><span class="badge__label">Birthstone</span><span class="badge__value">{stone}</span></span></span>
-      <span class="badge badge--coral"><span class="badge__glyph">❀</span><span class="badge__text"><span class="badge__label">Birth flower</span><span class="badge__value">{flower}</span></span></span>
+      <a class="badge" href={`/zodiac/${signSlug(z.sign)}/`}><span class="badge__glyph">{z.glyph}</span><span class="badge__text"><span class="badge__label">Zodiac</span><span class="badge__value">{z.sign}</span></span></a>
+      <a class="badge" href={`/${monthSlug}/`}><span class="badge__glyph">◈</span><span class="badge__text"><span class="badge__label">Birthstone</span><span class="badge__value">{stone}</span></span></a>
+      <a class="badge badge--coral" href={`/${monthSlug}/`}><span class="badge__glyph">❀</span><span class="badge__text"><span class="badge__label">Birth flower</span><span class="badge__value">{flower}</span></span></a>
     </div>
     <p class="muted" style="margin-top:var(--s4);font-size:var(--step--1);">
       Compiled &amp; reviewed by <a href="/about/" rel="author" style="color:var(--gold-deep);">Roman Tailor</a> · Last reviewed {reviewedLabel}
@@ -115,11 +115,9 @@ const answer = [
   <div class="wrap stack">
     <div class="section-head"><h2 style="font-size:var(--step-2);">The shape of the day</h2></div>
     <p class="lede" style="margin-top:0;">{insightProseText}</p>
-    <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--s4);margin-top:var(--s2);">
-      <div class="card card--pad"><p class="eyebrow">Zodiac · {z.sign}</p><p style="margin-top:var(--s2);">{zodiacBlurb(z.sign)}</p></div>
-      <div class="card card--pad"><p class="eyebrow">Birthstone · {stone}</p><p style="margin-top:var(--s2);">{birthstoneBlurb(mm)}</p></div>
-      <div class="card card--pad"><p class="eyebrow eyebrow--coral">Birth flower · {flower}</p><p style="margin-top:var(--s2);">{flowerBlurb(mm)}</p></div>
-    </div>
+    <p class="muted" style="margin-top:var(--s2);font-size:var(--step--1);">
+      {z.sign} is the sign for {mName} {dd} — read more on the <a href={`/zodiac/${signSlug(z.sign)}/`}>{z.sign} page</a>, or see {mName}'s <a href={`/${monthSlug}/`}>birthstone &amp; birth flower</a>.
+    </p>
   </div>
 </section>
 
