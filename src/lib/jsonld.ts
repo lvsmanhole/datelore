@@ -45,6 +45,21 @@ export function organizationSchema(origin: string) {
   };
 }
 
+/** The site's named human author (see /about). Stable @id so Articles can cite it. */
+export const personId = (origin: string) => `${origin}/about/#person`;
+
+export function personSchema(origin: string) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    '@id': personId(origin),
+    name: 'Roman Tailor',
+    description:
+      'History enthusiast and creator of DateLore, an almanac of every day of the year.',
+    url: `${origin}/about/`,
+  };
+}
+
 export function breadcrumbSchema(crumbs: Crumb[]) {
   return {
     '@context': 'https://schema.org',
@@ -65,12 +80,15 @@ export interface DayArticleInput {
   day: number;
   description: string;
   image: string; // absolute OG image URL
+  dateModified: string; // ISO timestamp of the last site rebuild (honest freshness signal)
 }
 
 /**
- * The day page as an editorial Article. No datePublished/dateModified is set —
- * these almanac pages are evergreen and inventing a date would be dishonest;
- * omitting it is valid schema (it just forgoes the date-specific enhancements).
+ * The day page as an editorial Article. `dateModified` is the build timestamp:
+ * the whole static site regenerates on every deploy (data refresh, OG cards, the
+ * release window), so it is an honest "last regenerated" signal, not an invented
+ * date. We still omit `datePublished` — there is no single authentic publish date.
+ * The author is the named human Person (see /about), not the organization.
  */
 export function dayArticleSchema(d: DayArticleInput) {
   return {
@@ -80,10 +98,11 @@ export function dayArticleSchema(d: DayArticleInput) {
     description: d.description,
     image: d.image,
     inLanguage: 'en',
+    dateModified: d.dateModified,
     mainEntityOfPage: { '@type': 'WebPage', '@id': d.url },
     isPartOf: { '@id': websiteId(d.origin) },
     publisher: { '@id': orgId(d.origin) },
-    author: { '@id': orgId(d.origin) },
+    author: { '@id': personId(d.origin) },
   };
 }
 

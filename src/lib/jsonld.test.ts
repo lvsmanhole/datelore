@@ -8,6 +8,8 @@ import {
   releaseListSchema,
   websiteId,
   orgId,
+  personId,
+  personSchema,
 } from './jsonld';
 
 const ORIGIN = 'https://datelore.com';
@@ -55,6 +57,7 @@ describe('dayArticleSchema', () => {
     day: 31,
     description: 'What happened on May 31.',
     image: `${ORIGIN}/og/may-31.png`,
+    dateModified: '2026-06-22T08:00:00.000Z',
   });
   it('builds an Article headline from the date and carries the image', () => {
     expect(s['@type']).toBe('Article');
@@ -62,13 +65,24 @@ describe('dayArticleSchema', () => {
     expect(s.image).toBe(`${ORIGIN}/og/may-31.png`);
     expect(s.mainEntityOfPage).toEqual({ '@type': 'WebPage', '@id': `${ORIGIN}/may-31` });
   });
-  it('does not fabricate a publish date', () => {
+  it('omits datePublished but carries an honest build-time dateModified', () => {
     expect(s).not.toHaveProperty('datePublished');
-    expect(s).not.toHaveProperty('dateModified');
+    expect(s.dateModified).toBe('2026-06-22T08:00:00.000Z');
   });
-  it('links publisher and author to the org @id', () => {
+  it('links publisher to the org and author to the named Person', () => {
     expect(s.publisher).toEqual({ '@id': orgId(ORIGIN) });
-    expect(s.author).toEqual({ '@id': orgId(ORIGIN) });
+    expect(s.author).toEqual({ '@id': personId(ORIGIN) });
+  });
+});
+
+describe('personSchema', () => {
+  const s = personSchema(ORIGIN);
+  it('is a Person with the stable about-page @id', () => {
+    expect(s['@type']).toBe('Person');
+    expect(s['@id']).toBe(personId(ORIGIN));
+    expect(s['@id']).toBe('https://datelore.com/about/#person');
+    expect(s.name).toBe('Roman Tailor');
+    expect(s.url).toBe('https://datelore.com/about/');
   });
 });
 
