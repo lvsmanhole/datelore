@@ -13,12 +13,12 @@ export interface InsightData {
   dominantEra: string | null; // e.g. "20th century"
   theme: string | null; // a human phrase, e.g. "conflict is a recurring thread"
   birthCount: number;
-  eventPercentile: number | null; // 0–100 rarity vs the whole calendar (null if not supplied)
+  historyPercentile: number | null; // 0–100 rarity vs the whole calendar (null if not supplied)
   topAnniversary: Anniversary | null;
 }
 
 export interface InsightContext {
-  eventPercentile?: number;
+  historyPercentile?: number;
   currentYear?: number;
 }
 
@@ -79,7 +79,7 @@ export function buildInsightData(
     dominantEra: dominantCentury(years),
     theme: detectTheme(entry),
     birthCount: entry.births.length,
-    eventPercentile: ctx.eventPercentile ?? null,
+    historyPercentile: ctx.historyPercentile ?? null,
     topAnniversary: annivs[0] ?? null,
   };
 }

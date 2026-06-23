@@ -9,16 +9,23 @@ export interface CorpusStats {
   totalDays: number;
   eventCountsAsc: number[]; // every day's event count, ascending
   avgEvents: number;
+  spanYearsAsc: number[];
 }
 
 export function buildCorpusStats(entries: DayEntry[]): CorpusStats {
   const counts = entries.map((e) => e.events.length);
+  const spans = entries.map((e) => {
+    const ys = e.events.map((ev) => ev.year).filter((y) => Number.isFinite(y));
+    return ys.length ? Math.max(...ys) - Math.min(...ys) : 0;
+  });
   const eventCountsAsc = [...counts].sort((a, b) => a - b);
+  const spanYearsAsc = [...spans].sort((a, b) => a - b);
   const total = counts.reduce((sum, n) => sum + n, 0);
   return {
     totalDays: entries.length,
     eventCountsAsc,
     avgEvents: entries.length ? total / entries.length : 0,
+    spanYearsAsc,
   };
 }
 

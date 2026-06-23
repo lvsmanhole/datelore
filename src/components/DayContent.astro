@@ -27,9 +27,11 @@ const stone = birthstoneForMonth(mm);
 const flower = birthFlowerForMonth(mm);
 const doy = dayOfYear(mm, dd);
 const _corpus = corpusStats();
-const eventPercentile = percentileRank(entry.events.length, _corpus.eventCountsAsc);
+const _eventYears = entry.events.map((e) => e.year).filter((y) => Number.isFinite(y));
+const _spanYears = _eventYears.length ? Math.max(..._eventYears) - Math.min(..._eventYears) : 0;
+const historyPercentile = percentileRank(_spanYears, _corpus.spanYearsAsc);
 const currentYear = new Date(BUILD_ISO).getUTCFullYear();
-const insightProseText = insightProse(buildInsightData(entry, mm, dd, { eventPercentile, currentYear }));
+const insightProseText = insightProse(buildInsightData(entry, mm, dd, { historyPercentile, currentYear }));
 const reviewedLabel = new Date(BUILD_ISO).toLocaleDateString('en-US', {
   year: 'numeric',
   month: 'long',
@@ -103,7 +105,7 @@ const answer = [
   </div>
 </section>
 
-<!-- ===== By the numbers (computed) + reference depth ===== -->
+<!-- ===== The shape of the day (computed) + reference depth ===== -->
 <section class="band band--tight band--alt">
   <div class="wrap stack">
     <div class="section-head"><h2 style="font-size:var(--step-2);">The shape of the day</h2></div>

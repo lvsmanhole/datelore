@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { buildCorpusStats, percentileRank } from './corpus-stats';
+import { buildCorpusStats, percentileRank, corpusStats } from './corpus-stats';
 import type { DayEntry } from '../data/types';
 
 const mk = (n: number): DayEntry => ({
@@ -14,6 +14,14 @@ describe('buildCorpusStats', () => {
     expect(s.totalDays).toBe(3);
     expect(s.eventCountsAsc).toEqual([1, 3, 5]);
     expect(s.avgEvents).toBe(3);
+    expect(s.spanYearsAsc).toEqual([0, 2, 4]);
+  });
+});
+
+describe('corpusStats (real dataset)', () => {
+  it('has a VARIED span distribution so the rarity signal is meaningful', () => {
+    const s = corpusStats();
+    expect(new Set(s.spanYearsAsc).size).toBeGreaterThan(50);
   });
 });
 

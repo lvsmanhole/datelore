@@ -9,7 +9,7 @@ const base: InsightData = {
   dominantEra: '20th century',
   theme: 'conflict is a recurring thread',
   birthCount: 8,
-  eventPercentile: 50,
+  historyPercentile: 50,
   topAnniversary: null,
 };
 
@@ -19,13 +19,18 @@ describe('insightProse', () => {
     expect(s).toMatch(/100th anniversary|100 years on/);
     expect(s).toContain('the General Strike');
   });
-  it('flags unusually busy dates by percentile', () => {
-    const s = insightProse({ ...base, eventPercentile: 95, topAnniversary: null });
-    expect(s.toLowerCase()).toMatch(/busiest|busy|crowded|heavier/);
+  it('flags unusually deep-history dates (high span rank)', () => {
+    const s = insightProse({ ...base, historyPercentile: 95, topAnniversary: null });
+    expect(s.toLowerCase()).toMatch(/far back|runs unusually deep|long memory|reach back/);
   });
-  it('flags unusually quiet dates by percentile', () => {
-    const s = insightProse({ ...base, eventPercentile: 10, topAnniversary: null });
-    expect(s.toLowerCase()).toMatch(/quiet|light record|passed it by/);
+  it('flags unusually compressed-history dates (low span rank)', () => {
+    const s = insightProse({ ...base, historyPercentile: 10, topAnniversary: null });
+    expect(s.toLowerCase()).toMatch(/compressed|short memory|close to the present/);
+  });
+  it('renders BC years honestly, not as negatives', () => {
+    const s = insightProse({ ...base, historyPercentile: 95, span: { earliest: -509, latest: 2011, years: 2520 }, topAnniversary: null });
+    expect(s).toContain('509 BC');
+    expect(s).not.toContain('-509');
   });
   it('adds an era/theme observation as a second beat', () => {
     expect(insightProse(base)).toContain('20th century');
@@ -39,7 +44,7 @@ describe('insightProse', () => {
   it('always returns non-empty prose, even with no computed signals', () => {
     const empty: InsightData = {
       dateLabel: 'February 30', eventCount: 0, span: null, dominantEra: null,
-      theme: null, birthCount: 0, eventPercentile: null, topAnniversary: null,
+      theme: null, birthCount: 0, historyPercentile: null, topAnniversary: null,
     };
     expect(insightProse(empty).length).toBeGreaterThan(0);
   });

@@ -8,12 +8,19 @@ function pick<T>(arr: T[], seed: string): T {
   return arr[h % arr.length];
 }
 
+// Render a year honestly (negative = BC). The deepest-history dates reach into
+// antiquity, so "509 BC" must not print as "-509".
+function fmtYear(y: number): string {
+  return y < 0 ? `${-y} BC` : `${y}`;
+}
+
 /**
  * Original, literary analysis of a day, assembled from computed signals. Leads
- * with the single strongest signal — a round anniversary, unusual density, or
- * unusual quiet — then adds an era/theme observation, so the prose VARIES in
- * what it concludes across the 366 days rather than reading as one template.
- * This is the scalable baseline; marquee dates get hand-written essays on top.
+ * with the single strongest signal — a round anniversary, an unusually deep or
+ * shallow historical record (year-span rank vs the whole calendar), or the span
+ * itself — then adds an era/theme observation, so the prose VARIES in what it
+ * concludes across the 366 days rather than reading as one template. This is the
+ * scalable baseline; marquee dates get hand-written essays on top.
  */
 export function insightProse(d: InsightData): string {
   const parts: string[] = [];
@@ -30,22 +37,22 @@ export function insightProse(d: InsightData): string {
         seed,
       ),
     );
-  } else if (d.eventPercentile != null && d.eventPercentile >= 80) {
+  } else if (d.historyPercentile != null && d.historyPercentile >= 80 && d.span) {
     parts.push(
       pick(
         [
-          `Few squares on the calendar are as crowded as ${d.dateLabel}: it sits among the busiest dates of the year for recorded history.`,
-          `${d.dateLabel} is one of the year's heavier dates — history kept unusually busy here.`,
+          `Few dates reach as far back as ${d.dateLabel}: its recorded history runs unusually deep, stretching to ${fmtYear(d.span.earliest)}.`,
+          `${d.dateLabel} carries an unusually long memory — its events reach back as far as ${fmtYear(d.span.earliest)}.`,
         ],
         seed,
       ),
     );
-  } else if (d.eventPercentile != null && d.eventPercentile <= 20) {
+  } else if (d.historyPercentile != null && d.historyPercentile <= 20 && d.span) {
     parts.push(
       pick(
         [
-          `${d.dateLabel} is one of the calendar's quieter dates — history seems to have largely passed it by.`,
-          `As calendar dates go, ${d.dateLabel} keeps a light record; not every day is a crossroads.`,
+          `${d.dateLabel}'s recorded history is unusually compressed, gathered within recent centuries rather than reaching into antiquity.`,
+          `As calendar dates go, ${d.dateLabel} keeps a short memory — its record stays close to the present.`,
         ],
         seed,
       ),
@@ -54,8 +61,8 @@ export function insightProse(d: InsightData): string {
     parts.push(
       pick(
         [
-          `${d.dateLabel}'s record stretches ${d.span.years.toLocaleString('en-US')} years, from ${d.span.earliest} to ${d.span.latest}.`,
-          `From ${d.span.earliest} to ${d.span.latest}, ${d.dateLabel} gathers ${d.span.years.toLocaleString('en-US')} years of history.`,
+          `${d.dateLabel}'s record stretches ${d.span.years.toLocaleString('en-US')} years, from ${fmtYear(d.span.earliest)} to ${fmtYear(d.span.latest)}.`,
+          `From ${fmtYear(d.span.earliest)} to ${fmtYear(d.span.latest)}, ${d.dateLabel} gathers ${d.span.years.toLocaleString('en-US')} years of history.`,
         ],
         seed,
       ),

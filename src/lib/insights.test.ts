@@ -18,7 +18,7 @@ const entry: DayEntry = {
 };
 
 describe('buildInsightData', () => {
-  const d = buildInsightData(entry, 7, 4, { eventPercentile: 90, currentYear: 2026 });
+  const d = buildInsightData(entry, 7, 4, { historyPercentile: 90, currentYear: 2026 });
 
   it('labels the date and counts events/births', () => {
     expect(d.dateLabel).toBe('July 4');
@@ -33,14 +33,14 @@ describe('buildInsightData', () => {
     expect(d.theme).toBe('conflict is a recurring thread');
   });
   it('passes through the corpus percentile', () => {
-    expect(d.eventPercentile).toBe(90);
+    expect(d.historyPercentile).toBe(90);
   });
   it('surfaces a round-number anniversary relative to currentYear', () => {
     expect(d.topAnniversary).toMatchObject({ year: 1926, yearsAgo: 100, title: 'A treaty' });
   });
   it('omits anniversary + percentile when no context is given', () => {
     const bare = buildInsightData(entry, 7, 4);
-    expect(bare.eventPercentile).toBeNull();
+    expect(bare.historyPercentile).toBeNull();
     expect(bare.topAnniversary).toBeNull();
   });
 });
