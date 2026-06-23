@@ -9,6 +9,7 @@ import { dayInsights } from '../lib/insights';
 import { zodiacBlurb, birthstoneBlurb, flowerBlurb } from '../lib/reference-content';
 import { loadReleases, releasesForDayPage } from '../lib/releases';
 import { verticalLabel } from '../lib/releases-view';
+import { BUILD_ISO } from '../lib/build-meta';
 
 const { dateKey } = Astro.props as { dateKey: string };
 const key = dateKey;
@@ -24,6 +25,11 @@ const stone = birthstoneForMonth(mm);
 const flower = birthFlowerForMonth(mm);
 const doy = dayOfYear(mm, dd);
 const insights = dayInsights(entry, mm, dd);
+const reviewedLabel = new Date(BUILD_ISO).toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
 const releaseGroups = releasesForDayPage(loadReleases(), mm, dd);
 
 const sorted = sortKeysByDate(Object.keys(DATES));
@@ -78,6 +84,9 @@ const answer = [
       <span class="badge"><span class="badge__glyph">◈</span><span class="badge__text"><span class="badge__label">Birthstone</span><span class="badge__value">{stone}</span></span></span>
       <span class="badge badge--coral"><span class="badge__glyph">❀</span><span class="badge__text"><span class="badge__label">Birth flower</span><span class="badge__value">{flower}</span></span></span>
     </div>
+    <p class="muted" style="margin-top:var(--s4);font-size:var(--step--1);">
+      Compiled &amp; reviewed by <a href="/about/" rel="author" style="color:var(--gold-deep);">Roman Tailor</a> · Last reviewed {reviewedLabel}
+    </p>
   </div>
 </section>
 
