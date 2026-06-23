@@ -5,7 +5,9 @@
 import { DATES } from '../data/dates.js';
 import { toSlug, monthName, dayOfYear, ordinal, sortKeysByDate, MONTHS } from '../lib/slug';
 import { zodiacForDate, birthstoneForMonth, birthFlowerForMonth } from '../lib/reference';
-import { dayInsights } from '../lib/insights';
+import { buildInsightData } from '../lib/insights';
+import { insightProse } from '../lib/insight-voice';
+import { corpusStats, percentileRank } from '../lib/corpus-stats';
 import { zodiacBlurb, birthstoneBlurb, flowerBlurb } from '../lib/reference-content';
 import { loadReleases, releasesForDayPage } from '../lib/releases';
 import { verticalLabel } from '../lib/releases-view';
@@ -24,7 +26,10 @@ const z = zodiacForDate(mm, dd);
 const stone = birthstoneForMonth(mm);
 const flower = birthFlowerForMonth(mm);
 const doy = dayOfYear(mm, dd);
-const insights = dayInsights(entry, mm, dd);
+const _corpus = corpusStats();
+const eventPercentile = percentileRank(entry.events.length, _corpus.eventCountsAsc);
+const currentYear = new Date(BUILD_ISO).getUTCFullYear();
+const insightProseText = insightProse(buildInsightData(entry, mm, dd, { eventPercentile, currentYear }));
 const reviewedLabel = new Date(BUILD_ISO).toLocaleDateString('en-US', {
   year: 'numeric',
   month: 'long',
@@ -101,8 +106,8 @@ const answer = [
 <!-- ===== By the numbers (computed) + reference depth ===== -->
 <section class="band band--tight band--alt">
   <div class="wrap stack">
-    <div class="section-head"><h2 style="font-size:var(--step-2);">By the numbers</h2></div>
-    <p class="lede" style="margin-top:0;">{insights.sentence}</p>
+    <div class="section-head"><h2 style="font-size:var(--step-2);">The shape of the day</h2></div>
+    <p class="lede" style="margin-top:0;">{insightProseText}</p>
     <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--s4);margin-top:var(--s2);">
       <div class="card card--pad"><p class="eyebrow">Zodiac · {z.sign}</p><p style="margin-top:var(--s2);">{zodiacBlurb(z.sign)}</p></div>
       <div class="card card--pad"><p class="eyebrow">Birthstone · {stone}</p><p style="margin-top:var(--s2);">{birthstoneBlurb(mm)}</p></div>
