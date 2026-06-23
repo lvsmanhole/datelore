@@ -16,6 +16,8 @@ import {
   personSchema,
 } from '../lib/jsonld';
 import { BUILD_ISO } from '../lib/build-meta';
+import { ESSAYS } from '../data/essays';
+import { isPublishable } from '../lib/essays';
 
 export function getStaticPaths() {
   const days = Object.keys(DATES).map((key) => ({
@@ -49,6 +51,10 @@ if (props.kind === 'day') {
   const monthSlug = MONTHS[mm - 1].toLowerCase();
   title = `${mName} ${dd} — On This Day · DateLore`;
   description = `What happened on ${mName} ${dd} — historical events, famous birthdays, deaths, and observances. Plus the zodiac, birthstone, and birth flower for the date.`;
+  const essayMod = ESSAYS[key];
+  if (essayMod && isPublishable(essayMod.frontmatter) && essayMod.frontmatter.summary) {
+    description = essayMod.frontmatter.summary;
+  }
   ogImage = `/og/${toSlug(key)}.png`;
   jsonld = [
     dayArticleSchema({ origin, url, monthName: mName, day: dd, description, image: abs(ogImage), dateModified: BUILD_ISO }),

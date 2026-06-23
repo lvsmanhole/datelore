@@ -13,6 +13,8 @@ import { loadReleases, releasesForDayPage } from '../lib/releases';
 import { verticalLabel } from '../lib/releases-view';
 import { BUILD_ISO } from '../lib/build-meta';
 import { boldName, isYearName } from '../lib/demote';
+import { ESSAYS } from '../data/essays';
+import { isPublishable } from '../lib/essays';
 
 const { dateKey } = Astro.props as { dateKey: string };
 const key = dateKey;
@@ -43,6 +45,17 @@ const reviewedLabel = new Date(BUILD_ISO).toLocaleDateString('en-US', {
   day: 'numeric',
 });
 const releaseGroups = releasesForDayPage(loadReleases(), mm, dd);
+
+const essayMod = ESSAYS[key];
+const essay = essayMod && isPublishable(essayMod.frontmatter) ? essayMod : null;
+const EssayBody = essay?.Content;
+const essayReviewedLabel = essay
+  ? new Date(essay.frontmatter.reviewedOn).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    })
+  : '';
 
 const sorted = sortKeysByDate(Object.keys(DATES));
 const i = sorted.indexOf(key);
@@ -109,6 +122,21 @@ const answer = [
     <p class="lede" style="margin-top:var(--s2);">{answer}</p>
   </div>
 </section>
+
+<!-- ===== Marquee editorial (original lede essay, reviewed only) ===== -->
+{essay && EssayBody && (
+  <section class="band band--tight">
+    <div class="wrap">
+      <div class="section-head"><h2 style="font-size:var(--step-3);">{essay.frontmatter.title}</h2></div>
+      <div class="essay-prose stack" style="margin-top:var(--s4);max-width:68ch;">
+        <EssayBody />
+      </div>
+      <p class="muted" style="margin-top:var(--s4);font-size:var(--step--1);">
+        Written &amp; reviewed by <a href="/about/" rel="author" style="color:var(--gold-deep);">{essay.frontmatter.author}</a> · Reviewed {essayReviewedLabel}
+      </p>
+    </div>
+  </section>
+)}
 
 <!-- ===== The shape of the day (computed) + reference depth ===== -->
 <section class="band band--tight band--alt">
@@ -266,3 +294,16 @@ const answer = [
     </aside>
   </div>
 </section>
+
+<style>
+  /* The essay body is compiled markdown, so target its descendants with :global. */
+  .essay-prose :global(p) { margin-top: var(--s3); line-height: 1.7; }
+  .essay-prose :global(h3) { margin-top: var(--s5); font-size: var(--step-1); }
+  .essay-prose :global(a) { color: var(--gold-deep); }
+  .essay-prose :global(blockquote) {
+    margin-top: var(--s4);
+    padding-left: var(--s4);
+    border-left: 3px solid var(--gold-deep);
+    color: var(--ink-soft);
+  }
+</style>
