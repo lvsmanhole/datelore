@@ -13,7 +13,9 @@ import {
   breadcrumbSchema,
   dayArticleSchema,
   monthCollectionSchema,
+  personSchema,
 } from '../lib/jsonld';
+import { BUILD_ISO } from '../lib/build-meta';
 
 export function getStaticPaths() {
   const days = Object.keys(DATES).map((key) => ({
@@ -49,7 +51,8 @@ if (props.kind === 'day') {
   description = `What happened on ${mName} ${dd} — historical events, famous birthdays, deaths, and observances. Plus the zodiac, birthstone, and birth flower for the date.`;
   ogImage = `/og/${toSlug(key)}.png`;
   jsonld = [
-    dayArticleSchema({ origin, url, monthName: mName, day: dd, description, image: abs(ogImage) }),
+    dayArticleSchema({ origin, url, monthName: mName, day: dd, description, image: abs(ogImage), dateModified: BUILD_ISO }),
+    personSchema(origin),
     breadcrumbSchema([
       { name: 'DateLore', url: abs('/') },
       { name: mName, url: abs(`/${monthSlug}/`) },

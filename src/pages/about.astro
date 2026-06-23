@@ -1,20 +1,15 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { breadcrumbSchema } from '../lib/jsonld';
+import { breadcrumbSchema, personSchema } from '../lib/jsonld';
 
 const abs = (p: string) => new URL(p, Astro.site).href;
+const origin = Astro.site!.origin;
 const jsonld = [
   breadcrumbSchema([
     { name: 'DateLore', url: abs('/') },
     { name: 'About', url: abs('/about/') },
   ]),
-  {
-    '@context': 'https://schema.org',
-    '@type': 'Person',
-    name: 'Roman Tailor',
-    description: 'History enthusiast and creator of DateLore, an almanac of every day of the year.',
-    url: abs('/about/'),
-  },
+  personSchema(origin),
 ];
 ---
 <BaseLayout
