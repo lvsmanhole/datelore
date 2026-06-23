@@ -78,5 +78,9 @@ export function insightProse(d: InsightData): string {
     parts.push(`Across its entries, ${d.theme}.`);
   }
 
+  if (parts.length === 0) {
+    parts.push(`${d.dateLabel} keeps a quiet page in the calendar — a date still waiting for its moment in the record.`);
+  }
+
   return parts.join(' ');
 }

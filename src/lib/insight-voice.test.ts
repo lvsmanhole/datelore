@@ -36,4 +36,11 @@ describe('insightProse', () => {
     expect(s).not.toContain('By the numbers');
     expect(s.length).toBeGreaterThan(0);
   });
+  it('always returns non-empty prose, even with no computed signals', () => {
+    const empty: InsightData = {
+      dateLabel: 'February 30', eventCount: 0, span: null, dominantEra: null,
+      theme: null, birthCount: 0, eventPercentile: null, topAnniversary: null,
+    };
+    expect(insightProse(empty).length).toBeGreaterThan(0);
+  });
 });
