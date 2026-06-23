@@ -1,18 +1,25 @@
-// DateLore-original "by the numbers" synthesis for a day page. Everything here is
-// COMPUTED from the day's own dataset — it is our analysis, not republished text —
-// so it adds genuine value (and avoids "scaled content") at zero marginal effort
-// per date. Pure + unit-tested.
+// DateLore-original analysis of a day, COMPUTED from the day's own dataset (and,
+// via the caller, from the whole-corpus percentile) — it is our analysis, not
+// republished text. Pure + unit-tested. The prose rendering lives in the voice
+// layer (insight-voice.ts); this module only produces the structured signals.
 import type { DayEntry } from '../data/types';
 import { ordinal, monthName } from './slug';
+import { roundAnniversaries, type Anniversary } from './anniversaries';
 
-export interface DayInsights {
+export interface InsightData {
+  dateLabel: string; // e.g. "July 4"
   eventCount: number;
   span: { earliest: number; latest: number; years: number } | null;
   dominantEra: string | null; // e.g. "20th century"
   theme: string | null; // a human phrase, e.g. "conflict is a recurring thread"
   birthCount: number;
-  birthSpan: { earliest: number; latest: number } | null;
-  sentence: string; // the assembled original synthesis
+  eventPercentile: number | null; // 0–100 rarity vs the whole calendar (null if not supplied)
+  topAnniversary: Anniversary | null;
+}
+
+export interface InsightContext {
+  eventPercentile?: number;
+  currentYear?: number;
 }
 
 // Soft theme detection: each event counts once toward a theme if any keyword hits
@@ -54,49 +61,25 @@ function detectTheme(entry: DayEntry): string | null {
   return winner ? winner.phrase : null;
 }
 
-function buildSentence(i: Omit<DayInsights, 'sentence'>, dateLabel: string): string {
-  const parts: string[] = [];
-
-  if (i.eventCount === 1 && i.span) {
-    parts.push(`${dateLabel} has a single recorded event, from ${i.span.earliest}.`);
-  } else if (i.eventCount > 1 && i.span && i.span.years > 0) {
-    parts.push(
-      `Across ${i.eventCount} recorded events, ${dateLabel} spans ${i.span.years.toLocaleString('en-US')} years — from ${i.span.earliest} to ${i.span.latest}.`,
-    );
-  } else if (i.eventCount > 0) {
-    parts.push(`${dateLabel} gathers ${i.eventCount} recorded events.`);
-  }
-
-  if (i.dominantEra && i.theme) parts.push(`The ${i.dominantEra} leaves the deepest mark, and ${i.theme}.`);
-  else if (i.dominantEra) parts.push(`The ${i.dominantEra} leaves the deepest mark.`);
-  else if (i.theme) parts.push(`Here, ${i.theme}.`);
-
-  if (i.birthCount === 1 && i.birthSpan) {
-    parts.push(`One notable figure shares the date, born in ${i.birthSpan.earliest}.`);
-  } else if (i.birthCount > 1 && i.birthSpan && i.birthSpan.earliest !== i.birthSpan.latest) {
-    parts.push(`${i.birthCount} notable figures share the date, born between ${i.birthSpan.earliest} and ${i.birthSpan.latest}.`);
-  } else if (i.birthCount > 1) {
-    parts.push(`${i.birthCount} notable figures share the date.`);
-  }
-
-  return parts.join(' ');
-}
-
-export function dayInsights(entry: DayEntry, month: number, day: number): DayInsights {
+export function buildInsightData(
+  entry: DayEntry,
+  month: number,
+  day: number,
+  ctx: InsightContext = {},
+): InsightData {
   const years = entry.events.map((e) => e.year).filter((y) => Number.isFinite(y));
   const span = years.length
     ? { earliest: Math.min(...years), latest: Math.max(...years), years: Math.max(...years) - Math.min(...years) }
     : null;
-  const birthYears = entry.births.map((b) => b.year).filter((y) => Number.isFinite(y));
-  const birthSpan = birthYears.length ? { earliest: Math.min(...birthYears), latest: Math.max(...birthYears) } : null;
-
-  const base = {
+  const annivs = ctx.currentYear != null ? roundAnniversaries(entry.events, ctx.currentYear) : [];
+  return {
+    dateLabel: `${monthName(month)} ${day}`,
     eventCount: entry.events.length,
     span,
     dominantEra: dominantCentury(years),
     theme: detectTheme(entry),
     birthCount: entry.births.length,
-    birthSpan,
+    eventPercentile: ctx.eventPercentile ?? null,
+    topAnniversary: annivs[0] ?? null,
   };
-  return { ...base, sentence: buildSentence(base, `${monthName(month)} ${day}`) };
 }
