@@ -5,6 +5,8 @@ import { toSlug, monthName, MONTHS } from '../lib/slug';
 import { zodiacForDate, birthstoneForMonth, birthFlowerForMonth } from '../lib/reference';
 import { websiteSchema, organizationSchema } from '../lib/jsonld';
 import { isYearName } from '../lib/demote';
+import { ESSAYS } from '../data/essays';
+import { isPublishable } from '../lib/essays';
 
 // Server-rendered spotlight (the richest sample date). The client repoints the
 // "today" label + links to the visitor's local date via data-today-* hooks.
@@ -19,6 +21,17 @@ const featureSlug = `/${toSlug(FEATURE)}/`;
 // Article/CollectionPage/Breadcrumb schema that references these by @id.
 const origin = Astro.site!.origin;
 const jsonld = [websiteSchema(origin), organizationSchema(origin)];
+
+// Marquee editorials: the strongest, fully-original long-form pages. Surfaced on
+// the homepage for discovery + internal link equity to the pages most worth
+// indexing. Calendar order; only published (reviewed) essays appear.
+const featuredEssays = Object.entries(ESSAYS)
+  .filter(([, mod]) => isPublishable(mod.frontmatter))
+  .sort(([a], [b]) => a.localeCompare(b))
+  .map(([key, mod]) => {
+    const [em, ed] = key.split('-').map(Number);
+    return { slug: `/${toSlug(key)}/`, title: mod.frontmatter.title, label: `${monthName(em)} ${ed}` };
+  });
 ---
 <BaseLayout
   title="DateLore — What happened on this day in history"
@@ -118,6 +131,29 @@ const jsonld = [websiteSchema(origin), organizationSchema(origin)];
       <p style="margin-top:var(--s4);"><a href={featureSlug} data-today-link>See everyone →</a></p>
     </div>
   </section>
+
+  <!-- ===== Featured editorials (original long-form — our strongest pages) ===== -->
+  {featuredEssays.length > 0 && (
+    <section class="band band--tight">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>Featured editorials</h2>
+          <span class="eyebrow eyebrow--soft">{featuredEssays.length} original essays</span>
+        </div>
+        <p class="muted" style="margin-top:0;max-width:62ch;">Researched, original essays on the dates that carry the most — a coincidence, a reckoning, a single day that bent history. Each sits above that day's timeline.</p>
+        <ul style="list-style:none;padding:0;margin-top:var(--s4);display:grid;gap:var(--s3);grid-template-columns:repeat(auto-fill,minmax(280px,1fr));">
+          {featuredEssays.map((e) => (
+            <li class="card card--pad">
+              <a href={e.slug} style="display:block;text-decoration:none;">
+                <span class="eyebrow eyebrow--soft">{e.label}</span>
+                <span style="display:block;margin-top:var(--s1);font-weight:600;color:var(--ink);">{e.title}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )}
 
   <!-- ===== Browse by month (internal-link surface) ===== -->
   <section class="band band--tight band--alt">

@@ -22,6 +22,13 @@ const month = releasesInMonth(all, ym);
 const label = monthLabel(ym);
 const today = new Date().toISOString().slice(0, 10);
 
+// Thin/empty month pages (mostly sparse far-future months) are noindexed so they
+// don't dilute the domain's quality signal while the site fights a "low value
+// content" assessment. Self-healing: a month flips back to indexable on the next
+// nightly build once it carries >= 3 releases. The page stays crawlable (follow),
+// so it isn't orphaned and link equity still flows to the hub.
+const thin = month.length < 3;
+
 // Adjacent months within the built window, so each month page links to its
 // neighbours (deeper internal linking + obvious UX) without ever pointing at an
 // unbuilt /releases/YYYY-MM/.
@@ -46,7 +53,7 @@ const jsonld = [
   ]),
 ];
 ---
-<BaseLayout title={title} description={description} ogImage={ogImage} ogType="article" jsonld={jsonld}>
+<BaseLayout title={title} description={description} ogImage={ogImage} ogType="article" jsonld={jsonld} noindex={thin}>
   <section class="band band--tight">
     <div class="wrap">
       <p class="eyebrow"><a href="/releases/" style="color:var(--gold-deep);">Release Calendar</a></p>
