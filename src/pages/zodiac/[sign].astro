@@ -1,0 +1,60 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { DATES } from '../../data/dates.js';
+import { ZODIAC_SIGNS } from '../../lib/reference';
+import { signSlug, daysUnderSign } from '../../lib/zodiac';
+import { zodiacBlurb } from '../../lib/reference-content';
+import { toSlug, monthName, sortKeysByDate } from '../../lib/slug';
+import { breadcrumbSchema } from '../../lib/jsonld';
+
+export function getStaticPaths() {
+  return ZODIAC_SIGNS.map((z) => ({
+    params: { sign: signSlug(z.sign) },
+    props: { sign: z.sign, glyph: z.glyph, from: z.from, to: z.to },
+  }));
+}
+
+const { sign, glyph, from, to } = Astro.props as { sign: string; glyph: string; from: [number, number]; to: [number, number] };
+const abs = (p: string) => new URL(p, Astro.site).href;
+const url = new URL(Astro.url.pathname, Astro.site).href;
+
+const dayKeys = sortKeysByDate(daysUnderSign(sign, Object.keys(DATES)));
+const days = dayKeys.map((k) => {
+  const [mm, dd] = k.split('-').map(Number);
+  return { slug: toSlug(k), label: `${monthName(mm)} ${dd}` };
+});
+const rangeLabel = `${monthName(from[0])} ${from[1]} – ${monthName(to[0])} ${to[1]}`;
+
+const title = `${sign} ${glyph} — Dates & Traits · DateLore`;
+const description = `${sign} (${rangeLabel}): the sign's character and every date that falls under it on the DateLore almanac.`;
+const jsonld = [
+  breadcrumbSchema([
+    { name: 'DateLore', url: abs('/') },
+    { name: 'Zodiac', url: abs('/zodiac/') },
+    { name: sign, url },
+  ]),
+];
+---
+<BaseLayout title={title} description={description} ogType="article" jsonld={jsonld}>
+  <section class="band band--tight">
+    <div class="wrap">
+      <p class="eyebrow">Zodiac</p>
+      <h1 style="font-size:var(--step-6);line-height:.95;margin-top:var(--s3);">
+        {sign} <span style="color:var(--gold-deep);">{glyph}</span>
+      </h1>
+      <p class="lede" style="margin-top:var(--s3);max-width:60ch;">{zodiacBlurb(sign)}</p>
+      {rangeLabel && <p class="muted" style="margin-top:var(--s3);">Born {rangeLabel} · {days.length} dates fall under {sign}.</p>}
+    </div>
+  </section>
+  <section class="band band--tight band--alt">
+    <div class="wrap">
+      <div class="section-head"><h2 style="font-size:var(--step-2);">Every day under {sign}</h2><span class="eyebrow eyebrow--soft">Pick a date</span></div>
+      <ul style="list-style:none;padding:0;margin-top:var(--s4);display:grid;gap:var(--s2);grid-template-columns:repeat(auto-fill,minmax(150px,1fr));">
+        {days.map((d) => (
+          <li><a href={`/${d.slug}/`}>{d.label}</a></li>
+        ))}
+      </ul>
+      <p style="margin-top:var(--s5);"><a href="/zodiac/">‹ All zodiac signs</a></p>
+    </div>
+  </section>
+</BaseLayout>
